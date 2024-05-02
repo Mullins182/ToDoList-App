@@ -6,7 +6,31 @@
         xmlns:local="clr-namespace:ToDoList_App"
         mc:Ignorable="d"
         Title="ToDo-List Application | V.0.2 | @Mullins182" Height="1000" Width="1000"
-        WindowStartupLocation="CenterScreen" Background="Transparent">
+        WindowStartupLocation="CenterScreen" FontFamily="Bahnschrift">
+    <Window.Background>
+        <ImageBrush ImageSource="/Textures/background.jpg"/>
+    </Window.Background>
+    
+    <!-- Control Template Override für Buttons um Highlighting bei Mouseover zu verhindern !-->
+    
+    <Window.Resources>
+        <ControlTemplate x:Key="NoMouseOverButtonTemplate"
+             TargetType="Button">
+            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            </Border>
+
+            <ControlTemplate.Triggers>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="{x:Static SystemColors.ControlLightBrush}"/>
+                    <Setter Property="Foreground" Value="{x:Static SystemColors.GrayTextBrush}"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </Window.Resources>
+
+    <!-- Control Templates Override ENDE !-->
+
     <Grid>  <!-- Grid Definition -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="500*"/>
@@ -20,8 +44,16 @@
         </Grid.RowDefinitions>
         <!-- Grid Definition END -->
 
-        <Label x:Name="AppLabel" Width="auto" Height="auto" Foreground="OrangeRed" Content="| My ToDo-List |" FontSize="70"
+        <Label x:Name="AppLabel" Width="auto" Height="auto" Foreground="DarkSlateGray" Content="My ToDo-List :" FontSize="70" FontWeight="Bold"
                FontFamily="Curlz MT" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
-        <StackPanel x:Name="Menu" Background="Transparent" Grid.Column="0" Grid.Row="2"/>
+        <StackPanel x:Name="Menu" Background="Transparent" Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
+            <Button x:Name="NewEntry" Content="Exit" Padding="20,0,20,0" BorderThickness="2" BorderBrush="DarkGoldenrod" 
+                    Click="NewEntry_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="NewEntry_MouseEnter"
+                    FontFamily="Blackadder ITC" FontSize="60" FontWeight="Normal" Foreground="Gold" MouseLeave="NewEntry_MouseLeave">
+                <Button.Background>
+                    <ImageBrush ImageSource="/Textures/buttonBackground.jpg" Stretch="UniformToFill"/>
+                </Button.Background>
+            </Button>
+        </StackPanel>
     </Grid>
 </Window>

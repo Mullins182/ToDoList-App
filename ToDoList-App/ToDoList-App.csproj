@@ -11,9 +11,22 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Textures\background.jpg" />
+    <None Remove="Textures\buttonBackground.jpg" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Folder Include="Model\" />
     <Folder Include="Sounds\" />
-    <Folder Include="Textures\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Textures\background.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Textures\buttonBackground.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

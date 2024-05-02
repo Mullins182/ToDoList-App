@@ -9,16 +9,31 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace ToDoList_App
+namespace ToDoList_App          // The name says everything :)
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+
+
+        // UI-Elements Events
+        private void NewEntry_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void NewEntry_MouseEnter(object sender, MouseEventArgs e)
+        {
+            
+        }
+
+        private void NewEntry_MouseLeave(object sender, MouseEventArgs e)
+        {
+
         }
     }
 }
