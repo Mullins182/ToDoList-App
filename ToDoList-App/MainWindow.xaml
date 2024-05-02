@@ -5,18 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList_App"
         mc:Ignorable="d"
-        Title="ToDo-List Application | V.0.1 | @Mullins182" Height="1000" Width="1000"
+        Title="ToDo-List Application | V.0.2 | @Mullins182" Height="1000" Width="1000"
         WindowStartupLocation="CenterScreen" Background="Transparent">
-    <Grid>
+    <Grid>  <!-- Grid Definition -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="500*"/>
             <ColumnDefinition Width="100*"/>
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="50*"/>
+            <RowDefinition Height="60*"/>
             <RowDefinition Height="500*"/>
-            <RowDefinition Height="50*"/>
+            <RowDefinition Height="60*"/>
         </Grid.RowDefinitions>
+        <!-- Grid Definition END -->
+
+        <Label x:Name="AppLabel" Width="auto" Height="auto" Foreground="OrangeRed" Content="| My ToDo-List |" FontSize="70"
+               FontFamily="Curlz MT" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
+        <StackPanel x:Name="Menu" Background="Transparent" Grid.Column="0" Grid.Row="2"/>
     </Grid>
 </Window>

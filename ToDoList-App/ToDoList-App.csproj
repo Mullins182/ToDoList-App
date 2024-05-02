@@ -10,4 +10,10 @@
     <SupportedOSPlatformVersion>7.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Model\" />
+    <Folder Include="Sounds\" />
+    <Folder Include="Textures\" />
+  </ItemGroup>
+
 </Project>
