@@ -33,7 +33,7 @@
 
     <!-- Control Templates Override ENDE !-->
 
-    <Grid>  <!-- Grid Definition -->
+    <Grid x:Name="MainGrid">  <!-- Grid Definition -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
             <ColumnDefinition Width="500*"/>
@@ -51,7 +51,7 @@
                FontFamily="Curlz MT" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
 
         <ListBox x:Name="ToDoList" Grid.Column="1" Grid.Row="1" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
+                 ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectedIndex="0"/>
 
         <StackPanel x:Name="Menu" Background="Transparent" Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
             <Button x:Name="NewEntry" Content="Exit" BorderThickness="4" BorderBrush="Black" 
