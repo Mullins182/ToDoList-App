@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList_App"
         mc:Ignorable="d"
-        Title="ToDo-List Application | V.0.2 | @Mullins182" Height="1000" Width="1000"
+        Title="ToDo-List Application | V.0.3 | @Mullins182" Height="1000" Width="1000"
         WindowStartupLocation="CenterScreen" FontFamily="Bahnschrift">
     <Window.Background>
         <ImageBrush ImageSource="/Textures/background.jpg"/>
@@ -40,16 +40,26 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="60*"/>
             <RowDefinition Height="500*"/>
-            <RowDefinition Height="60*"/>
+            <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
         <!-- Grid Definition END -->
 
-        <Label x:Name="AppLabel" Width="auto" Height="auto" Foreground="DarkSlateGray" Content="My ToDo-List :" FontSize="70" FontWeight="Bold"
-               FontFamily="Curlz MT" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
+        <Label x:Name="AppLabel" Width="auto" Height="auto" Foreground="DarkSlateGray" Content="My ToDo-List:" FontSize="70" FontWeight="Bold"
+               FontFamily="Curlz MT" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
+
+        <ListBox x:Name="ToDoList" Grid.Column="0" Grid.Row="1" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Hidden">
+            <!--<ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding}" TextWrapping="Wrap"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>-->
+        </ListBox>
+
         <StackPanel x:Name="Menu" Background="Transparent" Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
-            <Button x:Name="NewEntry" Content="Exit" Padding="20,0,20,0" BorderThickness="2" BorderBrush="DarkGoldenrod" 
+            <Button x:Name="NewEntry" Content="Exit" BorderThickness="4" BorderBrush="Black" 
                     Click="NewEntry_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="NewEntry_MouseEnter"
-                    FontFamily="Blackadder ITC" FontSize="60" FontWeight="Normal" Foreground="Gold" MouseLeave="NewEntry_MouseLeave">
+                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="OrangeRed" MouseLeave="NewEntry_MouseLeave">
                 <Button.Background>
                     <ImageBrush ImageSource="/Textures/buttonBackground.jpg" Stretch="UniformToFill"/>
                 </Button.Background>
