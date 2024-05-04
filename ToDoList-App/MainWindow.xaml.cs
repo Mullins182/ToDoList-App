@@ -42,6 +42,8 @@ namespace ToDoList_App          // The name says everything :)
             ToDoList.Items.Add(g.ToDo(x, "Box1"));
             ToDoList.Items.Add(h.ToDo(y, "Box2"));
             ToDoList.Items.Add(i.ToDo(z, "Box3"));
+
+            ToDoList.SelectionMode = SelectionMode.Single;
             ToDoList.Focus();
 
         }

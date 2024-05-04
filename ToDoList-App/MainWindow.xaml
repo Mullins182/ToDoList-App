@@ -16,8 +16,10 @@
     <Window.Resources>
         <ControlTemplate x:Key="NoMouseOverButtonTemplate"
              TargetType="Button">
-            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}">
-                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
+                    BorderThickness="{TemplateBinding BorderThickness}">
+                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
             </Border>
 
             <ControlTemplate.Triggers>
@@ -33,8 +35,9 @@
 
     <Grid>  <!-- Grid Definition -->
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10*"/>
             <ColumnDefinition Width="500*"/>
-            <ColumnDefinition Width="100*"/>
+            <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
@@ -47,16 +50,10 @@
         <Label x:Name="AppLabel" Width="auto" Height="auto" Foreground="DarkSlateGray" Content="My ToDo-List:" FontSize="70" FontWeight="Bold"
                FontFamily="Curlz MT" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
 
-        <ListBox x:Name="ToDoList" Grid.Column="0" Grid.Row="1" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ScrollViewer.VerticalScrollBarVisibility="Hidden">
-            <!--<ListBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding}" TextWrapping="Wrap"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>-->
-        </ListBox>
+        <ListBox x:Name="ToDoList" Grid.Column="1" Grid.Row="1" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                 ScrollViewer.VerticalScrollBarVisibility="Hidden"/>
 
-        <StackPanel x:Name="Menu" Background="Transparent" Grid.Column="0" Grid.Row="2" Orientation="Horizontal">
+        <StackPanel x:Name="Menu" Background="Transparent" Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
             <Button x:Name="NewEntry" Content="Exit" BorderThickness="4" BorderBrush="Black" 
                     Click="NewEntry_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="NewEntry_MouseEnter"
                     FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="OrangeRed" MouseLeave="NewEntry_MouseLeave">
