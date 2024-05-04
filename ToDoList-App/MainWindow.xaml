@@ -10,9 +10,9 @@
     <Window.Background>
         <ImageBrush ImageSource="/Textures/background.jpg"/>
     </Window.Background>
-    
+
     <!-- Control Template Override für Buttons um Highlighting bei Mouseover zu verhindern !-->
-    
+
     <Window.Resources>
         <ControlTemplate x:Key="NoMouseOverButtonTemplate"
              TargetType="Button">
@@ -29,6 +29,23 @@
                 </Trigger>
             </ControlTemplate.Triggers>
         </ControlTemplate>
+
+        <!-- Preventing Textbox Highlighting on Mouseover -->
+        <Style TargetType="TextBox">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ScrollViewer x:Name="PART_ContentHost"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Preventing Textbox Highlighting on Mouseover END !! -->
     </Window.Resources>
 
     <!-- Control Templates Override ENDE !-->
@@ -51,12 +68,14 @@
                FontFamily="Curlz MT" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
 
         <ListBox x:Name="ToDoList" Grid.Column="1" Grid.Row="1" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ScrollViewer.VerticalScrollBarVisibility="Hidden" SelectedIndex="0"/>
+                 ScrollViewer.VerticalScrollBarVisibility="Hidden" MouseDoubleClick="ToDoList_MouseDoubleClick"
+                 SelectionMode="Single" SelectionChanged="ToDoList_SelectionChanged"/>
 
         <StackPanel x:Name="Menu" Background="Transparent" Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
-            <Button x:Name="NewEntry" Content="Exit" BorderThickness="4" BorderBrush="Black" 
+            <Button x:Name="NewEntry" Content="Add Entry" BorderThickness="4,4,4,4" BorderBrush="OrangeRed" 
                     Click="NewEntry_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="NewEntry_MouseEnter"
-                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="OrangeRed" MouseLeave="NewEntry_MouseLeave">
+                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="OrangeRed" MouseLeave="NewEntry_MouseLeave"
+                    >
                 <Button.Background>
                     <ImageBrush ImageSource="/Textures/buttonBackground.jpg" Stretch="UniformToFill"/>
                 </Button.Background>
