@@ -80,12 +80,13 @@ namespace ToDoList_App          // The name says everything :)
         {
             List<string> readCache = [.. File.ReadAllLines("Data.dat")];     // [.. ] = simplifying .toList()
 
-            foreach (var item in readCache)
+            ToDoTextBox ToDo = new();
+
+            List<TextBox> dataCache = ToDo.ReadToDos(readCache);
+
+            foreach (var item in dataCache)
             {
-               
-                ToDoTextBox ToDo = new();
-                ToDo.ReadToDos(item);
-                toDoEntrys.Add(ToDo.Box);
+                toDoEntrys.Add(item);
             }
 
             ToDoList.Items.Refresh();
