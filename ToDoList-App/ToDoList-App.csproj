@@ -11,14 +11,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Sounds\readingFloppyDisc.mp3" />
     <None Remove="Textures\background.jpg" />
     <None Remove="Textures\buttonBackground.jpg" />
+    <None Remove="Textures\floppyDiscEdited.png" />
     <None Remove="Textures\gold1.jpg" />
     <None Remove="Textures\gold2.jpg" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Sounds\" />
+    <EmbeddedResource Include="Sounds\readingFloppyDisc.mp3">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -26,6 +30,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Textures\buttonBackground.jpg">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Textures\floppyDiscEdited.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Textures\gold1.jpg">

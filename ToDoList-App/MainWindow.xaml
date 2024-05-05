@@ -53,26 +53,37 @@
     <Grid x:Name="MainGrid">  <!-- Grid Definition -->
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
-            <ColumnDefinition Width="500*"/>
+            <ColumnDefinition x:Name="MainColumn1" Width="500*"/>
             <ColumnDefinition Width="10*"/>
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="150*"/>
-            <RowDefinition Height="500*"/>
-            <RowDefinition Height="50*"/>
+            <RowDefinition x:Name="MainRow1" Height="150*"/>
+            <RowDefinition x:Name="MainRow2" Height="500*"/>
+            <RowDefinition x:Name="MainRow3" Height="50*"/>
         </Grid.RowDefinitions>
         <!-- Grid Definition END -->
 
-        <Label x:Name="AppLabel" Width="auto" Height="auto" Foreground="DarkSlateGray" Content="My ToDo-List:" FontSize="70" FontWeight="Bold"
-               FontFamily="Curlz MT" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
+        <Label x:Name="AppLabel" Width="auto" Height="100" Foreground="DarkSlateGray" Content="My ToDo-List:" FontSize="70" FontWeight="Bold"
+               FontFamily="Curlz MT" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,3"
+               BorderBrush="Black" VerticalAlignment="Top"/>
+
+        <Canvas x:Name="SavingCanvas" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent"
+                Width="200" Height="200">
+            <Rectangle x:Name="SavingAnim" Width="90" Height="90" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"
+                       Visibility="Hidden">
+                <Rectangle.Fill>
+                    <ImageBrush ImageSource="Textures/floppyDiscEdited.png"/>
+                </Rectangle.Fill>
+            </Rectangle>
+        </Canvas>
 
         <ListBox x:Name="ToDoList" Grid.Column="1" Grid.Row="1" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Hidden" MouseDoubleClick="ToDoList_MouseDoubleClick" HorizontalContentAlignment="Center"
                  SelectionMode="Single" SelectionChanged="ToDoList_SelectionChanged" BorderThickness="0,0,0,0"/>
 
-        <StackPanel x:Name="Menu" Background="Transparent" Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
-            <Button x:Name="NewEntry" Content="Add Entry" BorderThickness="4,4,4,4" BorderBrush="OrangeRed" 
+        <StackPanel x:Name="Menu" Background="Transparent" Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button x:Name="NewEntry" Content="Add Entry" BorderThickness="1,1,2,2" BorderBrush="Black" 
                     Click="NewEntry_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="NewEntry_MouseEnter"
                     FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="Black" MouseLeave="NewEntry_MouseLeave"
                     >
@@ -81,7 +92,7 @@
                 </Button.Background>
             </Button>
 
-            <Button x:Name="Save" Content="Save All" BorderThickness="4,4,4,4" BorderBrush="OrangeRed" 
+            <Button x:Name="Save" Content="Save All" BorderThickness="1,1,2,2" BorderBrush="Black" 
                     Click="Save_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="Save_MouseEnter"
                     FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="Black" MouseLeave="Save_MouseLeave"
                     >
@@ -90,12 +101,12 @@
                 </Button.Background>
             </Button>
 
-            <Button x:Name="Exit" Content="Exit" BorderThickness="4,4,4,4" BorderBrush="OrangeRed" 
+            <Button x:Name="Exit" Content="Exit" BorderThickness="1,1,2,2" BorderBrush="Black" 
                     Click="Exit_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="Exit_MouseEnter"
                     FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="Black" MouseLeave="Exit_MouseLeave"
                     >
                 <Button.Background>
-                    <ImageBrush ImageSource="/Textures/gold2.jpg" Stretch="Fill"/>
+                    <ImageBrush ImageSource="/Textures/gold1.jpg" Stretch="Fill"/>
                 </Button.Background>
             </Button>
         </StackPanel>
