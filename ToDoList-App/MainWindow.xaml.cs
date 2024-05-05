@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.IO;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,79 +16,125 @@ namespace ToDoList_App          // The name says everything :)
 {
     public partial class MainWindow : Window
     {
-        private readonly DispatcherTimer PrgRoutineTimer = new();
+        private readonly DispatcherTimer saveTimer  = new();
 
-        private List<TextBox> toDoEntrys = [];
+        private List<TextBox> toDoEntrys            = [];
 
-        private Label DebugLabel = new();
+        private Label SaveInfo                      = new();
 
-        private string x = "Hi, I just want to know how to change a WPF label FontFamily in code-behind, since I have seen a lot of examples in C# but not In Basic. Thank you!";
-        private string y = "PS: I can't understand why these things were so much simpler in Windows Forms, and basic things like this are so hard to do in WPF.";
-        private string z = "Change Label FontFamily in code behind WPF Basic.PS: I can't understand why these things were so much simpler in Windows Forms, and basic things like this are so hard";
+        private readonly string markInWorks         = $"{(char)1421} in the works {(char)1421}";    
+        private readonly string markDone            = $"Done {(char)0x2713}";
 
         public MainWindow()
         {
             InitializeComponent();
 
-            PrgRoutineTimer.Interval = TimeSpan.FromMilliseconds(200);
-            PrgRoutineTimer.Tick += PrgRoutine;
+            saveTimer.Interval = TimeSpan.FromMinutes(1);
+            saveTimer.Tick += SaveRoutine;
 
-            //ToDoTextBox a = new();
-            //ToDoTextBox b = new();
-            //ToDoTextBox c = new();
-            //ToDoTextBox d = new();
-            //ToDoTextBox e = new();
-            //ToDoTextBox f = new();
-            //ToDoTextBox g = new();
-            //ToDoTextBox h = new();
-            //ToDoTextBox i = new();
+            SaveInfo.Visibility = Visibility.Hidden;
+            SaveInfo.Width = 300;
+            SaveInfo.Height = 50;
+            SaveInfo.Foreground = Brushes.OrangeRed;
+            SaveInfo.FontFamily = new FontFamily("Chiller");
+            SaveInfo.Content = "Data Saved !";
+            SaveInfo.FontSize = 37;
+            SaveInfo.FontWeight = FontWeights.Bold;
 
-
-            //ToDoList.Items.Add(a.ToDo(x));
-            //ToDoList.Items.Add(b.ToDo(y));
-            //ToDoList.Items.Add(c.ToDo(z));
-            //ToDoList.Items.Add(d.ToDo(x));
-            //ToDoList.Items.Add(e.ToDo(y));
-            //ToDoList.Items.Add(f.ToDo(z));
-            //ToDoList.Items.Add(g.ToDo(x));
-            //ToDoList.Items.Add(h.ToDo(y));
-            //ToDoList.Items.Add(i.ToDo(z));
-
-            //ToDoList.SelectionMode = SelectionMode.Extended;
-            //ToDoList.Focus();
-
-            DebugLabel.Width = 1000;
-            DebugLabel.Height = 60;
-            DebugLabel.Foreground = Brushes.Black;
-            DebugLabel.FontSize = 20;
-            Menu.Children.Add(DebugLabel);
+            Menu.Children.Add(SaveInfo);
 
             ToDoList.ItemsSource = toDoEntrys;
 
+            if (File.Exists("Data.dat"))
+            {
+                ReadData();
+            }
+
             ToDoList.Focus();
 
-            PrgRoutineTimer.Start();
+            saveTimer.Start();
         }
 
-        private void PrgRoutine(object? sender, EventArgs e)
+        private async void SaveRoutine(object? sender, EventArgs e)
         {
-            //if (ToDoList.SelectedIndex == 1)
-            //{
-            //    ToDoList.Items.RemoveAt(ToDoList.SelectedIndex);
-            //}
+            SaveInfo.Visibility = Visibility.Visible;
+            SaveData();
 
+            await Task.Delay(4500);
+            SaveInfo.Visibility = Visibility.Hidden;
+        }
 
-            DebugLabel.Content = ToDoList.SelectedIndex.ToString();
+        private void SaveData()
+        {
+            List<string> writeCache = [];
+
+            foreach (var item in toDoEntrys)
+            {
+                writeCache.Add(item.Text);
+            }
+
+            File.WriteAllLines("data.dat", writeCache);
+        }
+
+        private void ReadData()
+        {
+            List<string> readCache = [.. File.ReadAllLines("Data.dat")];     // [.. ] = simplifying .toList()
+
+            foreach (var item in readCache)
+            {
+               
+                ToDoTextBox ToDo = new();
+                ToDo.ReadToDos(item);
+                toDoEntrys.Add(ToDo.Box);
+            }
+
+            ToDoList.Items.Refresh();
         }
 
         // UI-Elements Events
         private void NewEntry_Click(object sender, RoutedEventArgs e)
         {
             ToDoTextBox ToDo = new();
-            toDoEntrys.Add(ToDo.ToDo("Click here to enter smth !"));
+            toDoEntrys.Add(ToDo.NewToDo("Click here to enter smth !"));
             ToDoList.Items.Refresh();
         }
 
+        private void ToDoList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ToDoList.Focus();
+
+            if (ToDoList.SelectedIndex >= 0)         // Funktioniert noch nicht !
+            {
+                if (toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks))
+                {
+                    toDoEntrys[ToDoList.SelectedIndex].Text = 
+                    toDoEntrys[ToDoList.SelectedIndex].Text.Replace(markInWorks, markDone);
+                    ToDoList.Items.Refresh();
+                }
+                else if (toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone))
+                {
+                    toDoEntrys[ToDoList.SelectedIndex].Text = 
+                    toDoEntrys[ToDoList.SelectedIndex].Text.Replace(markDone, markInWorks);
+                    ToDoList.Items.Refresh();
+                }
+            }
+        }
+
+        private void ToDoList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ToDoList.Focus();
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            SaveData();
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+        
         private void NewEntry_MouseEnter(object sender, MouseEventArgs e)
         {
             NewEntry.Foreground = Brushes.YellowGreen;
@@ -98,26 +145,24 @@ namespace ToDoList_App          // The name says everything :)
             NewEntry.Foreground = Brushes.OrangeRed;
         }
 
-        private void ToDoList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void Save_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (ToDoList.IsFocused == true)         // Funktioniert noch nicht !
-            {
-                if (toDoEntrys[ToDoList.SelectedIndex].Text.First() == (char)1421)
-                {
-                    toDoEntrys[ToDoList.SelectedIndex].Text = toDoEntrys[ToDoList.SelectedIndex].Text.Replace((char)1421, (char)0x2713);
-                    ToDoList.Items.Refresh();
-                }
-                else if (toDoEntrys[ToDoList.SelectedIndex].Text.First() == (char)0x2713)
-                {
-                    toDoEntrys[ToDoList.SelectedIndex].Text = toDoEntrys[ToDoList.SelectedIndex].Text.Replace((char)0x2713, (char)1421);
-                    ToDoList.Items.Refresh();
-                }
-            }
+            Save.Foreground = Brushes.YellowGreen;
         }
 
-        private void ToDoList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void Save_MouseLeave(object sender, MouseEventArgs e)
         {
-            ToDoList.Focus();
+            Save.Foreground = Brushes.OrangeRed;
+        }
+
+        private void Exit_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Exit.Foreground = Brushes.YellowGreen;
+        }
+
+        private void Exit_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Exit.Foreground = Brushes.OrangeRed;
         }
     }
 }

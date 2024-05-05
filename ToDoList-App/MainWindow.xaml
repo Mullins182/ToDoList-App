@@ -58,7 +58,7 @@
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
-            <RowDefinition Height="60*"/>
+            <RowDefinition Height="150*"/>
             <RowDefinition Height="500*"/>
             <RowDefinition Height="50*"/>
         </Grid.RowDefinitions>
@@ -68,13 +68,31 @@
                FontFamily="Curlz MT" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2"/>
 
         <ListBox x:Name="ToDoList" Grid.Column="1" Grid.Row="1" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                 ScrollViewer.VerticalScrollBarVisibility="Hidden" MouseDoubleClick="ToDoList_MouseDoubleClick"
-                 SelectionMode="Single" SelectionChanged="ToDoList_SelectionChanged"/>
+                 ScrollViewer.VerticalScrollBarVisibility="Hidden" MouseDoubleClick="ToDoList_MouseDoubleClick" HorizontalContentAlignment="Center"
+                 SelectionMode="Single" SelectionChanged="ToDoList_SelectionChanged" BorderThickness="0,0,0,0"/>
 
         <StackPanel x:Name="Menu" Background="Transparent" Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
             <Button x:Name="NewEntry" Content="Add Entry" BorderThickness="4,4,4,4" BorderBrush="OrangeRed" 
                     Click="NewEntry_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="NewEntry_MouseEnter"
                     FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="OrangeRed" MouseLeave="NewEntry_MouseLeave"
+                    >
+                <Button.Background>
+                    <ImageBrush ImageSource="/Textures/buttonBackground.jpg" Stretch="UniformToFill"/>
+                </Button.Background>
+            </Button>
+
+            <Button x:Name="Save" Content="Save All" BorderThickness="4,4,4,4" BorderBrush="OrangeRed" 
+                    Click="Save_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="Save_MouseEnter"
+                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="OrangeRed" MouseLeave="Save_MouseLeave"
+                    >
+                <Button.Background>
+                    <ImageBrush ImageSource="/Textures/buttonBackground.jpg" Stretch="UniformToFill"/>
+                </Button.Background>
+            </Button>
+
+            <Button x:Name="Exit" Content="Exit" BorderThickness="4,4,4,4" BorderBrush="OrangeRed" 
+                    Click="Exit_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="Exit_MouseEnter"
+                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="OrangeRed" MouseLeave="Exit_MouseLeave"
                     >
                 <Button.Background>
                     <ImageBrush ImageSource="/Textures/buttonBackground.jpg" Stretch="UniformToFill"/>
