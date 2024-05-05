@@ -74,28 +74,28 @@
         <StackPanel x:Name="Menu" Background="Transparent" Grid.Column="1" Grid.Row="2" Orientation="Horizontal">
             <Button x:Name="NewEntry" Content="Add Entry" BorderThickness="4,4,4,4" BorderBrush="OrangeRed" 
                     Click="NewEntry_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="NewEntry_MouseEnter"
-                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="OrangeRed" MouseLeave="NewEntry_MouseLeave"
+                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="Black" MouseLeave="NewEntry_MouseLeave"
                     >
                 <Button.Background>
-                    <ImageBrush ImageSource="/Textures/buttonBackground.jpg" Stretch="UniformToFill"/>
+                    <ImageBrush ImageSource="/Textures/gold1.jpg" Stretch="Fill"/>
                 </Button.Background>
             </Button>
 
             <Button x:Name="Save" Content="Save All" BorderThickness="4,4,4,4" BorderBrush="OrangeRed" 
                     Click="Save_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="Save_MouseEnter"
-                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="OrangeRed" MouseLeave="Save_MouseLeave"
+                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="Black" MouseLeave="Save_MouseLeave"
                     >
                 <Button.Background>
-                    <ImageBrush ImageSource="/Textures/buttonBackground.jpg" Stretch="UniformToFill"/>
+                    <ImageBrush ImageSource="/Textures/gold1.jpg" Stretch="Fill"/>
                 </Button.Background>
             </Button>
 
             <Button x:Name="Exit" Content="Exit" BorderThickness="4,4,4,4" BorderBrush="OrangeRed" 
                     Click="Exit_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="Exit_MouseEnter"
-                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="OrangeRed" MouseLeave="Exit_MouseLeave"
+                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="Black" MouseLeave="Exit_MouseLeave"
                     >
                 <Button.Background>
-                    <ImageBrush ImageSource="/Textures/buttonBackground.jpg" Stretch="UniformToFill"/>
+                    <ImageBrush ImageSource="/Textures/gold2.jpg" Stretch="Fill"/>
                 </Button.Background>
             </Button>
         </StackPanel>

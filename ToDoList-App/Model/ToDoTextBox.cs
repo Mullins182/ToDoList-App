@@ -12,7 +12,7 @@ namespace ToDoList_App.Model
     public class ToDoTextBox
     {
         public TextBox Box = new();
-
+        
         public ToDoTextBox() { }
 
         public TextBox NewToDo(string x)
@@ -38,50 +38,52 @@ namespace ToDoList_App.Model
 
         public List<TextBox> ReadToDos(List<string> readCache)
         {
+
+            this.Box.TextWrapping = System.Windows.TextWrapping.Wrap;
+            this.Box.TextAlignment = System.Windows.TextAlignment.Center;
+            //Box.TextDecorations = System.Windows.TextDecorations.Underline;
+            this.Box.FontFamily = new FontFamily("Bradley Hand ITC");
+            this.Box.FontWeight = FontWeights.Bold;
+            this.Box.Foreground = Brushes.DarkSlateGray;
+            this.Box.Background = Brushes.Transparent;
+            this.Box.BorderThickness = new Thickness(0, 0, 0, 0);
+            this.Box.AcceptsReturn = true;
+            this.Box.IsReadOnly = false;
+            this.Box.Focusable = true;
+            this.Box.FontSize = 40;
+
             List<TextBox> textBoxes = [];
 
             string buildTextBox     = "";
 
+            int readCacheIndex = 0;
+
             foreach (var item in readCache)
             {
-                if (item == $"{(char)1421} in the works {(char)1421}" && item != readCache[0])
-                {
-                    TextBox Box2 = new();
-                    Box2.TextWrapping = System.Windows.TextWrapping.Wrap;
-                    Box2.TextAlignment = System.Windows.TextAlignment.Center;
-                    //Box.TextDecorations = System.Windows.TextDecorations.Underline;
+                TextBox xyz = new();
 
-                    Box2.FontFamily = new FontFamily("Bradley Hand ITC");
-                    Box2.FontWeight = FontWeights.Bold;
-                    Box2.Foreground = Brushes.DarkSlateGray;
-                    Box2.Background = Brushes.Transparent;
-                    Box2.BorderThickness = new Thickness(0, 0, 0, 0);
-                    Box2.AcceptsReturn = true;
-                    Box2.IsReadOnly = false;
-                    Box2.Focusable = true;
-                    Box2.FontSize = 40;
-                    Box2.Text = buildTextBox;
-                    textBoxes.Add(Box2);
+                xyz.TextWrapping = System.Windows.TextWrapping.Wrap;
+                xyz.TextAlignment = System.Windows.TextAlignment.Center;
+                xyz.FontFamily = new FontFamily("Bradley Hand ITC");
+                xyz.FontWeight = FontWeights.Bold;
+                xyz.Foreground = Brushes.DarkSlateGray;
+                xyz.Background = Brushes.Transparent;
+                xyz.BorderThickness = new Thickness(0, 0, 0, 0);
+                xyz.AcceptsReturn = true;
+                xyz.IsReadOnly = false;
+                xyz.Focusable = true;
+                xyz.FontSize = 40;
+
+                if (item.Contains($"{(char)1421}") && readCacheIndex > 0)
+                {
+                    xyz.Text = buildTextBox;
+                    textBoxes.Add(xyz);
                     buildTextBox = $"{(char)1421} in the works {(char)1421}";
                 }
-                else if (item == $"Done {(char)0x2713}" && item != readCache[0])
+                else if (item.Contains($"{(char)0x2713}") && readCacheIndex > 0)
                 {
-                    TextBox Box2 = new();
-                    Box2.TextWrapping = System.Windows.TextWrapping.Wrap;
-                    Box2.TextAlignment = System.Windows.TextAlignment.Center;
-                    //Box.TextDecorations = System.Windows.TextDecorations.Underline;
-
-                    Box2.FontFamily = new FontFamily("Bradley Hand ITC");
-                    Box2.FontWeight = FontWeights.Bold;
-                    Box2.Foreground = Brushes.DarkSlateGray;
-                    Box2.Background = Brushes.Transparent;
-                    Box2.BorderThickness = new Thickness(0, 0, 0, 0);
-                    Box2.AcceptsReturn = true;
-                    Box2.IsReadOnly = false;
-                    Box2.Focusable = true;
-                    Box2.FontSize = 40;
-                    Box2.Text = buildTextBox;
-                    textBoxes.Add(Box2);
+                    xyz.Text = buildTextBox;
+                    textBoxes.Add(xyz);
                     buildTextBox = $"Done {(char)0x2713}";
                 }
                 else
@@ -90,22 +92,8 @@ namespace ToDoList_App.Model
                     {
                         buildTextBox += $"\n{item}";
 
-                        TextBox Box2 = new();
-                        Box2.TextWrapping = System.Windows.TextWrapping.Wrap;
-                        Box2.TextAlignment = System.Windows.TextAlignment.Center;
-                        //Box.TextDecorations = System.Windows.TextDecorations.Underline;
-
-                        Box2.FontFamily = new FontFamily("Bradley Hand ITC");
-                        Box2.FontWeight = FontWeights.Bold;
-                        Box2.Foreground = Brushes.DarkSlateGray;
-                        Box2.Background = Brushes.Transparent;
-                        Box2.BorderThickness = new Thickness(0, 0, 0, 0);
-                        Box2.AcceptsReturn = true;
-                        Box2.IsReadOnly = false;
-                        Box2.Focusable = true;
-                        Box2.FontSize = 40;
-                        Box2.Text = buildTextBox;
-                        textBoxes.Add(Box2);
+                        xyz.Text = buildTextBox;
+                        textBoxes.Add(xyz);
                     }
                     else
                     {
@@ -119,6 +107,8 @@ namespace ToDoList_App.Model
                         }
                     }
                 }
+
+                readCacheIndex++;
             }
 
             return textBoxes;

@@ -78,13 +78,11 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ReadData()
         {
-            List<string> readCache = [.. File.ReadAllLines("Data.dat")];     // [.. ] = simplifying .toList()
+            List<string> readCache  = [.. File.ReadAllLines("Data.dat")];     // [.. ] = simplifying .toList()
 
-            ToDoTextBox ToDo = new();
+            ToDoTextBox ToDo        = new();
 
-            List<TextBox> dataCache = ToDo.ReadToDos(readCache);
-
-            foreach (var item in dataCache)
+            foreach (var item in ToDo.ReadToDos(readCache))
             {
                 toDoEntrys.Add(item);
             }
@@ -104,7 +102,7 @@ namespace ToDoList_App          // The name says everything :)
         {
             ToDoList.Focus();
 
-            if (ToDoList.SelectedIndex >= 0)         // Funktioniert noch nicht !
+            if (ToDoList.SelectedIndex >= 0)
             {
                 if (toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks))
                 {
