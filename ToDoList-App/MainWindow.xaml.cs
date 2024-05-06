@@ -26,6 +26,7 @@ namespace ToDoList_App          // The name says everything :)
         private double savingAnimRectPos            = 0.00;
         private bool savingAnimRectUp               = true;
         private bool playbackEnded                  = true;
+        private bool entryFinished                  = true;
 
         private readonly string markInWorks         = $"{(char)1421} in the works {(char)1421}";    
         private readonly string markDone            = $"Done {(char)0x2713}";
@@ -118,6 +119,8 @@ namespace ToDoList_App          // The name says everything :)
             }
 
             File.WriteAllLines("data.dat", writeCache);
+
+            writeCache.Clear();
         }
 
         private void ReadData()
@@ -131,15 +134,30 @@ namespace ToDoList_App          // The name says everything :)
                 toDoEntrys.Add(item);
             }
 
+            toDoEntrys.ForEach(item => { item.MouseDoubleClick += ToDoBox; });
+
+            readCache.Clear();
             ToDoList.Items.Refresh();
+        }
+
+        private void ToDoBox(object sender, MouseButtonEventArgs e)
+        {
+            ToDoList.SelectedItem = e.Source;
         }
 
         // UI-Elements Events
         private void NewEntry_Click(object sender, RoutedEventArgs e)
         {
-            ToDoTextBox ToDo = new();
-            toDoEntrys.Add(ToDo.NewToDo("Click here to enter smth !"));
-            ToDoList.Items.Refresh();
+            if (entryFinished)
+            {
+                entryFinished = false;
+
+                ToDoTextBox ToDo = new();
+                toDoEntrys.Add(ToDo.NewToDo("Click here to enter smth !"));
+                ToDoList.Items.Refresh();
+
+                entryFinished = true;
+            }
         }
 
         private void ToDoList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -165,17 +183,20 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ToDoList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            ToDoList.Focus();
+            toDoEntrys.ForEach(item => { item.IsReadOnly = true; });
+
+            ToDoList.Items.Refresh();
         }
 
         private async void Save_Click(object sender, RoutedEventArgs e)
         {
             if (playbackEnded)
             {
+                playbackEnded = false;
+
                 saveTimer.Stop();
                 savingAnimTimer.Start();
                 SavingAnim.Visibility = Visibility.Visible;
-                playbackEnded = false;
 
                 floppyWrite.Position = TimeSpan.FromMilliseconds(50);
                 floppyWrite.Play();
@@ -189,9 +210,9 @@ namespace ToDoList_App          // The name says everything :)
 
                 SavingAnim.Visibility = Visibility.Hidden;
 
-                playbackEnded = true;
-
                 saveTimer.Start();
+
+                playbackEnded = true;
             }
         }
 
@@ -200,6 +221,8 @@ namespace ToDoList_App          // The name says everything :)
             this.Close();
         }
         
+        // MouseEnter / Leave Events
+
         private void NewEntry_MouseEnter(object sender, MouseEventArgs e)
         {
             NewEntry.Foreground = Brushes.DarkRed;
@@ -229,5 +252,7 @@ namespace ToDoList_App          // The name says everything :)
         {
             Exit.Foreground = Brushes.Black;
         }
+
+        // MouseEnter / Leave Events END !
     }
 }
