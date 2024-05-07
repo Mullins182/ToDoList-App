@@ -42,7 +42,7 @@ namespace ToDoList_App          // The name says everything :)
 
         private async void InitializePrg()
         {
-            await Task.Delay(500);
+            await Task.Delay(800);
 
             floppyWrite.Open(new Uri("Sounds/readingFloppyDisc.mp3", UriKind.Relative));
             floppyWrite.Position = TimeSpan.FromMilliseconds(50);
@@ -58,7 +58,7 @@ namespace ToDoList_App          // The name says everything :)
 
             ToDoList.ItemsSource = toDoEntrys;
 
-            if (File.Exists("Data.dat"))
+            if (File.Exists("data.dat"))
             {
                 ReadData();
             }
@@ -125,7 +125,7 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ReadData()
         {
-            List<string> readCache  = [.. File.ReadAllLines("Data.dat")];     // [.. ] = simplifying .toList()
+            List<string> readCache  = [.. File.ReadAllLines("data.dat")];     // [.. ] = simplifying .toList()
 
             ToDoTextBox ToDo        = new();
 
