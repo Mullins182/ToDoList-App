@@ -47,7 +47,7 @@ namespace ToDoList_App.Model
 
             int readCacheIndex = 0;
 
-            foreach (var item in readCache)
+            for (int i = 0; i < readCache.Count; i++)
             {
                 TextBox box = new();
 
@@ -65,13 +65,13 @@ namespace ToDoList_App.Model
                 box.Focusable       = true;
                 box.FontSize        = 40;
 
-                if (item.Contains($"{(char)1421}") && readCacheIndex > 0)
+                if (readCache[i].Contains($"{(char)1421}") && i != 0)
                 {
                     box.Text = buildTxtBoxContent;
                     textBoxes.Add(box);
                     buildTxtBoxContent = $"{(char)1421} in the works {(char)1421}";
                 }
-                else if (item.Contains($"{(char)0x2713}") && readCacheIndex > 0)
+                else if (readCache[i].Contains($"{(char)0x2713}") && i != 0)
                 {
                     box.Text = buildTxtBoxContent;
                     textBoxes.Add(box);
@@ -79,22 +79,22 @@ namespace ToDoList_App.Model
                 }
                 else
                 {
-                    if (item == readCache.Last())
+                    if (i == readCache.Count - 1)
                     {
-                        buildTxtBoxContent += $"\n{item}";
+                        buildTxtBoxContent += $"\n{readCache[i]}";
 
                         box.Text = buildTxtBoxContent;
                         textBoxes.Add(box);
                     }
                     else
                     {
-                        if (item == readCache.First())
+                        if (i == 0)
                         {
-                            buildTxtBoxContent += $"{item}";
+                            buildTxtBoxContent += $"{readCache[i]}";
                         }
                         else
                         {
-                            buildTxtBoxContent += $"\n{item}";
+                            buildTxtBoxContent += $"\n{readCache[i]}";
                         }
                     }
                 }

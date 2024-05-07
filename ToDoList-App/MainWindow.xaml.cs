@@ -125,18 +125,19 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ReadData()
         {
-            List<string> readCache  = [.. File.ReadAllLines("data.dat")];     // [.. ] = simplifying .toList()
+            List<string> readCache  = [.. System.IO.File.ReadAllLines("data.dat")];     // [.. ] = simplifying .toList()
 
             ToDoTextBox ToDo        = new();
+
+            ToDoList.ItemsSource = toDoEntrys;
 
             foreach (var item in ToDo.ReadToDos(readCache))
             {
                 toDoEntrys.Add(item);
             }
 
-            toDoEntrys.ForEach(item => { item.MouseDoubleClick += ToDoBox; });
+            //toDoEntrys.ForEach(item => { item.MouseDoubleClick += ToDoBox; });
 
-            readCache.Clear();
             ToDoList.Items.Refresh();
         }
 
