@@ -102,7 +102,7 @@ namespace ToDoList_App          // The name says everything :)
             floppyWrite.Position = TimeSpan.FromMilliseconds(50);
             floppyWrite.Play();
 
-            await Task.Delay(4500);
+            await Task.Delay(3000);
 
             floppyWrite.Stop();
             savingAnimTimer.Stop();
@@ -136,7 +136,7 @@ namespace ToDoList_App          // The name says everything :)
                 toDoEntrys.Add(item);
             }
 
-            //toDoEntrys.ForEach(item => { item.MouseDoubleClick += ToDoBox; });
+            toDoEntrys.ForEach(item => { item.MouseDoubleClick += ToDoBox; });
 
             ToDoList.Items.Refresh();
         }
