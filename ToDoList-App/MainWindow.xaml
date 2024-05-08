@@ -81,6 +81,8 @@
         <ListBox x:Name="ToDoList" Grid.Column="1" Grid.Row="1" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Hidden" MouseDoubleClick="ToDoList_MouseDoubleClick" HorizontalContentAlignment="Center"
                  SelectionMode="Single" SelectionChanged="ToDoList_SelectionChanged" BorderThickness="0,0,0,0"/>
+        <StackPanel x:Name="OptionsStack" Width="400" Height="auto" Background="Black" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" 
+                VerticalAlignment="Bottom" Visibility="Collapsed"/>
 
         <StackPanel x:Name="Menu" Background="Transparent" Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
             <Button x:Name="NewEntry" Content="Add Entry" BorderThickness="1,1,2,2" BorderBrush="Black" 
@@ -95,6 +97,15 @@
             <Button x:Name="Save" Content="Save All" BorderThickness="1,1,2,2" BorderBrush="Black" 
                     Click="Save_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="Save_MouseEnter"
                     FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="Black" MouseLeave="Save_MouseLeave"
+                    >
+                <Button.Background>
+                    <ImageBrush ImageSource="/Textures/gold1.jpg" Stretch="Fill"/>
+                </Button.Background>
+            </Button>
+            
+            <Button x:Name="Options" Content="Options" BorderThickness="1,1,2,2" BorderBrush="Black" 
+                    Click="Options_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="Options_MouseEnter"
+                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="Black" MouseLeave="Options_MouseLeave"
                     >
                 <Button.Background>
                     <ImageBrush ImageSource="/Textures/gold1.jpg" Stretch="Fill"/>

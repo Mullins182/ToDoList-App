@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -63,11 +64,23 @@ namespace ToDoList_App          // The name says everything :)
                 ReadData();
             }
 
-            ToDoList.Focus();
+            Button FullscreenMode       = new();
+            FullscreenMode.Height       = 60;
+            FullscreenMode.Content      = "Fullscreen Mode";
+            FullscreenMode.FontFamily   = new FontFamily("Bahnschrift");
+            FullscreenMode.FontSize     = 30;
+            FullscreenMode.Background   = Brushes.Black;
+            FullscreenMode.Foreground   = Brushes.DarkGoldenrod;
+            FullscreenMode.Template     = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
+            FullscreenMode.MouseEnter += FullscreenMode_MouseEnter ;
+            FullscreenMode.MouseLeave += FullscreenMode_MouseLeave;
+            FullscreenMode.Click += FullscreenMode_Click;
+
+            OptionsStack.Children.Add(FullscreenMode);
 
             saveTimer.Start();
 
-            floppyWrite.IsMuted       = false;
+            floppyWrite.IsMuted         = false;
         }
 
         private void SavingAnimationRoutine(object? sender, EventArgs e)
@@ -146,7 +159,25 @@ namespace ToDoList_App          // The name says everything :)
             ToDoList.SelectedItem = e.Source;
         }
 
-        // UI-Elements Events
+        // UI-Elements Click Events
+
+        // Code-Behind Elements
+        private void FullscreenMode_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void FullscreenMode_MouseLeave(object sender, MouseEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void FullscreenMode_MouseEnter(object sender, MouseEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        // Code-Behind Elements END 
+
         private void NewEntry_Click(object sender, RoutedEventArgs e)
         {
             if (entryFinished)
@@ -217,6 +248,18 @@ namespace ToDoList_App          // The name says everything :)
             }
         }
 
+        private void Options_Click(object sender, RoutedEventArgs e)
+        {
+            if (OptionsStack. Visibility == Visibility.Visible)
+            {
+                OptionsStack.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                OptionsStack.Visibility = Visibility.Visible;
+            }
+        }
+
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
@@ -252,6 +295,16 @@ namespace ToDoList_App          // The name says everything :)
         private void Exit_MouseLeave(object sender, MouseEventArgs e)
         {
             Exit.Foreground = Brushes.Black;
+        }
+
+        private void Options_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Options.Foreground = Brushes.DarkRed;
+        }
+
+        private void Options_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Options.Foreground = Brushes.Black;
         }
 
         // MouseEnter / Leave Events END !
