@@ -41,7 +41,7 @@ namespace ToDoList_App          // The name says everything :)
             InitializePrg();
         }
 
-        private async void InitializePrg()
+        public async void InitializePrg()
         {
             await Task.Delay(800);
 
@@ -64,19 +64,18 @@ namespace ToDoList_App          // The name says everything :)
                 ReadData();
             }
 
-            Button FullscreenMode       = new();
-            FullscreenMode.Height       = 60;
-            FullscreenMode.Content      = "Fullscreen Mode";
-            FullscreenMode.FontFamily   = new FontFamily("Bahnschrift");
-            FullscreenMode.FontSize     = 30;
-            FullscreenMode.Background   = Brushes.Black;
-            FullscreenMode.Foreground   = Brushes.DarkGoldenrod;
-            FullscreenMode.Template     = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
-            FullscreenMode.MouseEnter += FullscreenMode_MouseEnter ;
-            FullscreenMode.MouseLeave += FullscreenMode_MouseLeave;
-            FullscreenMode.Click += FullscreenMode_Click;
+            Buttons.FullscreenMode.Height       = 60;
+            Buttons.FullscreenMode.Content      = "Fullsceen Mode On/Off";
+            Buttons.FullscreenMode.FontFamily   = new FontFamily("Bahnschrift");
+            Buttons.FullscreenMode.FontSize     = 30;
+            Buttons.FullscreenMode.Background   = Brushes.Black;
+            Buttons.FullscreenMode.Foreground   = Brushes.Red;
+            Buttons.FullscreenMode.Template     = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
+            Buttons.FullscreenMode.MouseEnter   += FullscreenMode_MouseEnter;
+            Buttons.FullscreenMode.MouseLeave   += FullscreenMode_MouseLeave;
+            Buttons.FullscreenMode.Click        += FullscreenMode_Click;
 
-            OptionsStack.Children.Add(FullscreenMode);
+            OptionsStack.Children.Add(Buttons.FullscreenMode);
 
             saveTimer.Start();
 
@@ -164,17 +163,28 @@ namespace ToDoList_App          // The name says everything :)
         // Code-Behind Elements
         private void FullscreenMode_Click(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            if (this.WindowState == WindowState.Maximized)
+            {
+                this.WindowStyle = WindowStyle.None;
+                this.WindowState = WindowState.Normal;
+                Buttons.FullscreenMode.Foreground = Brushes.Red;
+            }
+            else
+            {
+                this.WindowStyle = WindowStyle.None;
+                this.WindowState = WindowState.Maximized;
+                Buttons.FullscreenMode.Foreground = Brushes.LawnGreen;
+            }
         }
 
         private void FullscreenMode_MouseLeave(object sender, MouseEventArgs e)
         {
-            throw new NotImplementedException();
+
         }
 
         private void FullscreenMode_MouseEnter(object sender, MouseEventArgs e)
         {
-            throw new NotImplementedException();
+
         }
         // Code-Behind Elements END 
 
@@ -250,13 +260,15 @@ namespace ToDoList_App          // The name says everything :)
 
         private void Options_Click(object sender, RoutedEventArgs e)
         {
-            if (OptionsStack. Visibility == Visibility.Visible)
+            if (OptionsStack.Visibility == Visibility.Visible)
             {
                 OptionsStack.Visibility = Visibility.Collapsed;
+                Options.Foreground      = Brushes.Black;
             }
             else
             {
                 OptionsStack.Visibility = Visibility.Visible;
+                Options.Foreground      = Brushes.Green;
             }
         }
 
@@ -299,12 +311,26 @@ namespace ToDoList_App          // The name says everything :)
 
         private void Options_MouseEnter(object sender, MouseEventArgs e)
         {
-            Options.Foreground = Brushes.DarkRed;
+            if (OptionsStack.Visibility == Visibility.Visible)
+            {
+                Options.Foreground = Brushes.Green;
+            }
+            else
+            {
+                Options.Foreground = Brushes.DarkRed;
+            }
         }
 
         private void Options_MouseLeave(object sender, MouseEventArgs e)
         {
-            Options.Foreground = Brushes.Black;
+            if (OptionsStack.Visibility == Visibility.Visible)
+            {
+                Options.Foreground = Brushes.Green;
+            }
+            else
+            {
+                Options.Foreground = Brushes.Black;
+            }
         }
 
         // MouseEnter / Leave Events END !
