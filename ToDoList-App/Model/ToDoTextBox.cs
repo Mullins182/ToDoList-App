@@ -45,8 +45,6 @@ namespace ToDoList_App.Model
 
             string buildTxtBoxContent = "";
 
-            int readCacheIndex = 0;
-
             for (int i = 0; i < readCache.Count; i++)
             {
                 TextBox box = new();
@@ -98,8 +96,6 @@ namespace ToDoList_App.Model
                         }
                     }
                 }
-
-                readCacheIndex++;
             }
 
             return textBoxes;

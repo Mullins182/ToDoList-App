@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList_App"
         mc:Ignorable="d"
-        Title="ToDo-List Application | V1.0 | @Mullins182" Height="1000" Width="1000"
-        WindowStartupLocation="CenterScreen" FontFamily="Bahnschrift">
+        Title="ToDo-List Application | Version Beta 1.0 | @Mullins182" Height="1000" Width="1000"
+        WindowStartupLocation="CenterScreen" FontFamily="Bahnschrift" WindowStyle="SingleBorderWindow" BorderThickness="0" BorderBrush="Transparent"
+        Closing="Window_Closing">
     <Window.Background>
         <ImageBrush ImageSource="/Textures/background.jpg"/>
     </Window.Background>

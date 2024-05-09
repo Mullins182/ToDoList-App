@@ -26,8 +26,8 @@ namespace ToDoList_App          // The name says everything :)
 
         private double savingAnimRectPos            = 0.00;
         private bool savingAnimRectUp               = true;
-        private bool playbackEnded                  = true;
         private bool entryFinished                  = true;
+        private bool saveFinished                   = true;
 
         private readonly string markInWorks         = $"{(char)1421} in the works {(char)1421}";    
         private readonly string markDone            = $"Done {(char)0x2713}";
@@ -106,6 +106,8 @@ namespace ToDoList_App          // The name says everything :)
 
         private async void SaveRoutine(object? sender, EventArgs e)
         {
+            saveFinished = false;
+
             savingAnimTimer.Start();
             SavingAnim.Visibility = Visibility.Visible;
 
@@ -119,6 +121,8 @@ namespace ToDoList_App          // The name says everything :)
             floppyWrite.Stop();
             savingAnimTimer.Stop();
             SavingAnim.Visibility = Visibility.Hidden;
+
+            saveFinished = true;
         }
 
         private void SaveData()
@@ -148,12 +152,12 @@ namespace ToDoList_App          // The name says everything :)
                 toDoEntrys.Add(item);
             }
 
-            toDoEntrys.ForEach(item => { item.MouseDoubleClick += ToDoBox; });
+            toDoEntrys.ForEach(item => { item.MouseDoubleClick += ToDoBoxMouseDoubleClick; });
 
             ToDoList.Items.Refresh();
         }
 
-        private void ToDoBox(object sender, MouseButtonEventArgs e)
+        private void ToDoBoxMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             ToDoList.SelectedItem = e.Source;
         }
@@ -165,7 +169,7 @@ namespace ToDoList_App          // The name says everything :)
         {
             if (this.WindowState == WindowState.Maximized)
             {
-                this.WindowStyle = WindowStyle.None;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
                 this.WindowState = WindowState.Normal;
                 Buttons.FullscreenMode.Foreground = Brushes.Red;
             }
@@ -176,16 +180,16 @@ namespace ToDoList_App          // The name says everything :)
                 Buttons.FullscreenMode.Foreground = Brushes.LawnGreen;
             }
         }
+        private void FullscreenMode_MouseEnter(object sender, MouseEventArgs e)
+        {
+
+        }
 
         private void FullscreenMode_MouseLeave(object sender, MouseEventArgs e)
         {
 
         }
 
-        private void FullscreenMode_MouseEnter(object sender, MouseEventArgs e)
-        {
-
-        }
         // Code-Behind Elements END 
 
         private void NewEntry_Click(object sender, RoutedEventArgs e)
@@ -204,8 +208,6 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ToDoList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ToDoList.Focus();
-
             if (ToDoList.SelectedIndex >= 0)
             {
                 if (toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks))
@@ -232,9 +234,9 @@ namespace ToDoList_App          // The name says everything :)
 
         private async void Save_Click(object sender, RoutedEventArgs e)
         {
-            if (playbackEnded)
+            if (saveFinished)
             {
-                playbackEnded = false;
+                saveFinished = false;
 
                 saveTimer.Stop();
                 savingAnimTimer.Start();
@@ -254,7 +256,7 @@ namespace ToDoList_App          // The name says everything :)
 
                 saveTimer.Start();
 
-                playbackEnded = true;
+                saveFinished = true;
             }
         }
 
@@ -274,9 +276,17 @@ namespace ToDoList_App          // The name says everything :)
 
         private void Exit_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            if (saveFinished)
+            {
+                this.Close();
+            }
         }
-        
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            e.Cancel = saveFinished ? false : true;     // Cancels Closing of Mainwindow if SaveFinished not true !
+        }
+
         // MouseEnter / Leave Events
 
         private void NewEntry_MouseEnter(object sender, MouseEventArgs e)
@@ -311,26 +321,12 @@ namespace ToDoList_App          // The name says everything :)
 
         private void Options_MouseEnter(object sender, MouseEventArgs e)
         {
-            if (OptionsStack.Visibility == Visibility.Visible)
-            {
-                Options.Foreground = Brushes.Green;
-            }
-            else
-            {
-                Options.Foreground = Brushes.DarkRed;
-            }
+            Options.Foreground = (OptionsStack.Visibility == Visibility.Visible) ? Brushes.Green : Brushes.DarkRed;
         }
 
         private void Options_MouseLeave(object sender, MouseEventArgs e)
         {
-            if (OptionsStack.Visibility == Visibility.Visible)
-            {
-                Options.Foreground = Brushes.Green;
-            }
-            else
-            {
-                Options.Foreground = Brushes.Black;
-            }
+            Options.Foreground = (OptionsStack.Visibility == Visibility.Visible) ? Brushes.Green : Brushes.Black;
         }
 
         // MouseEnter / Leave Events END !
