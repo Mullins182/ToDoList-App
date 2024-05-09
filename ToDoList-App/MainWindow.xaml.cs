@@ -12,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using ToDoList_App.Model;
+using WinRT;
 
 namespace ToDoList_App          // The name says everything :)
 {
@@ -28,6 +29,7 @@ namespace ToDoList_App          // The name says everything :)
         private bool savingAnimRectUp               = true;
         private bool entryFinished                  = true;
         private bool saveFinished                   = true;
+        private int autoSaveTime                    = 3;
 
         private readonly string markInWorks         = $"{(char)1421} in the works {(char)1421}";    
         private readonly string markDone            = $"Done {(char)0x2713}";
@@ -46,12 +48,12 @@ namespace ToDoList_App          // The name says everything :)
             await Task.Delay(800);
 
             floppyWrite.Open(new Uri("Sounds/readingFloppyDisc.mp3", UriKind.Relative));
-            floppyWrite.Position = TimeSpan.FromMilliseconds(50);
+            floppyWrite.Position        = TimeSpan.FromMilliseconds(50);
 
-            saveTimer.Interval = TimeSpan.FromMinutes(1);
-            savingAnimTimer.Interval = TimeSpan.FromMilliseconds(25);
-            saveTimer.Tick += SaveRoutine;
-            savingAnimTimer.Tick += SavingAnimationRoutine;
+            saveTimer.Interval          = TimeSpan.FromMinutes(autoSaveTime);
+            savingAnimTimer.Interval    = TimeSpan.FromMilliseconds(25);
+            saveTimer.Tick              += SaveRoutine;
+            savingAnimTimer.Tick        += SavingAnimationRoutine;
 
             Canvas.SetLeft(SavingAnim, (SavingCanvas.Width / 2) - SavingAnim.Width / 2);
             Canvas.SetTop(SavingAnim, (SavingCanvas.Height / 2) - SavingAnim.Height / 2);
@@ -64,22 +66,19 @@ namespace ToDoList_App          // The name says everything :)
                 ReadData();
             }
 
-            Buttons.FullscreenMode.Height       = 60;
-            Buttons.FullscreenMode.Content      = "Fullsceen Mode On/Off";
-            Buttons.FullscreenMode.FontFamily   = new FontFamily("Bahnschrift");
-            Buttons.FullscreenMode.FontSize     = 30;
-            Buttons.FullscreenMode.Background   = Brushes.Black;
-            Buttons.FullscreenMode.Foreground   = Brushes.Red;
+            Buttons.SetFullscreenModeProps();
+            Buttons.SetAutoSaveProps();
             Buttons.FullscreenMode.Template     = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
-            Buttons.FullscreenMode.MouseEnter   += FullscreenMode_MouseEnter;
-            Buttons.FullscreenMode.MouseLeave   += FullscreenMode_MouseLeave;
+            Buttons.AutoSave.Template           = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
             Buttons.FullscreenMode.Click        += FullscreenMode_Click;
+            Buttons.AutoSave.Click              += AutoSave_Click;
 
+            OptionsStack.Children.Add(Buttons.AutoSave);
             OptionsStack.Children.Add(Buttons.FullscreenMode);
 
             saveTimer.Start();
 
-            floppyWrite.IsMuted         = false;
+            floppyWrite.IsMuted = false;
         }
 
         private void SavingAnimationRoutine(object? sender, EventArgs e)
@@ -180,14 +179,15 @@ namespace ToDoList_App          // The name says everything :)
                 Buttons.FullscreenMode.Foreground = Brushes.LawnGreen;
             }
         }
-        private void FullscreenMode_MouseEnter(object sender, MouseEventArgs e)
+
+        private void AutoSave_Click(object sender, RoutedEventArgs e)
         {
+            autoSaveTime = (autoSaveTime == 3) ? 5 : (autoSaveTime == 5) ? 10 : (autoSaveTime == 10) ? -1 : 3;
 
-        }
+            Buttons.AutoSave.Content = (autoSaveTime == -1) ? "Autosave Off" : (autoSaveTime == 3) ? "Autosave every 3 Minutes" : (autoSaveTime == 5)
+                                                            ? "Autosave every 5 Minutes" : "Autosave every 10 Minutes";
 
-        private void FullscreenMode_MouseLeave(object sender, MouseEventArgs e)
-        {
-
+            Buttons.AutoSave.Foreground = (autoSaveTime == -1) ? Brushes.Red : Brushes.Green;
         }
 
         // Code-Behind Elements END 
@@ -246,7 +246,7 @@ namespace ToDoList_App          // The name says everything :)
                 floppyWrite.Play();
                 SaveData();
 
-                await Task.Delay(4500);
+                await Task.Delay(3000);
 
                 floppyWrite.Stop();
 
