@@ -266,6 +266,8 @@ namespace ToDoList_App          // The name says everything :)
             {
                 saveFinished = false;
 
+                Save.Foreground = Brushes.Green;
+
                 saveTimer.Stop();
                 savingAnimTimer.Start();
                 SavingAnim.Visibility = Visibility.Visible;
@@ -288,6 +290,8 @@ namespace ToDoList_App          // The name says everything :)
                 }
 
                 saveFinished = true;
+
+                Save.Foreground = Brushes.Black;
             }
         }
 
@@ -332,12 +336,12 @@ namespace ToDoList_App          // The name says everything :)
 
         private void Save_MouseEnter(object sender, MouseEventArgs e)
         {
-            Save.Foreground = Brushes.DarkRed;
+            Save.Foreground = saveFinished ? Brushes.DarkRed : Save.Foreground;
         }
 
         private void Save_MouseLeave(object sender, MouseEventArgs e)
         {
-            Save.Foreground = Brushes.Black;
+            Save.Foreground = saveFinished ? Brushes.Black : Save.Foreground;
         }
 
         private void Exit_MouseEnter(object sender, MouseEventArgs e)
