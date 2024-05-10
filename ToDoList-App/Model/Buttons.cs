@@ -32,11 +32,18 @@ namespace ToDoList_App.Model
         public static void SetAutoSaveProps()
         {
             AutoSave.Height       = 60;
-            AutoSave.Content      = "Autosave every Minute";
             AutoSave.FontFamily   = new FontFamily("Bahnschrift");
             AutoSave.FontSize     = 30;
             AutoSave.Background   = Brushes.Black;
-            AutoSave.Foreground   = Brushes.Green;
+        }
+
+        public static void SetAutoSaveContent(TimeSpan timespan)
+        {
+            AutoSave.Content = (timespan.Minutes == 0) ? "Autosave Off" : (timespan.Minutes == 1) ? "Autosave every Minute" 
+                : (timespan.Minutes == 3) ? "Autosave every 3 Minutes" : (timespan.Minutes == 5) ? "Autosave every 5 Minutes" 
+                : (timespan.Minutes == 9) ? "Autosave every 9 Minutes" : "Autosave Off";
+
+            AutoSave.Foreground = (timespan.Minutes == 0) ? Brushes.Red : Brushes.LawnGreen;
         }
     }
 }

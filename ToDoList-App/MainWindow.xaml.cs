@@ -25,6 +25,8 @@ namespace ToDoList_App          // The name says everything :)
 
         private List<TextBox> toDoEntrys            = [];
 
+        string[] options                            = ["Fullscreen Mode = 0", "Autosave Minutes = 0"];
+
         private double savingAnimRectPos            = 0.00;
         private bool savingAnimRectUp               = true;
         private bool entryFinished                  = true;
@@ -44,12 +46,29 @@ namespace ToDoList_App          // The name says everything :)
 
         public async void InitializePrg()
         {
-            await Task.Delay(800);
+            await Task.Delay(500);
 
             floppyWrite.Open(new Uri("Sounds/readingFloppyDisc.mp3", UriKind.Relative));
             floppyWrite.Position        = TimeSpan.FromMilliseconds(150);
 
-            saveTimer.Interval          = TimeSpan.FromMinutes(1);
+            if (File.Exists("options.ini"))
+            {
+                options = [];
+                options = File.ReadAllLines("options.ini");
+
+                saveTimer.Interval = TimeSpan.FromMinutes(((double)options[1].Last()) -48);
+
+                Buttons.SetAutoSaveContent(saveTimer.Interval);
+            }
+            else
+            {
+                await File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
+
+                saveTimer.Interval = TimeSpan.FromMinutes(((double)options[1].Last()) - 48);
+
+                Buttons.SetAutoSaveContent(saveTimer.Interval);
+            }
+
             savingAnimTimer.Interval    = TimeSpan.FromMilliseconds(25);
             saveTimer.Tick              += SaveRoutine;
             savingAnimTimer.Tick        += SavingAnimationRoutine;
@@ -75,7 +94,7 @@ namespace ToDoList_App          // The name says everything :)
             OptionsStack.Children.Add(Buttons.FullscreenMode);
             OptionsStack.Children.Add(Buttons.AutoSave);
 
-            saveTimer.Start();
+            if (saveTimer.Interval != TimeSpan.FromMinutes(0)) { saveTimer.Start(); }
 
             floppyWrite.IsMuted = false;
         }
@@ -179,19 +198,19 @@ namespace ToDoList_App          // The name says everything :)
             }
         }
 
-        private void AutoSave_Click(object sender, RoutedEventArgs e)
+        private async void AutoSave_Click(object sender, RoutedEventArgs e)
         {
             saveTimer.Stop();
 
             saveTimer.Interval = (saveTimer.Interval == TimeSpan.FromMinutes(1)) ? TimeSpan.FromMinutes(3) : (saveTimer.Interval == TimeSpan.FromMinutes(3)) 
-                ? TimeSpan.FromMinutes(5) : (saveTimer.Interval == TimeSpan.FromMinutes(5)) ? TimeSpan.FromMinutes(10) 
-                : (saveTimer.Interval == TimeSpan.FromMinutes(10)) ? TimeSpan.FromMinutes(0) : TimeSpan.FromMinutes(1);
+                ? TimeSpan.FromMinutes(5) : (saveTimer.Interval == TimeSpan.FromMinutes(5)) ? TimeSpan.FromMinutes(9) 
+                : (saveTimer.Interval == TimeSpan.FromMinutes(9)) ? TimeSpan.FromMinutes(0) : TimeSpan.FromMinutes(1);
 
-            Buttons.AutoSave.Content = (saveTimer.Interval == TimeSpan.FromMinutes(1)) ? "Autosave every Minute" 
-                : (saveTimer.Interval == TimeSpan.FromMinutes(3)) ? "Autosave every 3 Minutes" : (saveTimer.Interval == TimeSpan.FromMinutes(5))
-                ? "Autosave every 5 Minutes" : (saveTimer.Interval == TimeSpan.FromMinutes(10)) ? "Autosave every 10 Minutes" : "Autosave Off";
+            Buttons.SetAutoSaveContent(saveTimer.Interval);
 
-            Buttons.AutoSave.Foreground = (saveTimer.Interval == TimeSpan.FromMinutes(0)) ? Brushes.Red : Brushes.Green;
+            options[1] = options[1].Replace(options[1].Last() , (char)(saveTimer.Interval.Minutes + 48));
+
+            await File.WriteAllLinesAsync("options.ini", options);
 
             if (saveTimer.Interval != TimeSpan.FromMinutes(0))
             {
