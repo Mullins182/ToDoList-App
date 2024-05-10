@@ -20,7 +20,7 @@ namespace ToDoList_App          // The name says everything :)
     {
         private readonly MediaPlayer floppyWrite            = new();
 
-        private readonly DispatcherTimer saveTimer          = new();
+        private DispatcherTimer saveTimer                   = new();
         private readonly DispatcherTimer savingAnimTimer    = new();
 
         private List<TextBox> toDoEntrys            = [];
@@ -29,7 +29,6 @@ namespace ToDoList_App          // The name says everything :)
         private bool savingAnimRectUp               = true;
         private bool entryFinished                  = true;
         private bool saveFinished                   = true;
-        private int autoSaveTime                    = 3;
 
         private readonly string markInWorks         = $"{(char)1421} in the works {(char)1421}";    
         private readonly string markDone            = $"Done {(char)0x2713}";
@@ -48,9 +47,9 @@ namespace ToDoList_App          // The name says everything :)
             await Task.Delay(800);
 
             floppyWrite.Open(new Uri("Sounds/readingFloppyDisc.mp3", UriKind.Relative));
-            floppyWrite.Position        = TimeSpan.FromMilliseconds(50);
+            floppyWrite.Position        = TimeSpan.FromMilliseconds(150);
 
-            saveTimer.Interval          = TimeSpan.FromMinutes(autoSaveTime);
+            saveTimer.Interval          = TimeSpan.FromMinutes(1);
             savingAnimTimer.Interval    = TimeSpan.FromMilliseconds(25);
             saveTimer.Tick              += SaveRoutine;
             savingAnimTimer.Tick        += SavingAnimationRoutine;
@@ -73,8 +72,8 @@ namespace ToDoList_App          // The name says everything :)
             Buttons.FullscreenMode.Click        += FullscreenMode_Click;
             Buttons.AutoSave.Click              += AutoSave_Click;
 
-            OptionsStack.Children.Add(Buttons.AutoSave);
             OptionsStack.Children.Add(Buttons.FullscreenMode);
+            OptionsStack.Children.Add(Buttons.AutoSave);
 
             saveTimer.Start();
 
@@ -182,12 +181,22 @@ namespace ToDoList_App          // The name says everything :)
 
         private void AutoSave_Click(object sender, RoutedEventArgs e)
         {
-            autoSaveTime = (autoSaveTime == 3) ? 5 : (autoSaveTime == 5) ? 10 : (autoSaveTime == 10) ? -1 : 3;
+            saveTimer.Stop();
 
-            Buttons.AutoSave.Content = (autoSaveTime == -1) ? "Autosave Off" : (autoSaveTime == 3) ? "Autosave every 3 Minutes" : (autoSaveTime == 5)
-                                                            ? "Autosave every 5 Minutes" : "Autosave every 10 Minutes";
+            saveTimer.Interval = (saveTimer.Interval == TimeSpan.FromMinutes(1)) ? TimeSpan.FromMinutes(3) : (saveTimer.Interval == TimeSpan.FromMinutes(3)) 
+                ? TimeSpan.FromMinutes(5) : (saveTimer.Interval == TimeSpan.FromMinutes(5)) ? TimeSpan.FromMinutes(10) 
+                : (saveTimer.Interval == TimeSpan.FromMinutes(10)) ? TimeSpan.FromMinutes(0) : TimeSpan.FromMinutes(1);
 
-            Buttons.AutoSave.Foreground = (autoSaveTime == -1) ? Brushes.Red : Brushes.Green;
+            Buttons.AutoSave.Content = (saveTimer.Interval == TimeSpan.FromMinutes(1)) ? "Autosave every Minute" 
+                : (saveTimer.Interval == TimeSpan.FromMinutes(3)) ? "Autosave every 3 Minutes" : (saveTimer.Interval == TimeSpan.FromMinutes(5))
+                ? "Autosave every 5 Minutes" : (saveTimer.Interval == TimeSpan.FromMinutes(10)) ? "Autosave every 10 Minutes" : "Autosave Off";
+
+            Buttons.AutoSave.Foreground = (saveTimer.Interval == TimeSpan.FromMinutes(0)) ? Brushes.Red : Brushes.Green;
+
+            if (saveTimer.Interval != TimeSpan.FromMinutes(0))
+            {
+                saveTimer.Start();
+            }
         }
 
         // Code-Behind Elements END 
@@ -254,7 +263,10 @@ namespace ToDoList_App          // The name says everything :)
 
                 SavingAnim.Visibility = Visibility.Hidden;
 
-                saveTimer.Start();
+                if (saveTimer.Interval != TimeSpan.FromMinutes(0))
+                {
+                    saveTimer.Start();
+                }
 
                 saveFinished = true;
             }
