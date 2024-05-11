@@ -7,11 +7,13 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 using ToDoList_App.Model;
+using Windows.UI.Composition;
 using WinRT;
 
 namespace ToDoList_App          // The name says everything :)
@@ -22,6 +24,9 @@ namespace ToDoList_App          // The name says everything :)
 
         private DispatcherTimer saveTimer                   = new();
         private readonly DispatcherTimer savingAnimTimer    = new();
+
+        private DoubleAnimation InfoLabelAnim               = new();
+        private DoubleAnimation InfoLabelAnimReverse        = new();
 
         private List<TextBox> toDoEntrys            = [];
 
@@ -69,15 +74,25 @@ namespace ToDoList_App          // The name says everything :)
                 Buttons.SetAutoSaveContent(saveTimer.Interval);
             }
 
-            savingAnimTimer.Interval    = TimeSpan.FromMilliseconds(25);
-            saveTimer.Tick              += SaveRoutine;
-            savingAnimTimer.Tick        += SavingAnimationRoutine;
+            savingAnimTimer.Interval            = TimeSpan.FromMilliseconds(25);
+            saveTimer.Tick                      += SaveRoutine;
+            savingAnimTimer.Tick                += SavingAnimationRoutine;
+            ToDoList.PreviewMouseLeftButtonDown += ToDoList_PreviewMouseLeftButtonDown;
+
+            InfoLabelAnim.Duration              = TimeSpan.FromSeconds(0.44);
+            InfoLabelAnim.From                  = 0.00;
+            InfoLabelAnim.To                    = 0.85;
+            InfoLabelAnimReverse.Duration       = TimeSpan.FromSeconds(0.44);
+            InfoLabelAnimReverse.From           = 0.85;
+            InfoLabelAnimReverse.To             = 0.00;
 
             Canvas.SetLeft(SavingAnim, (SavingCanvas.Width / 2) - SavingAnim.Width / 2);
             Canvas.SetTop(SavingAnim, (SavingCanvas.Height / 2) - SavingAnim.Height / 2);
             savingAnimRectPos = Canvas.GetTop(SavingAnim);
 
             ToDoList.ItemsSource = toDoEntrys;
+
+            InfoLabel.Content = "Editing enabled ... Left Click again to leave Edit-Mode !";
 
             if (File.Exists("data.dat"))
             {
@@ -170,13 +185,9 @@ namespace ToDoList_App          // The name says everything :)
             }
 
             toDoEntrys.ForEach(item => { item.MouseDoubleClick += ToDoBoxMouseDoubleClick; });
+            toDoEntrys.ForEach(item => { item.MouseEnter += ToDoBoxMouseEnter; });
 
             ToDoList.Items.Refresh();
-        }
-
-        private void ToDoBoxMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            ToDoList.SelectedItem = e.Source;
         }
 
         // UI-Elements Click Events
@@ -226,7 +237,7 @@ namespace ToDoList_App          // The name says everything :)
             {
                 entryFinished = false;
 
-                ToDoTextBox ToDo = new();
+                ToDoTextBox ToDo = new();                
                 toDoEntrys.Add(ToDo.NewToDo("Click here to enter smth !"));
                 ToDoList.Items.Refresh();
 
@@ -253,11 +264,35 @@ namespace ToDoList_App          // The name says everything :)
             }
         }
 
+        private void ToDoList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+            toDoEntrys[ToDoList.SelectedIndex].IsReadOnly = toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true ? false : true;
+
+            if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == false) { InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnim); }
+            if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true) 
+            {
+                InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse);
+
+                ToDoList.Items.Refresh();
+            }            
+        }
+
+        private void ToDoBoxMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ToDoList.SelectedItem = e.Source;
+        }
+
+        private void ToDoList_KeyDown(object sender, KeyEventArgs e)
+        {
+            //toDoEntrys[ToDoList.SelectedIndex].IsReadOnly = false;
+            //toDoEntrys[ToDoList.SelectedIndex].Focus();
+            //toDoEntrys[ToDoList.SelectedIndex].CaretIndex = toDoEntrys[ToDoList.SelectedIndex].Text.Length;
+        }
+
         private void ToDoList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            toDoEntrys.ForEach(item => { item.IsReadOnly = true; });
-
-            ToDoList.Items.Refresh();
+            //toDoEntrys.ForEach(item => { item.IsReadOnly = true; });
         }
 
         private async void Save_Click(object sender, RoutedEventArgs e)
@@ -323,6 +358,11 @@ namespace ToDoList_App          // The name says everything :)
         }
 
         // MouseEnter / Leave Events
+
+        private void ToDoBoxMouseEnter(object sender, MouseEventArgs e)
+        {
+            ToDoList.SelectedItem = e.Source;
+        }
 
         private void NewEntry_MouseEnter(object sender, MouseEventArgs e)
         {

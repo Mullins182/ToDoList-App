@@ -66,8 +66,12 @@
         <!-- Grid Definition END -->
 
         <Label x:Name="AppLabel" Width="auto" Height="100" Foreground="DarkSlateGray" Content="My ToDo-List:" FontSize="70" FontWeight="Bold"
-               FontFamily="Curlz MT" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,3"
-               BorderBrush="Black" VerticalAlignment="Top"/>
+               FontFamily="Curlz MT" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,3"
+               BorderBrush="Black" VerticalAlignment="Top" Margin="0,0,0,0"/>
+
+        <Label x:Name="InfoLabel" Grid.Column="1" Grid.Row="0" Width="900" Height="80" Background="Transparent" Foreground="OrangeRed"
+               Margin="0,100,0,0" HorizontalAlignment="Center" FontFamily="Chiller" FontSize="45" VerticalContentAlignment="Center"
+               HorizontalContentAlignment="Center" FontWeight="Bold" Opacity="0.0"/>
 
         <Canvas x:Name="SavingCanvas" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent"
                 Width="200" Height="200">
@@ -81,7 +85,8 @@
 
         <ListBox x:Name="ToDoList" Grid.Column="1" Grid.Row="1" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Hidden" MouseDoubleClick="ToDoList_MouseDoubleClick" HorizontalContentAlignment="Center"
-                 SelectionMode="Single" SelectionChanged="ToDoList_SelectionChanged" BorderThickness="0,0,0,0"/>
+                 SelectionMode="Single" SelectionChanged="ToDoList_SelectionChanged" BorderThickness="0,0,0,0" KeyDown="ToDoList_KeyDown"/>
+
         <StackPanel x:Name="OptionsStack" Width="400" Height="auto" Background="Black" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" Visibility="Collapsed"/>
 
