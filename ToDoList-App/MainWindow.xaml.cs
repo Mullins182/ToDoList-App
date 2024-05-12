@@ -92,7 +92,7 @@ namespace ToDoList_App          // The name says everything :)
 
             ToDoList.ItemsSource = toDoEntrys;
 
-            InfoLabel.Content = "Editing enabled ... Left Click again to leave Edit-Mode !";
+            InfoLabel.Content = "Left Click again to finish editing !";
 
             if (File.Exists("data.dat"))
             {
@@ -269,13 +269,22 @@ namespace ToDoList_App          // The name says everything :)
 
             toDoEntrys[ToDoList.SelectedIndex].IsReadOnly = toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true ? false : true;
 
-            if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == false) { InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnim); }
+            toDoEntrys[ToDoList.SelectedIndex].Focus();
+
             if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true) 
             {
                 InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse);
 
-                ToDoList.Items.Refresh();
-            }            
+                ToDoList.Focus();
+
+                //ToDoList.Items.Refresh();
+            }
+            else if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == false)
+            {
+                InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnim);
+
+                //ToDoList.Items.Refresh();
+            }
         }
 
         private void ToDoBoxMouseDoubleClick(object sender, MouseButtonEventArgs e)
@@ -361,7 +370,7 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ToDoBoxMouseEnter(object sender, MouseEventArgs e)
         {
-            ToDoList.SelectedItem = e.Source;
+            //ToDoList.SelectedItem = e.Source;
         }
 
         private void NewEntry_MouseEnter(object sender, MouseEventArgs e)
