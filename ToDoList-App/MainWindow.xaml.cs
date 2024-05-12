@@ -292,7 +292,7 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ToDoList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //toDoEntrys.ForEach(item => { item.IsReadOnly = true; });
+            toDoEntrys.ForEach(item => { item.IsReadOnly = true; });
         }
 
         private async void Save_Click(object sender, RoutedEventArgs e)
