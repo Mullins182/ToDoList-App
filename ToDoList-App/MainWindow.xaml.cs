@@ -301,7 +301,7 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ToDoList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            toDoEntrys.ForEach(item => { item.IsReadOnly = true; });
+            //toDoEntrys.ForEach(item => { item.IsReadOnly = true; });
         }
 
         private async void Save_Click(object sender, RoutedEventArgs e)
@@ -370,7 +370,7 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ToDoBoxMouseEnter(object sender, MouseEventArgs e)
         {
-            //ToDoList.SelectedItem = e.Source;
+            ToDoList.SelectedItem = e.Source;
         }
 
         private void NewEntry_MouseEnter(object sender, MouseEventArgs e)

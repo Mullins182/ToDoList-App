@@ -53,9 +53,10 @@ namespace ToDoList_App.Model
                 box.TextAlignment   = System.Windows.TextAlignment.Center;
                 box.FontFamily      = new FontFamily("Bradley Hand ITC");
                 box.FontWeight      = FontWeights.Bold;
+                box.Width           = 800;
                 box.Foreground      = Brushes.DarkSlateGray;
                 box.Background      = Brushes.Transparent;
-                box.BorderThickness = new Thickness(0, 1, 0, 1);
+                box.BorderThickness = new Thickness(0, 0, 0, 2);
                 box.BorderBrush     = Brushes.DarkSlateGray;
                 box.ClipToBounds    = true;
                 box.AcceptsReturn   = true;
