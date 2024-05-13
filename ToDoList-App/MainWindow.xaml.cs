@@ -235,13 +235,14 @@ namespace ToDoList_App          // The name says everything :)
         {
             if (entryFinished)
             {
-                entryFinished = false;
+                entryFinished       = false;
 
-                ToDoTextBox ToDo = new();                
-                toDoEntrys.Add(ToDo.NewToDo("Click here to enter smth !"));
+                ToDoTextBox ToDo    = new();
+                toDoEntrys.Add(ToDo.StatusBox());
+                toDoEntrys.Add(ToDo.NewToDo());
                 ToDoList.Items.Refresh();
 
-                entryFinished = true;
+                entryFinished       = true;
             }
         }
 
@@ -266,24 +267,30 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ToDoList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-
-            toDoEntrys[ToDoList.SelectedIndex].IsReadOnly = toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true ? false : true;
-
-            toDoEntrys[ToDoList.SelectedIndex].Focus();
-
-            if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true) 
+            if (toDoEntrys[ToDoList.SelectedIndex].Name == "statusBox")
             {
-                InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse);
 
-                ToDoList.Focus();
-
-                //ToDoList.Items.Refresh();
             }
-            else if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == false)
+            else
             {
-                InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnim);
+                toDoEntrys[ToDoList.SelectedIndex].IsReadOnly = toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true ? false : true;
 
-                //ToDoList.Items.Refresh();
+                //toDoEntrys[ToDoList.SelectedIndex].Focus();
+
+                if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true)
+                {
+                    InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse);
+
+                    ToDoList.Focus();
+
+                    //ToDoList.Items.Refresh();
+                }
+                else if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == false)
+                {
+                    InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnim);
+
+                    //ToDoList.Items.Refresh();
+                }
             }
         }
 
