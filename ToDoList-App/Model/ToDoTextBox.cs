@@ -120,40 +120,6 @@ namespace ToDoList_App.Model
                 {
                     buildBoxContent += $"\n{readCache[i]}";
                 }
-
-                //if (readCache[i].Contains($"{(char)1421}") && i != 0)
-                //{
-                //    box.Text = buildTxtBoxContent;
-                //    textBoxes.Add(box);
-                //    buildTxtBoxContent = $"{(char)1421} in the works {(char)1421}";
-                //}
-                //else if (readCache[i].Contains($"{(char)0x2713}") && i != 0)
-                //{
-                //    box.Text = buildTxtBoxContent;
-                //    textBoxes.Add(box);
-                //    buildTxtBoxContent = $"Done {(char)0x2713}";
-                //}
-                //else
-                //{
-                //    if (i == readCache.Count - 1)
-                //    {
-                //        buildTxtBoxContent += $"\n{readCache[i]}";
-
-                //        box.Text = buildTxtBoxContent;
-                //        textBoxes.Add(box);
-                //    }
-                //    else
-                //    {
-                //        if (i == 0)
-                //        {
-                //            buildTxtBoxContent += $"{readCache[i]}";
-                //        }
-                //        else
-                //        {
-                //            buildTxtBoxContent += $"\n{readCache[i]}";
-                //        }
-                //    }
-                //}
             }
 
             return textBoxes;
