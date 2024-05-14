@@ -173,7 +173,7 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ReadData()
         {
-            List<string> readCache  = [.. System.IO.File.ReadAllLines("data.dat")];     // [.. ] = simplifying .toList()
+            List<string> readCache  = [.. File.ReadAllLines("data.dat")];     // [.. ] = simplifying .toList()
 
             ToDoTextBox ToDo        = new();
 

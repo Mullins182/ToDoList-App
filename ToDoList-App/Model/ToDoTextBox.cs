@@ -55,7 +55,7 @@ namespace ToDoList_App.Model
             box.BorderBrush     = Brushes.DarkSlateGray;
             box.AcceptsReturn   = true;
             box.ClipToBounds    = true;
-            box.IsReadOnly      = true;
+            box.IsReadOnly      = false;
             box.Focusable       = true;
             box.FontSize        = 40;
 
@@ -68,11 +68,19 @@ namespace ToDoList_App.Model
         {
             List<TextBox> textBoxes = [];
 
-            string buildTxtBoxContent = "";
+            string buildBoxContent = "";
 
             for (int i = 0; i < readCache.Count; i++)
             {
-                TextBox box = new();
+                TextBox statusBox   = new();
+                TextBox box         = new();
+
+                statusBox.FontFamily        = new FontFamily("Arial");
+                statusBox.FontWeight        = FontWeights.Bold;
+                statusBox.FontSize          = 35;
+                statusBox.IsReadOnly        = true;
+                statusBox.Focusable         = false;
+                statusBox.BorderThickness   = new Thickness(0, 2, 0, 0);
 
                 box.TextWrapping    = System.Windows.TextWrapping.Wrap;
                 box.TextAlignment   = System.Windows.TextAlignment.Center;
@@ -89,39 +97,63 @@ namespace ToDoList_App.Model
                 box.Focusable       = true;
                 box.FontSize        = 40;
 
-                if (readCache[i].Contains($"{(char)1421}") && i != 0)
+                if (i == 0)
                 {
-                    box.Text = buildTxtBoxContent;
-                    textBoxes.Add(box);
-                    buildTxtBoxContent = $"{(char)1421} in the works {(char)1421}";
+                    statusBox.Text = readCache[i];
+                    textBoxes.Add(statusBox);
                 }
-                else if (readCache[i].Contains($"{(char)0x2713}") && i != 0)
+                else if (readCache[i].Contains($"{(char)1421}") || readCache[i].Contains($"{(char)0x2713}"))
                 {
-                    box.Text = buildTxtBoxContent;
+                    box.Text = buildBoxContent;
+                    buildBoxContent = "";
                     textBoxes.Add(box);
-                    buildTxtBoxContent = $"Done {(char)0x2713}";
+                    statusBox.Text = readCache[i];
+                    textBoxes.Add(statusBox);
+                }
+                else if (i == readCache.Count - 1)
+                {
+                    buildBoxContent += $"\n{readCache[i]}";
+                    box.Text = buildBoxContent;
+                    textBoxes.Add(box);
                 }
                 else
                 {
-                    if (i == readCache.Count - 1)
-                    {
-                        buildTxtBoxContent += $"\n{readCache[i]}";
-
-                        box.Text = buildTxtBoxContent;
-                        textBoxes.Add(box);
-                    }
-                    else
-                    {
-                        if (i == 0)
-                        {
-                            buildTxtBoxContent += $"{readCache[i]}";
-                        }
-                        else
-                        {
-                            buildTxtBoxContent += $"\n{readCache[i]}";
-                        }
-                    }
+                    buildBoxContent += $"\n{readCache[i]}";
                 }
+
+                //if (readCache[i].Contains($"{(char)1421}") && i != 0)
+                //{
+                //    box.Text = buildTxtBoxContent;
+                //    textBoxes.Add(box);
+                //    buildTxtBoxContent = $"{(char)1421} in the works {(char)1421}";
+                //}
+                //else if (readCache[i].Contains($"{(char)0x2713}") && i != 0)
+                //{
+                //    box.Text = buildTxtBoxContent;
+                //    textBoxes.Add(box);
+                //    buildTxtBoxContent = $"Done {(char)0x2713}";
+                //}
+                //else
+                //{
+                //    if (i == readCache.Count - 1)
+                //    {
+                //        buildTxtBoxContent += $"\n{readCache[i]}";
+
+                //        box.Text = buildTxtBoxContent;
+                //        textBoxes.Add(box);
+                //    }
+                //    else
+                //    {
+                //        if (i == 0)
+                //        {
+                //            buildTxtBoxContent += $"{readCache[i]}";
+                //        }
+                //        else
+                //        {
+                //            buildTxtBoxContent += $"\n{readCache[i]}";
+                //        }
+                //    }
+                //}
             }
 
             return textBoxes;
