@@ -59,7 +59,7 @@
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="MainRow1" Height="150*"/>
+            <RowDefinition x:Name="MainRow1" Height="200*"/>
             <RowDefinition x:Name="MainRow2" Height="500*"/>
             <RowDefinition x:Name="MainRow3" Height="50*"/>
         </Grid.RowDefinitions>

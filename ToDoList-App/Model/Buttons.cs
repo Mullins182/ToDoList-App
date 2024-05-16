@@ -12,12 +12,24 @@ namespace ToDoList_App.Model
     public static class Buttons
     {
         #pragma warning disable CA2211
-        public static Button FullscreenMode = new();
+        public static Button FullscreenMode     = new();
+
+        public static Button AutoSave           = new();
+
+        public static Button DelEntry           = new();
         #pragma warning restore CA2211
 
-        #pragma warning disable CA2211
-        public static Button AutoSave = new();
-        #pragma warning restore CA2211
+        public static void SetDelEntryProps()
+        {
+            DelEntry.Width = 400;
+            DelEntry.Height = 50;
+            DelEntry.Background = Brushes.Red;
+            DelEntry.Foreground = Brushes.White;
+            DelEntry.VerticalAlignment = System.Windows.VerticalAlignment.Bottom;
+            DelEntry.Content = "Delete selected ToDo-Entry";
+            DelEntry.FontSize = 30;
+            DelEntry.Visibility = System.Windows.Visibility.Hidden;
+        }
 
         public static void SetFullscreenModeProps()
         {

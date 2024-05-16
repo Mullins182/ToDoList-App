@@ -5,12 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace ToDoList_App.Model
 {
     public class ToDoTextBox
     {
+        public ImageBrush statusBoxBG = new();
         
         public ToDoTextBox() { }
 
@@ -24,7 +27,7 @@ namespace ToDoList_App.Model
             box.FontFamily = new FontFamily("Bradley Hand ITC");
             box.FontWeight = FontWeights.Bold;
             box.Foreground = Brushes.DarkSlateGray;
-            box.Background = Brushes.Transparent;
+            box.Background = statusBoxBG;
             box.BorderThickness = new Thickness(0, 2, 0, 0);
             box.BorderBrush = Brushes.DarkSlateGray;
             box.Name        = "statusBox";
@@ -53,7 +56,7 @@ namespace ToDoList_App.Model
             box.Background      = Brushes.Transparent;
             box.BorderThickness = new Thickness(0, 0, 0, 2);
             box.BorderBrush     = Brushes.DarkSlateGray;
-            box.AcceptsReturn   = true;
+            box.AcceptsReturn   = false;
             box.ClipToBounds    = true;
             box.IsReadOnly      = false;
             box.Focusable       = true;
@@ -75,9 +78,13 @@ namespace ToDoList_App.Model
                 TextBox statusBox   = new();
                 TextBox box         = new();
 
+                statusBoxBG.ImageSource     = new BitmapImage(new Uri("pack://application:,,,/Textures/gold2.jpg"));
+
                 statusBox.FontFamily        = new FontFamily("Arial");
                 statusBox.FontWeight        = FontWeights.Bold;
-                statusBox.FontSize          = 35;
+                statusBox.Name              = "statusBox";
+                statusBox.FontSize          = 40;
+                statusBox.Background        = statusBoxBG;
                 statusBox.IsReadOnly        = true;
                 statusBox.Focusable         = false;
                 statusBox.BorderThickness   = new Thickness(0, 2, 0, 0);
@@ -92,7 +99,7 @@ namespace ToDoList_App.Model
                 box.BorderThickness = new Thickness(0, 0, 0, 2);
                 box.BorderBrush     = Brushes.DarkSlateGray;
                 box.ClipToBounds    = true;
-                box.AcceptsReturn   = true;
+                box.AcceptsReturn   = false;
                 box.IsReadOnly      = true;
                 box.Focusable       = true;
                 box.FontSize        = 40;
@@ -112,13 +119,13 @@ namespace ToDoList_App.Model
                 }
                 else if (i == readCache.Count - 1)
                 {
-                    buildBoxContent += $"\n{readCache[i]}";
+                    buildBoxContent += $"{readCache[i]}";
                     box.Text = buildBoxContent;
                     textBoxes.Add(box);
                 }
                 else
                 {
-                    buildBoxContent += $"\n{readCache[i]}";
+                    buildBoxContent += $"{readCache[i]}";
                 }
             }
 

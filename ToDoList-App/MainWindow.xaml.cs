@@ -28,23 +28,25 @@ namespace ToDoList_App          // The name says everything :)
         private DoubleAnimation InfoLabelAnim               = new();
         private DoubleAnimation InfoLabelAnimReverse        = new();
 
-        private List<TextBox> toDoEntrys            = [];
+        private List<TextBox> toDoEntrys                    = [];
 
-        string[] options                            = ["Fullscreen Mode = 0", "Autosave Minutes = 0"];
+        private string[] options                            = ["Fullscreen Mode = 0", "Autosave Minutes = 0"];
 
-        private double savingAnimRectPos            = 0.00;
-        private bool savingAnimRectUp               = true;
-        private bool entryFinished                  = true;
-        private bool saveFinished                   = true;
+        private int delEntryIndex                           = 0;
 
-        private readonly string markInWorks         = $"{(char)1421} in the works {(char)1421}";    
-        private readonly string markDone            = $"Done {(char)0x2713}";
+        private double savingAnimRectPos                    = 0.00;
+        private bool savingAnimRectUp                       = true;
+        private bool entryFinished                          = true;
+        private bool saveFinished                           = true;
+
+        private readonly string markInWorks                 = $"{(char)1421} in the works {(char)1421}";    
+        private readonly string markDone                    = $"Done {(char)0x2713}";
 
         public MainWindow()
         {
-            floppyWrite.IsMuted = true;
-
             InitializeComponent();
+
+            floppyWrite.IsMuted = true;
 
             InitializePrg();
         }
@@ -92,7 +94,7 @@ namespace ToDoList_App          // The name says everything :)
 
             ToDoList.ItemsSource = toDoEntrys;
 
-            InfoLabel.Content = "Left Click again to finish editing !";
+            InfoLabel.Content = "Left Click again to finish editing !".ToUpper();
 
             if (File.Exists("data.dat"))
             {
@@ -101,10 +103,17 @@ namespace ToDoList_App          // The name says everything :)
 
             Buttons.SetFullscreenModeProps();
             Buttons.SetAutoSaveProps();
+            Buttons.SetDelEntryProps();
             Buttons.FullscreenMode.Template     = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
+            Buttons.DelEntry.Template           = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
+            Grid.SetRow(Buttons.DelEntry, 0);
+            Grid.SetColumn(Buttons.DelEntry, 1);
             Buttons.AutoSave.Template           = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
             Buttons.FullscreenMode.Click        += FullscreenMode_Click;
             Buttons.AutoSave.Click              += AutoSave_Click;
+            Buttons.DelEntry.Click              += DelEntry_Click;
+
+            MainGrid.Children.Add(Buttons.DelEntry);
 
             OptionsStack.Children.Add(Buttons.FullscreenMode);
             OptionsStack.Children.Add(Buttons.AutoSave);
@@ -177,8 +186,6 @@ namespace ToDoList_App          // The name says everything :)
 
             ToDoTextBox ToDo        = new();
 
-            ToDoList.ItemsSource = toDoEntrys;
-
             foreach (var item in ToDo.ReadToDos(readCache))
             {
                 toDoEntrys.Add(item);
@@ -188,6 +195,11 @@ namespace ToDoList_App          // The name says everything :)
             toDoEntrys.ForEach(item => { item.MouseEnter += ToDoBoxMouseEnter; });
 
             ToDoList.Items.Refresh();
+        }
+
+        private void ToDoBoxMouseLeave(object sender, MouseEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         // UI-Elements Click Events
@@ -267,36 +279,52 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ToDoList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (toDoEntrys[ToDoList.SelectedIndex].Name == "statusBox")
+            if (ToDoList.SelectedIndex < 0 || toDoEntrys[ToDoList.SelectedIndex].Text == markDone || toDoEntrys[ToDoList.SelectedIndex].Text == markInWorks)
             {
 
             }
             else
             {
                 toDoEntrys[ToDoList.SelectedIndex].IsReadOnly = toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true ? false : true;
-
-                //toDoEntrys[ToDoList.SelectedIndex].Focus();
-
+                                                
                 if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true)
                 {
                     InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse);
-
-                    ToDoList.Focus();
-
-                    //ToDoList.Items.Refresh();
+                    Buttons.DelEntry.Visibility = Visibility.Hidden;
+                    delEntryIndex = -1;
                 }
                 else if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == false)
                 {
+                    delEntryIndex = ToDoList.SelectedIndex;
                     InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnim);
-
-                    //ToDoList.Items.Refresh();
+                    Buttons.DelEntry.Visibility = Visibility.Visible;
                 }
             }
         }
 
+        private void DelEntry_Click(object sender, RoutedEventArgs e)
+        {
+            if (delEntryIndex >= 0)
+            {
+                toDoEntrys.RemoveAt(delEntryIndex - 1);
+                toDoEntrys.RemoveAt(delEntryIndex - 1);
+                InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse);
+                Buttons.DelEntry.Visibility = Visibility.Hidden;
+                delEntryIndex = -1;
+            }
+            ToDoList.Items.Refresh();
+        }
+
         private void ToDoBoxMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            ToDoList.SelectedItem = e.Source;
+            if (toDoEntrys[ToDoList.SelectedIndex].Name == "statusBox")
+            {
+            
+            }
+            else
+            {
+                ToDoList.SelectedItem = e.Source;
+            }
         }
 
         private void ToDoList_KeyDown(object sender, KeyEventArgs e)
@@ -377,7 +405,14 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ToDoBoxMouseEnter(object sender, MouseEventArgs e)
         {
-            ToDoList.SelectedItem = e.Source;
+            if (ToDoList.SelectedIndex >= 0 && toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == false && toDoEntrys[ToDoList.SelectedIndex].Name == "statusBox")
+            {
+
+            }
+            else
+            {
+                ToDoList.SelectedItem = e.Source;
+            }
         }
 
         private void NewEntry_MouseEnter(object sender, MouseEventArgs e)
