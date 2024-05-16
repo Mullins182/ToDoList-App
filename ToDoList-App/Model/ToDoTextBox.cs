@@ -19,27 +19,28 @@ namespace ToDoList_App.Model
 
         public TextBox StatusBox()
         {
-            TextBox box = new();
+            TextBox statusBox = new();
 
-            box.TextAlignment = System.Windows.TextAlignment.Center;
+            statusBox.TextAlignment = System.Windows.TextAlignment.Center;
             //Box.TextDecorations = System.Windows.TextDecorations.Underline;
+            statusBox.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+            statusBox.Width = 800;
+            statusBox.FontFamily = new FontFamily("Bradley Hand ITC");
+            statusBox.FontWeight = FontWeights.Bold;
+            statusBox.Foreground = Brushes.DarkSlateGray;
+            statusBox.Background = statusBoxBG;
+            statusBox.BorderThickness = new Thickness(0, 2, 0, 0);
+            statusBox.BorderBrush = Brushes.DarkSlateGray;
+            statusBox.Name        = "statusBox";
+            statusBox.AcceptsReturn = false;
+            statusBox.ClipToBounds = true;
+            statusBox.IsReadOnly = true;
+            statusBox.Focusable = false;
+            statusBox.FontSize = 40;
 
-            box.FontFamily = new FontFamily("Bradley Hand ITC");
-            box.FontWeight = FontWeights.Bold;
-            box.Foreground = Brushes.DarkSlateGray;
-            box.Background = statusBoxBG;
-            box.BorderThickness = new Thickness(0, 2, 0, 0);
-            box.BorderBrush = Brushes.DarkSlateGray;
-            box.Name        = "statusBox";
-            box.AcceptsReturn = false;
-            box.ClipToBounds = true;
-            box.IsReadOnly = true;
-            box.Focusable = false;
-            box.FontSize = 40;
+            statusBox.Text = $"{(char)1421} in the works {(char)1421}";    // 0x2610 = Ballot Box | 0x2713 = Check Mark
 
-            box.Text = $"{(char)1421} in the works {(char)1421}";    // 0x2610 = Ballot Box | 0x2713 = Check Mark
-
-            return box;
+            return statusBox;
         }
 
         public TextBox NewToDo()
@@ -49,7 +50,7 @@ namespace ToDoList_App.Model
             box.TextWrapping    = System.Windows.TextWrapping.Wrap;
             box.TextAlignment   = System.Windows.TextAlignment.Center;
             //Box.TextDecorations = System.Windows.TextDecorations.Underline;
-
+            box.Width = 800;
             box.FontFamily      = new FontFamily("Bradley Hand ITC");
             box.FontWeight      = FontWeights.Normal;
             box.Foreground      = Brushes.DarkSlateGray;
@@ -80,6 +81,8 @@ namespace ToDoList_App.Model
 
                 statusBoxBG.ImageSource     = new BitmapImage(new Uri("pack://application:,,,/Textures/gold2.jpg"));
 
+                statusBox.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+                statusBox.Width             = 800;
                 statusBox.FontFamily        = new FontFamily("Arial");
                 statusBox.FontWeight        = FontWeights.Bold;
                 statusBox.Name              = "statusBox";

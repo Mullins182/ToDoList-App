@@ -32,7 +32,7 @@ namespace ToDoList_App          // The name says everything :)
 
         private string[] options                            = ["Fullscreen Mode = 0", "Autosave Minutes = 0"];
 
-        private int delEntryIndex                           = 0;
+        private int delEntryIndex                           = -1;
 
         private double savingAnimRectPos                    = 0.00;
         private bool savingAnimRectUp                       = true;
@@ -279,7 +279,7 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ToDoList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (ToDoList.SelectedIndex < 0 || toDoEntrys[ToDoList.SelectedIndex].Text == markDone || toDoEntrys[ToDoList.SelectedIndex].Text == markInWorks)
+            if (ToDoList.SelectedIndex < 0 || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone) || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks))
             {
 
             }
@@ -317,14 +317,14 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ToDoBoxMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (toDoEntrys[ToDoList.SelectedIndex].Name == "statusBox")
-            {
+            //if (toDoEntrys[ToDoList.SelectedIndex].Name == "statusBox")
+            //{
             
-            }
-            else
-            {
-                ToDoList.SelectedItem = e.Source;
-            }
+            //}
+            //else
+            //{
+            //    ToDoList.SelectedItem = e.Source;
+            //}
         }
 
         private void ToDoList_KeyDown(object sender, KeyEventArgs e)
@@ -405,11 +405,7 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ToDoBoxMouseEnter(object sender, MouseEventArgs e)
         {
-            if (ToDoList.SelectedIndex >= 0 && toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == false && toDoEntrys[ToDoList.SelectedIndex].Name == "statusBox")
-            {
-
-            }
-            else
+            if (ToDoList.HasItems)
             {
                 ToDoList.SelectedItem = e.Source;
             }
