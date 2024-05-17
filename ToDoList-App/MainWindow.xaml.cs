@@ -55,13 +55,25 @@ namespace ToDoList_App          // The name says everything :)
 
         public async void InitializePrg()
         {
+            Buttons.SetFullscreenModeProps();
+            Buttons.SetAutoSaveProps();
+            Buttons.SetDelEntryProps();
+            Buttons.FullscreenMode.Template = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
+            Buttons.DelEntry.Template = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
+            Grid.SetRow(Buttons.DelEntry, 0);
+            Grid.SetColumn(Buttons.DelEntry, 1);
+            Buttons.AutoSave.Template = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
+            Buttons.FullscreenMode.Click += FullscreenMode_Click;
+            Buttons.AutoSave.Click += AutoSave_Click;
+            Buttons.DelEntry.Click += DelEntry_Click;
+
             floppyWrite.IsMuted = true;
             scribble1.IsMuted   = true;
             scribble2.IsMuted   = true;
             scribble1.Play();
             scribble2.Play();
 
-            await Task.Delay(500);
+            await Task.Delay(1000);
 
             floppyWrite.Open(new Uri("Sounds/readingFloppyDisc.mp3", UriKind.Relative));
             floppyWrite.Position = TimeSpan.FromMilliseconds(150);
@@ -73,6 +85,24 @@ namespace ToDoList_App          // The name says everything :)
                 options = [];
                 options = File.ReadAllLines("options.ini");
 
+                if (options[0].Last() - 48 == 0)
+                {
+                    this.WindowStyle = WindowStyle.SingleBorderWindow;
+                    this.WindowState = WindowState.Normal;
+                    Buttons.FullscreenMode.Foreground = Brushes.Red;
+
+
+                }
+                else if (options[0].Last() - 48 == 1)
+                {
+                    this.WindowStyle = WindowStyle.None;
+                    this.WindowState = WindowState.Maximized;
+
+                    await Task.Delay(1000);
+
+                    Buttons.FullscreenMode.Foreground = Brushes.LawnGreen;
+                }
+                
                 saveTimer.Interval = TimeSpan.FromMinutes(((double)options[1].Last()) -48);
 
                 Buttons.SetAutoSaveContent(saveTimer.Interval);
@@ -104,24 +134,12 @@ namespace ToDoList_App          // The name says everything :)
 
             ToDoList.ItemsSource = toDoEntrys;
 
-            InfoLabel.Content = "Left Click again to finish editing !".ToUpper();
+            InfoLabel.Content = "Left Click again to finish editing !";
 
             if (File.Exists("data.dat"))
             {
                 ReadData();
             }
-
-            Buttons.SetFullscreenModeProps();
-            Buttons.SetAutoSaveProps();
-            Buttons.SetDelEntryProps();
-            Buttons.FullscreenMode.Template     = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
-            Buttons.DelEntry.Template           = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
-            Grid.SetRow(Buttons.DelEntry, 0);
-            Grid.SetColumn(Buttons.DelEntry, 1);
-            Buttons.AutoSave.Template           = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
-            Buttons.FullscreenMode.Click        += FullscreenMode_Click;
-            Buttons.AutoSave.Click              += AutoSave_Click;
-            Buttons.DelEntry.Click              += DelEntry_Click;
 
             MainGrid.Children.Add(Buttons.DelEntry);
 
@@ -203,8 +221,21 @@ namespace ToDoList_App          // The name says everything :)
                 toDoEntrys.Add(item);
             }
 
+            for (int i = 0; i < toDoEntrys.Count; i++)
+            {
+                if (toDoEntrys[i].Text.Contains($"{(char)1421}"))
+                {
+                    toDoEntrys[i+1].Name = "EntryWork";
+                }
+                else if (toDoEntrys[i].Text.Contains($"{(char)0x2713}"))
+                {
+                    toDoEntrys[i+1].Name = "EntryDone";
+                }
+            }
+
             toDoEntrys.ForEach(item => { item.MouseDoubleClick += ToDoBoxMouseDoubleClick; });
             toDoEntrys.ForEach(item => { item.MouseEnter += ToDoBoxMouseEnter; });
+            toDoEntrys.ForEach(item => { item.TextDecorations = item.Name == "EntryDone" ? TextDecorations.Strikethrough : null; });
 
             ToDoList.Items.Refresh();
         }
@@ -224,12 +255,20 @@ namespace ToDoList_App          // The name says everything :)
                 this.WindowStyle = WindowStyle.SingleBorderWindow;
                 this.WindowState = WindowState.Normal;
                 Buttons.FullscreenMode.Foreground = Brushes.Red;
+
+                options[0] = "Fullscreen Mode = 0";
+
+                File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
             }
             else
             {
                 this.WindowStyle = WindowStyle.None;
                 this.WindowState = WindowState.Maximized;
                 Buttons.FullscreenMode.Foreground = Brushes.LawnGreen;
+
+                options[0] = "Fullscreen Mode = 1";
+
+                File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
             }
         }
 
@@ -287,6 +326,8 @@ namespace ToDoList_App          // The name says everything :)
                 {
                     toDoEntrys[ToDoList.SelectedIndex].Text = 
                     toDoEntrys[ToDoList.SelectedIndex].Text.Replace(markInWorks, markDone);
+                    toDoEntrys[ToDoList.SelectedIndex + 1].TextDecorations = TextDecorations.Strikethrough;
+                    toDoEntrys[ToDoList.SelectedIndex + 1].Name = "EntryDone";
                     ToDoList.Items.Refresh();
 
                     if (rN == 1)
@@ -295,7 +336,7 @@ namespace ToDoList_App          // The name says everything :)
                     }
                     else if (rN == 2)
                     {
-                        scribble2.Play();
+                        scribble1.Play();
                     }
 
                     entryFinished = true;
@@ -307,6 +348,8 @@ namespace ToDoList_App          // The name says everything :)
                 {
                     toDoEntrys[ToDoList.SelectedIndex].Text = 
                     toDoEntrys[ToDoList.SelectedIndex].Text.Replace(markDone, markInWorks);
+                    toDoEntrys[ToDoList.SelectedIndex + 1].TextDecorations = null;
+                    toDoEntrys[ToDoList.SelectedIndex + 1].Name = "EntryWork";
                     ToDoList.Items.Refresh();
 
                     if (rN == 1)
@@ -315,7 +358,7 @@ namespace ToDoList_App          // The name says everything :)
                     }
                     else if (rN == 2)
                     {
-                        scribble2.Play();
+                        scribble1.Play();
                     }
 
                     entryFinished = true;

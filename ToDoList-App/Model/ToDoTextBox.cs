@@ -25,10 +25,10 @@ namespace ToDoList_App.Model
             //Box.TextDecorations = System.Windows.TextDecorations.Underline;
             statusBox.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
             statusBox.Width = 800;
-            statusBox.FontFamily = new FontFamily("Bradley Hand ITC");
-            statusBox.FontWeight = FontWeights.Bold;
+            statusBox.FontFamily = new FontFamily("Arial");
+            statusBox.FontWeight = FontWeights.Normal;
             statusBox.Foreground = Brushes.DarkSlateGray;
-            statusBox.Background = statusBoxBG;
+            statusBox.Background = Brushes.Transparent;
             statusBox.BorderThickness = new Thickness(0, 2, 0, 0);
             statusBox.BorderBrush = Brushes.DarkSlateGray;
             statusBox.Name        = "statusBox";
@@ -49,7 +49,7 @@ namespace ToDoList_App.Model
 
             box.TextWrapping    = System.Windows.TextWrapping.Wrap;
             box.TextAlignment   = System.Windows.TextAlignment.Center;
-            //Box.TextDecorations = System.Windows.TextDecorations.Underline;
+            //box.TextDecorations = System.Windows.TextDecorations.Strikethrough;
             box.Width = 800;
             box.FontFamily      = new FontFamily("Bradley Hand ITC");
             box.FontWeight      = FontWeights.Normal;
@@ -79,7 +79,7 @@ namespace ToDoList_App.Model
                 TextBox statusBox   = new();
                 TextBox box         = new();
 
-                statusBoxBG.ImageSource     = new BitmapImage(new Uri("pack://application:,,,/Textures/gold2.jpg"));
+                //statusBoxBG.ImageSource     = new BitmapImage(new Uri("pack://application:,,,/Textures/gold2.jpg"));
 
                 statusBox.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
                 statusBox.Width             = 800;
@@ -87,15 +87,15 @@ namespace ToDoList_App.Model
                 statusBox.FontWeight        = FontWeights.Bold;
                 statusBox.Name              = "statusBox";
                 statusBox.FontSize          = 40;
-                statusBox.Background        = statusBoxBG;
+                statusBox.Background = Brushes.Transparent;
                 statusBox.IsReadOnly        = true;
                 statusBox.Focusable         = false;
                 statusBox.BorderThickness   = new Thickness(0, 2, 0, 0);
 
                 box.TextWrapping    = System.Windows.TextWrapping.Wrap;
                 box.TextAlignment   = System.Windows.TextAlignment.Center;
-                box.FontFamily      = new FontFamily("Bradley Hand ITC");
-                box.FontWeight      = FontWeights.Bold;
+                box.FontFamily      = new FontFamily("Bradley Hand");
+                box.FontWeight      = FontWeights.Normal;
                 box.Width           = 800;
                 box.Foreground      = Brushes.DarkSlateGray;
                 box.Background      = Brushes.Transparent;

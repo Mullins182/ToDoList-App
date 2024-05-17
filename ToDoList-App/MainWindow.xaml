@@ -9,7 +9,7 @@
         WindowStartupLocation="CenterScreen" FontFamily="Bahnschrift" WindowStyle="SingleBorderWindow" BorderThickness="0" BorderBrush="Transparent"
         Closing="Window_Closing">
     <Window.Background>
-        <ImageBrush ImageSource="/Textures/background.jpg"/>
+        <ImageBrush ImageSource="/Textures/gold2.jpg"/>
     </Window.Background>
 
     <!-- Control Template Override für Buttons um Highlighting bei Mouseover zu verhindern !-->
@@ -70,8 +70,8 @@
                BorderBrush="Black" VerticalAlignment="Top" Margin="0,0,0,0"/>
 
         <Label x:Name="InfoLabel" Grid.Column="1" Grid.Row="0" Width="900" Height="80" Background="Transparent" Foreground="OrangeRed"
-               Margin="0,100,0,0" HorizontalAlignment="Center" FontFamily="Chiller" FontSize="45" VerticalContentAlignment="Center"
-               HorizontalContentAlignment="Center" FontWeight="Bold" Opacity="0.0"/>
+               Margin="0,50,0,0" HorizontalAlignment="Center" FontFamily="Segoe Print" FontSize="45" VerticalContentAlignment="Center"
+               HorizontalContentAlignment="Center" FontWeight="Normal" Opacity="0.0"/>
 
         <Canvas x:Name="SavingCanvas" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent"
                 Width="200" Height="200">
@@ -86,7 +86,7 @@
         <ListBox x:Name="ToDoList" Grid.Column="1" Grid.Row="1" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Hidden" MouseDoubleClick="ToDoList_MouseDoubleClick" HorizontalContentAlignment="Center"
                  SelectionMode="Single" SelectionChanged="ToDoList_SelectionChanged" BorderThickness="0,0,0,0" KeyDown="ToDoList_KeyDown"
-                 SelectedIndex="0"/>
+                 SelectedIndex="0" Width="800"/>
 
         <StackPanel x:Name="OptionsStack" Width="400" Height="auto" Background="Black" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" Visibility="Collapsed"/>
