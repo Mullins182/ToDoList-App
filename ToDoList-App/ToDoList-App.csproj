@@ -12,6 +12,8 @@
 
   <ItemGroup>
     <None Remove="Sounds\readingFloppyDisc.mp3" />
+    <None Remove="Sounds\scribble1.wav" />
+    <None Remove="Sounds\scribble2.wav" />
     <None Remove="Textures\background.jpg" />
     <None Remove="Textures\buttonBackground.jpg" />
     <None Remove="Textures\floppyDiscEdited.png" />
@@ -20,6 +22,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Sounds\scribble1.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Sounds\scribble2.wav">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </EmbeddedResource>
     <EmbeddedResource Include="Sounds\readingFloppyDisc.mp3">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>

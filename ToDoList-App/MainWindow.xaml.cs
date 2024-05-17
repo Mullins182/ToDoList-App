@@ -21,6 +21,10 @@ namespace ToDoList_App          // The name says everything :)
     public partial class MainWindow : Window
     {
         private readonly MediaPlayer floppyWrite            = new();
+        private readonly MediaPlayer scribble1              = new();
+        private readonly MediaPlayer scribble2              = new();
+
+        private readonly Random genRdNr                     = new();
 
         private DispatcherTimer saveTimer                   = new();
         private readonly DispatcherTimer savingAnimTimer    = new();
@@ -46,17 +50,23 @@ namespace ToDoList_App          // The name says everything :)
         {
             InitializeComponent();
 
-            floppyWrite.IsMuted = true;
-
             InitializePrg();
         }
 
         public async void InitializePrg()
         {
+            floppyWrite.IsMuted = true;
+            scribble1.IsMuted   = true;
+            scribble2.IsMuted   = true;
+            scribble1.Play();
+            scribble2.Play();
+
             await Task.Delay(500);
 
             floppyWrite.Open(new Uri("Sounds/readingFloppyDisc.mp3", UriKind.Relative));
-            floppyWrite.Position        = TimeSpan.FromMilliseconds(150);
+            floppyWrite.Position = TimeSpan.FromMilliseconds(150);
+            scribble1.Open(new Uri("Sounds/scribble1.wav", UriKind.Relative));
+            scribble2.Open(new Uri("Sounds/scribble2.wav", UriKind.Relative));
 
             if (File.Exists("options.ini"))
             {
@@ -121,6 +131,8 @@ namespace ToDoList_App          // The name says everything :)
             if (saveTimer.Interval != TimeSpan.FromMinutes(0)) { saveTimer.Start(); }
 
             floppyWrite.IsMuted = false;
+            scribble1.IsMuted = false;
+            scribble2.IsMuted = false;
         }
 
         private void SavingAnimationRoutine(object? sender, EventArgs e)
@@ -260,19 +272,55 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ToDoList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            if (ToDoList.SelectedIndex >= 0)
+            if (ToDoList.SelectedIndex >= 0 && entryFinished)
             {
+                entryFinished = false;
+
+                var rN = genRdNr.Next(1, 3);
+
+                scribble1.Position = TimeSpan.Zero;
+                scribble2.Position = TimeSpan.Zero;
+                scribble1.Stop();
+                scribble2.Stop();
+
                 if (toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks))
                 {
                     toDoEntrys[ToDoList.SelectedIndex].Text = 
                     toDoEntrys[ToDoList.SelectedIndex].Text.Replace(markInWorks, markDone);
                     ToDoList.Items.Refresh();
+
+                    if (rN == 1)
+                    {
+                        scribble1.Play();
+                    }
+                    else if (rN == 2)
+                    {
+                        scribble2.Play();
+                    }
+
+                    entryFinished = true;
+
+                    return;
                 }
-                else if (toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone))
+                
+                if (toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone))
                 {
                     toDoEntrys[ToDoList.SelectedIndex].Text = 
                     toDoEntrys[ToDoList.SelectedIndex].Text.Replace(markDone, markInWorks);
                     ToDoList.Items.Refresh();
+
+                    if (rN == 1)
+                    {
+                        scribble1.Play();
+                    }
+                    else if (rN == 2)
+                    {
+                        scribble2.Play();
+                    }
+
+                    entryFinished = true;
+
+                    return;
                 }
             }
         }
