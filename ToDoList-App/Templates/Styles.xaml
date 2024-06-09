@@ -7,7 +7,7 @@
         <Setter Property="Height" Value="60"/>
         <Setter Property="Width" Value="230"/>
         <Setter Property="FontFamily" Value="Blackadder ITC"/>
-        <Setter Property="FontSize" Value="50"/>
+        <Setter Property="FontSize" Value="43"/>
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="BorderThickness" Value="1,1,2,2"/>
         <Setter Property="Foreground" Value="Black"/>

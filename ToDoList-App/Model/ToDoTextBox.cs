@@ -13,7 +13,7 @@ namespace ToDoList_App.Model
 {
     public class ToDoTextBox
     {
-        public ImageBrush statusBoxBG = new();
+        //public ImageBrush statusBoxBG = new();
         
         public ToDoTextBox() { }
 
@@ -21,22 +21,32 @@ namespace ToDoList_App.Model
         {
             TextBox statusBox = new();
 
-            statusBox.TextAlignment = System.Windows.TextAlignment.Center;
-            //Box.TextDecorations = System.Windows.TextDecorations.Underline;
+            //statusBox.TextAlignment = System.Windows.TextAlignment.Center;
+            ////Box.TextDecorations = System.Windows.TextDecorations.Underline;
+            //statusBox.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
+            //statusBox.Width = 800;
+            //statusBox.FontFamily = new FontFamily("Blackadder ITC");
+            //statusBox.FontWeight = FontWeights.Normal;
+            //statusBox.Foreground = Brushes.DarkSlateGray;
+            //statusBox.Background = Brushes.Transparent;
+            //statusBox.BorderThickness = new Thickness(0, 3, 0, 0);
+            //statusBox.BorderBrush = Brushes.DarkSlateGray;
+            //statusBox.AcceptsReturn = false;
+            //statusBox.ClipToBounds = true;
+            //statusBox.IsReadOnly = true;
+            //statusBox.Focusable = false;
+            //statusBox.FontSize = 40;
+
             statusBox.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
             statusBox.Width = 800;
-            statusBox.FontFamily = new FontFamily("Arial");
-            statusBox.FontWeight = FontWeights.Normal;
-            statusBox.Foreground = Brushes.DarkSlateGray;
+            statusBox.FontFamily = new FontFamily("Curlz MT");
+            statusBox.FontWeight = FontWeights.Bold;
+            statusBox.FontSize = 50;
             statusBox.Background = Brushes.Transparent;
-            statusBox.BorderThickness = new Thickness(0, 2, 0, 0);
-            statusBox.BorderBrush = Brushes.DarkSlateGray;
-            statusBox.Name        = "statusBox";
-            statusBox.AcceptsReturn = false;
-            statusBox.ClipToBounds = true;
             statusBox.IsReadOnly = true;
             statusBox.Focusable = false;
-            statusBox.FontSize = 40;
+            statusBox.BorderThickness = new Thickness(0, 3, 0, 0);
+            statusBox.BorderBrush = Brushes.DarkSlateGray;
 
             statusBox.Text = $"{(char)1421} in the works {(char)1421}";    // 0x2610 = Ballot Box | 0x2713 = Check Mark
 
@@ -47,21 +57,36 @@ namespace ToDoList_App.Model
         {
             TextBox box = new();
 
-            box.TextWrapping    = System.Windows.TextWrapping.Wrap;
-            box.TextAlignment   = System.Windows.TextAlignment.Center;
-            //box.TextDecorations = System.Windows.TextDecorations.Strikethrough;
+            //box.TextWrapping    = System.Windows.TextWrapping.Wrap;
+            //box.TextAlignment   = System.Windows.TextAlignment.Center;
+            ////box.TextDecorations = System.Windows.TextDecorations.Strikethrough;
+            //box.Width = 800;
+            //box.FontFamily      = new FontFamily("Bradley Hand ITC");
+            //box.FontWeight      = FontWeights.Normal;
+            //box.Foreground      = Brushes.DarkSlateGray;
+            //box.Background      = Brushes.Transparent;
+            //box.BorderThickness = new Thickness(0, 0, 0, 2);
+            //box.BorderBrush     = Brushes.DarkSlateGray;
+            //box.AcceptsReturn   = false;
+            //box.ClipToBounds    = true;
+            //box.IsReadOnly      = false;
+            //box.Focusable       = true;
+            //box.FontSize        = 40;
+
+            box.TextWrapping = System.Windows.TextWrapping.Wrap;
+            box.TextAlignment = System.Windows.TextAlignment.Center;
+            box.FontFamily = new FontFamily("Bradley Hand ITC");
+            box.FontWeight = FontWeights.Bold;
             box.Width = 800;
-            box.FontFamily      = new FontFamily("Bradley Hand ITC");
-            box.FontWeight      = FontWeights.Normal;
-            box.Foreground      = Brushes.DarkSlateGray;
-            box.Background      = Brushes.Transparent;
-            box.BorderThickness = new Thickness(0, 0, 0, 2);
-            box.BorderBrush     = Brushes.DarkSlateGray;
-            box.AcceptsReturn   = false;
-            box.ClipToBounds    = true;
-            box.IsReadOnly      = false;
-            box.Focusable       = true;
-            box.FontSize        = 40;
+            box.Foreground = Brushes.DarkSlateGray;
+            box.Background = Brushes.Transparent;
+            box.BorderThickness = new Thickness(0, 0, 0, 0);
+            box.BorderBrush = Brushes.DarkSlateGray;
+            box.ClipToBounds = true;
+            box.AcceptsReturn = false;
+            box.IsReadOnly = true;
+            box.Focusable = true;
+            box.FontSize = 40;
 
             box.Text            = $"enter smth here !";    // 0x2610 = Ballot Box | 0x2713 = Check Mark
 
@@ -81,31 +106,31 @@ namespace ToDoList_App.Model
 
                 //statusBoxBG.ImageSource     = new BitmapImage(new Uri("pack://application:,,,/Textures/gold2.jpg"));
 
-                statusBox.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
-                statusBox.Width             = 800;
-                statusBox.FontFamily        = new FontFamily("Arial");
-                statusBox.FontWeight        = FontWeights.Bold;
-                statusBox.Name              = "statusBox";
-                statusBox.FontSize          = 40;
-                statusBox.Background = Brushes.Transparent;
-                statusBox.IsReadOnly        = true;
-                statusBox.Focusable         = false;
-                statusBox.BorderThickness   = new Thickness(0, 2, 0, 0);
+                statusBox.HorizontalContentAlignment    = System.Windows.HorizontalAlignment.Center;
+                statusBox.Width                         = 800;
+                statusBox.FontFamily                    = new FontFamily("Curlz MT");
+                statusBox.FontWeight                    = FontWeights.Bold;
+                statusBox.FontSize                      = 50;
+                statusBox.Background                    = Brushes.Transparent;
+                statusBox.IsReadOnly                    = true;
+                statusBox.Focusable                     = false;
+                statusBox.BorderThickness               = new Thickness(0, 3, 0, 0);
+                statusBox.BorderBrush                   = Brushes.DarkSlateGray;
 
-                box.TextWrapping    = System.Windows.TextWrapping.Wrap;
-                box.TextAlignment   = System.Windows.TextAlignment.Center;
-                box.FontFamily      = new FontFamily("Bradley Hand");
-                box.FontWeight      = FontWeights.Normal;
-                box.Width           = 800;
-                box.Foreground      = Brushes.DarkSlateGray;
-                box.Background      = Brushes.Transparent;
-                box.BorderThickness = new Thickness(0, 0, 0, 2);
-                box.BorderBrush     = Brushes.DarkSlateGray;
-                box.ClipToBounds    = true;
-                box.AcceptsReturn   = false;
-                box.IsReadOnly      = true;
-                box.Focusable       = true;
-                box.FontSize        = 40;
+                box.TextWrapping                        = System.Windows.TextWrapping.Wrap;
+                box.TextAlignment                       = System.Windows.TextAlignment.Center;
+                box.FontFamily                          = new FontFamily("Bradley Hand ITC");
+                box.FontWeight                          = FontWeights.Bold;
+                box.Width                               = 800;
+                box.Foreground                          = Brushes.DarkSlateGray;
+                box.Background                          = Brushes.Transparent;
+                box.BorderThickness                     = new Thickness(0, 0, 0, 0);
+                box.BorderBrush                         = Brushes.DarkSlateGray;
+                box.ClipToBounds                        = true;
+                box.AcceptsReturn                       = false;
+                box.IsReadOnly                          = true;
+                box.Focusable                           = true;
+                box.FontSize                            = 40;
 
                 if (i == 0)
                 {

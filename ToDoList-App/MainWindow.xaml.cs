@@ -58,14 +58,14 @@ namespace ToDoList_App          // The name says everything :)
             Buttons.SetFullscreenModeProps();
             Buttons.SetAutoSaveProps();
             Buttons.SetDelEntryProps();
-            Buttons.FullscreenMode.Template = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
-            Buttons.DelEntry.Template = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
+            Buttons.FullscreenMode.Template     = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
+            Buttons.DelEntry.Template           = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
+            Buttons.AutoSave.Template           = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
+            Buttons.FullscreenMode.Click        += FullscreenMode_Click;
+            Buttons.AutoSave.Click              += AutoSave_Click;
+            Buttons.DelEntry.Click              += DelEntry_Click;
             Grid.SetRow(Buttons.DelEntry, 0);
             Grid.SetColumn(Buttons.DelEntry, 1);
-            Buttons.AutoSave.Template = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
-            Buttons.FullscreenMode.Click += FullscreenMode_Click;
-            Buttons.AutoSave.Click += AutoSave_Click;
-            Buttons.DelEntry.Click += DelEntry_Click;
 
             floppyWrite.IsMuted = true;
             scribble1.IsMuted   = true;
@@ -97,15 +97,12 @@ namespace ToDoList_App          // The name says everything :)
                 {
                     this.WindowStyle = WindowStyle.None;
                     this.WindowState = WindowState.Maximized;
-
-                    await Task.Delay(1000);
-
                     Buttons.FullscreenMode.Foreground = Brushes.LawnGreen;
                 }
                 
                 saveTimer.Interval = TimeSpan.FromMinutes(((double)options[1].Last()) -48);
 
-                Buttons.SetAutoSaveContent(saveTimer.Interval);
+                Buttons.SetAutoSaveProps(saveTimer.Interval);
             }
             else
             {
@@ -113,7 +110,7 @@ namespace ToDoList_App          // The name says everything :)
 
                 saveTimer.Interval = TimeSpan.FromMinutes(((double)options[1].Last()) - 48);
 
-                Buttons.SetAutoSaveContent(saveTimer.Interval);
+                Buttons.SetAutoSaveProps(saveTimer.Interval);
             }
 
             savingAnimTimer.Interval            = TimeSpan.FromMilliseconds(25);
@@ -134,6 +131,7 @@ namespace ToDoList_App          // The name says everything :)
 
             ToDoList.ItemsSource = toDoEntrys;
 
+            InfoLabel.Background = Brushes.Black;
             InfoLabel.Content = "Left Click again to finish editing !";
 
             if (File.Exists("data.dat"))
@@ -225,11 +223,13 @@ namespace ToDoList_App          // The name says everything :)
             {
                 if (toDoEntrys[i].Text.Contains($"{(char)1421}"))
                 {
-                    toDoEntrys[i+1].Name = "EntryWork";
+                    toDoEntrys[i].Foreground    = Brushes.DarkRed;
+                    toDoEntrys[i+1].Name        = "EntryWork";
                 }
                 else if (toDoEntrys[i].Text.Contains($"{(char)0x2713}"))
                 {
-                    toDoEntrys[i+1].Name = "EntryDone";
+                    toDoEntrys[i].Foreground    = Brushes.Green;
+                    toDoEntrys[i+1].Name        = "EntryDone";
                 }
             }
 
@@ -280,7 +280,7 @@ namespace ToDoList_App          // The name says everything :)
                 ? TimeSpan.FromMinutes(5) : (saveTimer.Interval == TimeSpan.FromMinutes(5)) ? TimeSpan.FromMinutes(9) 
                 : (saveTimer.Interval == TimeSpan.FromMinutes(9)) ? TimeSpan.FromMinutes(0) : TimeSpan.FromMinutes(1);
 
-            Buttons.SetAutoSaveContent(saveTimer.Interval);
+            Buttons.SetAutoSaveProps(saveTimer.Interval);
 
             options[1] = options[1].Replace(options[1].Last() , (char)(saveTimer.Interval.Minutes + 48));
 
@@ -302,7 +302,14 @@ namespace ToDoList_App          // The name says everything :)
 
                 ToDoTextBox ToDo    = new();
                 toDoEntrys.Add(ToDo.StatusBox());
+
+                toDoEntrys[toDoEntrys.Count - 1].MouseEnter += ToDoBoxMouseEnter;
+                toDoEntrys[toDoEntrys.Count - 1].Foreground = Brushes.DarkRed;
+
                 toDoEntrys.Add(ToDo.NewToDo());
+
+                toDoEntrys[toDoEntrys.Count - 1].MouseEnter += ToDoBoxMouseEnter;
+
                 ToDoList.Items.Refresh();
 
                 entryFinished       = true;
@@ -315,8 +322,6 @@ namespace ToDoList_App          // The name says everything :)
             {
                 entryFinished = false;
 
-                var rN = genRdNr.Next(1, 3);
-
                 scribble1.Position = TimeSpan.Zero;
                 scribble2.Position = TimeSpan.Zero;
                 scribble1.Stop();
@@ -326,40 +331,26 @@ namespace ToDoList_App          // The name says everything :)
                 {
                     toDoEntrys[ToDoList.SelectedIndex].Text = 
                     toDoEntrys[ToDoList.SelectedIndex].Text.Replace(markInWorks, markDone);
+                    toDoEntrys[ToDoList.SelectedIndex].Foreground = Brushes.Green;
                     toDoEntrys[ToDoList.SelectedIndex + 1].TextDecorations = TextDecorations.Strikethrough;
                     toDoEntrys[ToDoList.SelectedIndex + 1].Name = "EntryDone";
-                    ToDoList.Items.Refresh();
 
-                    if (rN == 1)
-                    {
-                        scribble1.Play();
-                    }
-                    else if (rN == 2)
-                    {
-                        scribble1.Play();
-                    }
+                    scribble2.Play();
 
                     entryFinished = true;
 
                     return;
-                }
-                
-                if (toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone))
+                }                
+                else if (toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone))
                 {
                     toDoEntrys[ToDoList.SelectedIndex].Text = 
                     toDoEntrys[ToDoList.SelectedIndex].Text.Replace(markDone, markInWorks);
+                    toDoEntrys[ToDoList.SelectedIndex].Foreground = Brushes.DarkRed;
                     toDoEntrys[ToDoList.SelectedIndex + 1].TextDecorations = null;
                     toDoEntrys[ToDoList.SelectedIndex + 1].Name = "EntryWork";
                     ToDoList.Items.Refresh();
 
-                    if (rN == 1)
-                    {
-                        scribble1.Play();
-                    }
-                    else if (rN == 2)
-                    {
-                        scribble1.Play();
-                    }
+                    scribble1.Play();
 
                     entryFinished = true;
 
@@ -370,7 +361,8 @@ namespace ToDoList_App          // The name says everything :)
 
         private void ToDoList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (ToDoList.SelectedIndex < 0 || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone) || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks))
+            if (ToDoList.SelectedIndex < 0 || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone) 
+                || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks))
             {
 
             }
@@ -380,6 +372,8 @@ namespace ToDoList_App          // The name says everything :)
                                                 
                 if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true)
                 {
+                    if (toDoEntrys[ToDoList.SelectedIndex].Text == "") { toDoEntrys[ToDoList.SelectedIndex].Text = "enter smth here !"; }
+
                     InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse);
                     Buttons.DelEntry.Visibility = Visibility.Hidden;
                     delEntryIndex = -1;
@@ -389,6 +383,8 @@ namespace ToDoList_App          // The name says everything :)
                     delEntryIndex = ToDoList.SelectedIndex;
                     InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnim);
                     Buttons.DelEntry.Visibility = Visibility.Visible;
+
+                    if (toDoEntrys[ToDoList.SelectedIndex].Text == "enter smth here !") { toDoEntrys[ToDoList.SelectedIndex].Text = ""; }
                 }
             }
         }

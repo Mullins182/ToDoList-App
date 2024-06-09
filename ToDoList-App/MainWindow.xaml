@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList_App"
         mc:Ignorable="d"
-        Title="ToDo-List App | Version 1.0 | @Mullins182" Height="1000" Width="1000" MinHeight="800" MinWidth="1000"
+        Title="ToDo-List App | Version 1.5 | @Mullins182" Height="1000" Width="1000" MinHeight="800" MinWidth="1000"
         WindowStartupLocation="CenterScreen" FontFamily="Bahnschrift" WindowStyle="SingleBorderWindow" BorderThickness="0" BorderBrush="Transparent"
         Closing="Window_Closing">
     <Window.Background>
@@ -22,8 +22,8 @@
         </ResourceDictionary>
     </Window.Resources>
 
-
-    <Grid x:Name="MainGrid">  <!-- Grid Definition -->
+    <!-- Grid Definition -->
+    <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
             <ColumnDefinition x:Name="MainColumn1" Width="500*"/>
