@@ -5,53 +5,25 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList_App"
         mc:Ignorable="d"
-        Title="ToDo-List App | Version 1.0 | @Mullins182" Height="1000" Width="1000" MinHeight="800" MinWidth="1000"
+        Title="ToDo-List App | Version 1.5 | @Mullins182" Height="1000" Width="1000" MinHeight="800" MinWidth="1000"
         WindowStartupLocation="CenterScreen" FontFamily="Bahnschrift" WindowStyle="SingleBorderWindow" BorderThickness="0" BorderBrush="Transparent"
         Closing="Window_Closing">
     <Window.Background>
-        <ImageBrush ImageSource="/Textures/background.jpg"/>
+        <ImageBrush ImageSource="/Textures/gold2.jpg"/>
     </Window.Background>
 
     <!-- Control Template Override für Buttons um Highlighting bei Mouseover zu verhindern !-->
 
     <Window.Resources>
-        <ControlTemplate x:Key="NoMouseOverButtonTemplate"
-             TargetType="Button">
-            <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" 
-                    BorderThickness="{TemplateBinding BorderThickness}">
-                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                  VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-            </Border>
-
-            <ControlTemplate.Triggers>
-                <Trigger Property="IsEnabled" Value="False">
-                    <Setter Property="Background" Value="{x:Static SystemColors.ControlLightBrush}"/>
-                    <Setter Property="Foreground" Value="{x:Static SystemColors.GrayTextBrush}"/>
-                </Trigger>
-            </ControlTemplate.Triggers>
-        </ControlTemplate>
-
-        <!-- Preventing Textbox Highlighting on Mouseover -->
-        <Style TargetType="TextBox">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="TextBox">
-                        <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}">
-                            <ScrollViewer x:Name="PART_ContentHost"
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                        </Border>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-        <!-- Preventing Textbox Highlighting on Mouseover END !! -->
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Templates/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Window.Resources>
 
-    <!-- Control Templates Override ENDE !-->
-
-    <Grid x:Name="MainGrid">  <!-- Grid Definition -->
+    <!-- Grid Definition -->
+    <Grid x:Name="MainGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="10*"/>
             <ColumnDefinition x:Name="MainColumn1" Width="500*"/>
@@ -61,7 +33,7 @@
         <Grid.RowDefinitions>
             <RowDefinition x:Name="MainRow1" Height="200*"/>
             <RowDefinition x:Name="MainRow2" Height="500*"/>
-            <RowDefinition x:Name="MainRow3" Height="50*"/>
+            <RowDefinition x:Name="MainRow3" Height="90*"/>
         </Grid.RowDefinitions>
         <!-- Grid Definition END -->
 
@@ -70,8 +42,8 @@
                BorderBrush="Black" VerticalAlignment="Top" Margin="0,0,0,0"/>
 
         <Label x:Name="InfoLabel" Grid.Column="1" Grid.Row="0" Width="900" Height="80" Background="Transparent" Foreground="OrangeRed"
-               Margin="0,100,0,0" HorizontalAlignment="Center" FontFamily="Chiller" FontSize="45" VerticalContentAlignment="Center"
-               HorizontalContentAlignment="Center" FontWeight="Bold" Opacity="0.0"/>
+               Margin="0,50,0,0" HorizontalAlignment="Center" FontFamily="Segoe Print" FontSize="45" VerticalContentAlignment="Center"
+               HorizontalContentAlignment="Center" FontWeight="Normal" Opacity="0.0"/>
 
         <Canvas x:Name="SavingCanvas" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent"
                 Width="200" Height="200">
@@ -86,43 +58,35 @@
         <ListBox x:Name="ToDoList" Grid.Column="1" Grid.Row="1" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Hidden" MouseDoubleClick="ToDoList_MouseDoubleClick" HorizontalContentAlignment="Center"
                  SelectionMode="Single" SelectionChanged="ToDoList_SelectionChanged" BorderThickness="0,0,0,0" KeyDown="ToDoList_KeyDown"
-                 SelectedIndex="0"/>
+                 SelectedIndex="0" Width="800"/>
 
         <StackPanel x:Name="OptionsStack" Width="400" Height="auto" Background="Black" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" Visibility="Collapsed"/>
 
         <StackPanel x:Name="Menu" Background="Transparent" Grid.Column="1" Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="NewEntry" Content="Add Entry" BorderThickness="1,1,2,2" BorderBrush="Black" Width="250"
-                    Click="NewEntry_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="NewEntry_MouseEnter"
-                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="Black" MouseLeave="NewEntry_MouseLeave"
-                    >
+            <Button x:Name="NewEntry" Content="Add Entry" Click="NewEntry_Click" Template="{StaticResource NoMouseOverButtonTemplate}" 
+                    Style="{StaticResource MenuStyleButtons}" MouseEnter="NewEntry_MouseEnter" MouseLeave="NewEntry_MouseLeave">
                 <Button.Background>
                     <ImageBrush ImageSource="/Textures/gold1.jpg" Stretch="Fill"/>
                 </Button.Background>
             </Button>
 
-            <Button x:Name="Save" Content="Save All" BorderThickness="1,1,2,2" BorderBrush="Black" Width="250"
-                    Click="Save_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="Save_MouseEnter"
-                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="Black" MouseLeave="Save_MouseLeave"
-                    >
+            <Button x:Name="Save" Content="Save All" Click="Save_Click" Template="{StaticResource NoMouseOverButtonTemplate}" 
+                    Style="{StaticResource MenuStyleButtons}" MouseEnter="Save_MouseEnter" MouseLeave="Save_MouseLeave">
                 <Button.Background>
                     <ImageBrush ImageSource="/Textures/gold1.jpg" Stretch="Fill"/>
                 </Button.Background>
             </Button>
 
-            <Button x:Name="Options" Content="Options" BorderThickness="1,1,2,2" BorderBrush="Black" Width="200"
-                    Click="Options_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="Options_MouseEnter"
-                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="Black" MouseLeave="Options_MouseLeave"
-                    >
+            <Button x:Name="Options" Content="Options" Click="Options_Click" Template="{StaticResource NoMouseOverButtonTemplate}" 
+                    Style="{StaticResource MenuStyleButtons}" MouseEnter="Options_MouseEnter" MouseLeave="Options_MouseLeave">
                 <Button.Background>
                     <ImageBrush ImageSource="/Textures/gold1.jpg" Stretch="Fill"/>
                 </Button.Background>
             </Button>
 
-            <Button x:Name="Exit" Content="Exit" BorderThickness="1,1,2,2" BorderBrush="Black" Width="200"
-                    Click="Exit_Click" Template="{StaticResource NoMouseOverButtonTemplate}" MouseEnter="Exit_MouseEnter"
-                    FontFamily="Blackadder ITC" FontSize="50" FontWeight="Normal" Foreground="Black" MouseLeave="Exit_MouseLeave"
-                    >
+            <Button x:Name="Exit" Content="Exit" Click="Exit_Click" Template="{StaticResource NoMouseOverButtonTemplate}" 
+                    Style="{StaticResource MenuStyleButtons}" MouseEnter="Exit_MouseEnter" MouseLeave="Exit_MouseLeave">
                 <Button.Background>
                     <ImageBrush ImageSource="/Textures/gold1.jpg" Stretch="Fill"/>
                 </Button.Background>
