@@ -21,25 +21,9 @@ namespace ToDoList_App.Model
         {
             TextBox statusBox = new();
 
-            //statusBox.TextAlignment = System.Windows.TextAlignment.Center;
-            ////Box.TextDecorations = System.Windows.TextDecorations.Underline;
-            //statusBox.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
-            //statusBox.Width = 800;
-            //statusBox.FontFamily = new FontFamily("Blackadder ITC");
-            //statusBox.FontWeight = FontWeights.Normal;
-            //statusBox.Foreground = Brushes.DarkSlateGray;
-            //statusBox.Background = Brushes.Transparent;
-            //statusBox.BorderThickness = new Thickness(0, 3, 0, 0);
-            //statusBox.BorderBrush = Brushes.DarkSlateGray;
-            //statusBox.AcceptsReturn = false;
-            //statusBox.ClipToBounds = true;
-            //statusBox.IsReadOnly = true;
-            //statusBox.Focusable = false;
-            //statusBox.FontSize = 40;
-
             statusBox.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
             statusBox.Width = 800;
-            statusBox.FontFamily = new FontFamily("Curlz MT");
+            statusBox.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Curlz MT");
             statusBox.FontWeight = FontWeights.Bold;
             statusBox.FontSize = 50;
             statusBox.Background = Brushes.Transparent;
@@ -57,25 +41,9 @@ namespace ToDoList_App.Model
         {
             TextBox box = new();
 
-            //box.TextWrapping    = System.Windows.TextWrapping.Wrap;
-            //box.TextAlignment   = System.Windows.TextAlignment.Center;
-            ////box.TextDecorations = System.Windows.TextDecorations.Strikethrough;
-            //box.Width = 800;
-            //box.FontFamily      = new FontFamily("Bradley Hand ITC");
-            //box.FontWeight      = FontWeights.Normal;
-            //box.Foreground      = Brushes.DarkSlateGray;
-            //box.Background      = Brushes.Transparent;
-            //box.BorderThickness = new Thickness(0, 0, 0, 2);
-            //box.BorderBrush     = Brushes.DarkSlateGray;
-            //box.AcceptsReturn   = false;
-            //box.ClipToBounds    = true;
-            //box.IsReadOnly      = false;
-            //box.Focusable       = true;
-            //box.FontSize        = 40;
-
             box.TextWrapping = System.Windows.TextWrapping.Wrap;
             box.TextAlignment = System.Windows.TextAlignment.Center;
-            box.FontFamily = new FontFamily("Bradley Hand ITC");
+            box.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Bradley Hand ITC");
             box.FontWeight = FontWeights.Bold;
             box.Width = 800;
             box.Foreground = Brushes.DarkSlateGray;
@@ -108,7 +76,7 @@ namespace ToDoList_App.Model
 
                 statusBox.HorizontalContentAlignment    = System.Windows.HorizontalAlignment.Center;
                 statusBox.Width                         = 800;
-                statusBox.FontFamily                    = new FontFamily("Curlz MT");
+                statusBox.FontFamily                    = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Curlz MT");
                 statusBox.FontWeight                    = FontWeights.Bold;
                 statusBox.FontSize                      = 50;
                 statusBox.Background                    = Brushes.Transparent;
@@ -119,7 +87,7 @@ namespace ToDoList_App.Model
 
                 box.TextWrapping                        = System.Windows.TextWrapping.Wrap;
                 box.TextAlignment                       = System.Windows.TextAlignment.Center;
-                box.FontFamily                          = new FontFamily("Bradley Hand ITC");
+                box.FontFamily                          = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Bradley Hand ITC");
                 box.FontWeight                          = FontWeights.Bold;
                 box.Width                               = 800;
                 box.Foreground                          = Brushes.DarkSlateGray;

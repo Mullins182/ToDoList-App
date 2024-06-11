@@ -5,14 +5,12 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList_App"
         mc:Ignorable="d"
-        Title="ToDo-List App | Version 1.5 | @Mullins182" Height="1000" Width="1000" MinHeight="800" MinWidth="1000"
+        Title="ToDo-List App | Version 1.6 | @Mullins182" Height="1000" Width="1000" MinHeight="800" MinWidth="1000"
         WindowStartupLocation="CenterScreen" FontFamily="Bahnschrift" WindowStyle="SingleBorderWindow" BorderThickness="0" BorderBrush="Transparent"
         Closing="Window_Closing">
     <Window.Background>
         <ImageBrush ImageSource="/Textures/gold2.jpg"/>
     </Window.Background>
-
-    <!-- Control Template Override für Buttons um Highlighting bei Mouseover zu verhindern !-->
 
     <Window.Resources>
         <ResourceDictionary>
@@ -38,11 +36,11 @@
         <!-- Grid Definition END -->
 
         <Label x:Name="AppLabel" Width="auto" Height="100" Foreground="DarkSlateGray" Content="My ToDo-List:" FontSize="70" FontWeight="Bold"
-               FontFamily="Curlz MT" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,3"
+               FontFamily="{StaticResource CurlzMT}" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,3"
                BorderBrush="Black" VerticalAlignment="Top" Margin="0,0,0,0"/>
 
         <Label x:Name="InfoLabel" Grid.Column="1" Grid.Row="0" Width="900" Height="80" Background="Transparent" Foreground="OrangeRed"
-               Margin="0,50,0,0" HorizontalAlignment="Center" FontFamily="Segoe Print" FontSize="45" VerticalContentAlignment="Center"
+               Margin="0,50,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BradleyHandITC}" FontSize="45" VerticalContentAlignment="Center"
                HorizontalContentAlignment="Center" FontWeight="Normal" Opacity="0.0"/>
 
         <Canvas x:Name="SavingCanvas" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent"

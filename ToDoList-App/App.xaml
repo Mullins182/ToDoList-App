@@ -4,6 +4,7 @@
              xmlns:local="clr-namespace:ToDoList_App"
              StartupUri="MainWindow.xaml">
     <Application.Resources>
-         
+        <FontFamily x:Key="BradleyHandITC">pack://application:,,,/Fonts/#Bradley Hand ITC</FontFamily>
+        <FontFamily x:Key="CurlzMT">pack://application:,,,/Fonts/#Curlz MT</FontFamily>
     </Application.Resources>
 </Application>
