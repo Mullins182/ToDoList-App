@@ -34,7 +34,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
         private List<TextBox> toDoEntrys                    = [];
 
-        private string[] options                            = ["Fullscreen Mode = 0", "Autosave Minutes = 0"];
+        private string[] options                            = ["Fullscreen Mode = 0", "Autosave Minutes = 0", "Save On Exit = 0"];
 
         private int delEntryIndex                           = -1;
 
@@ -42,6 +42,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
         private bool savingAnimRectUp                       = true;
         private bool entryFinished                          = true;
         private bool saveFinished                           = true;
+        private bool saveOnExit                             = false;
 
         private readonly string markInWorks                 = $"{(char)1421} in the works {(char)1421}";    
         private readonly string markDone                    = $"Done {(char)0x2713}";
@@ -58,12 +59,15 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             Buttons.SetFullscreenModeProps();
             Buttons.SetAutoSaveProps();
             Buttons.SetDelEntryProps();
+            Buttons.SetSaveOnPrgExitProps();
             Buttons.FullscreenMode.Template     = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
             Buttons.DelEntry.Template           = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
             Buttons.AutoSave.Template           = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
+            Buttons.saveOnPrgExit.Template      = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
             Buttons.FullscreenMode.Click        += FullscreenMode_Click;
             Buttons.AutoSave.Click              += AutoSave_Click;
             Buttons.DelEntry.Click              += DelEntry_Click;
+            Buttons.saveOnPrgExit.Click         += SaveOnPrgExit_Click;
             Grid.SetRow(Buttons.DelEntry, 0);
             Grid.SetColumn(Buttons.DelEntry, 1);
 
@@ -99,7 +103,20 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
                     this.WindowState = WindowState.Maximized;
                     Buttons.FullscreenMode.Foreground = Brushes.LawnGreen;
                 }
-                
+
+                if (options[2].Last() - 48 == 0)
+                {
+                    Buttons.saveOnPrgExit.Foreground = Brushes.Red;
+
+                    saveOnExit = false;
+                }
+                else if (options[2].Last() - 48 == 1)
+                {
+                    Buttons.saveOnPrgExit.Foreground = Brushes.LawnGreen;
+
+                    saveOnExit = true;
+                }
+
                 saveTimer.Interval = TimeSpan.FromMinutes(((double)options[1].Last()) -48);
 
                 Buttons.SetAutoSaveProps(saveTimer.Interval);
@@ -143,6 +160,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
             OptionsStack.Children.Add(Buttons.FullscreenMode);
             OptionsStack.Children.Add(Buttons.AutoSave);
+            OptionsStack.Children.Add(Buttons.saveOnPrgExit);
 
             if (saveTimer.Interval != TimeSpan.FromMinutes(0)) { saveTimer.Start(); }
 
@@ -240,6 +258,37 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             ToDoList.Items.Refresh();
         }
 
+        private async Task SaveListBoxData()
+        {
+            saveFinished = false;
+
+            Save.Foreground = Brushes.Green;
+
+            saveTimer.Stop();
+            savingAnimTimer.Start();
+            SavingAnim.Visibility = Visibility.Visible;
+
+            floppyWrite.Position = TimeSpan.FromMilliseconds(50);
+            floppyWrite.Play();
+            SaveData();
+
+            await Task.Delay(3000);
+
+            floppyWrite.Stop();
+
+            savingAnimTimer.Stop();
+
+            SavingAnim.Visibility = Visibility.Hidden;
+
+            if (saveTimer.Interval != TimeSpan.FromMinutes(0))
+            {
+                saveTimer.Start();
+            }
+
+            Save.Foreground = Brushes.Black;
+            saveFinished = true;
+        }
+
         private void ToDoBoxMouseLeave(object sender, MouseEventArgs e)
         {
             throw new NotImplementedException();
@@ -248,7 +297,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
         // UI-Elements Click Events
 
         // Code-Behind Elements
-        private void FullscreenMode_Click(object sender, RoutedEventArgs e)
+        private async void FullscreenMode_Click(object sender, RoutedEventArgs e)
         {
             if (this.WindowState == WindowState.Maximized)
             {
@@ -258,7 +307,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
                 options[0] = "Fullscreen Mode = 0";
 
-                File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
+                await File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
             }
             else
             {
@@ -268,7 +317,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
                 options[0] = "Fullscreen Mode = 1";
 
-                File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
+                await File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
             }
         }
 
@@ -290,6 +339,17 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             {
                 saveTimer.Start();
             }
+        }
+
+        private async void SaveOnPrgExit_Click(object sender, RoutedEventArgs e)
+        {
+            saveOnExit = saveOnExit ? false : true;
+
+            Buttons.saveOnPrgExit.Foreground = saveOnExit ? Brushes.LawnGreen : Brushes.Red;
+
+            options[2] = saveOnExit ? "Save On Exit = 1" : "Save On Exit = 0";
+
+            await File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
         }
 
         // Code-Behind Elements END 
@@ -428,37 +488,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
         private async void Save_Click(object sender, RoutedEventArgs e)
         {
-            if (saveFinished)
-            {
-                saveFinished = false;
-
-                Save.Foreground = Brushes.Green;
-
-                saveTimer.Stop();
-                savingAnimTimer.Start();
-                SavingAnim.Visibility = Visibility.Visible;
-
-                floppyWrite.Position = TimeSpan.FromMilliseconds(50);
-                floppyWrite.Play();
-                SaveData();
-
-                await Task.Delay(3000);
-
-                floppyWrite.Stop();
-
-                savingAnimTimer.Stop();
-
-                SavingAnim.Visibility = Visibility.Hidden;
-
-                if (saveTimer.Interval != TimeSpan.FromMinutes(0))
-                {
-                    saveTimer.Start();
-                }
-
-                saveFinished = true;
-
-                Save.Foreground = Brushes.Black;
-            }
+            if (saveFinished) { await SaveListBoxData(); }
         }
 
         private void Options_Click(object sender, RoutedEventArgs e)
@@ -475,12 +505,9 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             }
         }
 
-        private void Exit_Click(object sender, RoutedEventArgs e)
+        private async void Exit_Click(object sender, RoutedEventArgs e)
         {
-            if (saveFinished)
-            {
-                this.Close();
-            }
+            if (saveOnExit) { await SaveListBoxData(); this.Close(); } else { if (saveFinished) { this.Close(); }}
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

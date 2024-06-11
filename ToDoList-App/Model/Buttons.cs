@@ -17,6 +17,8 @@ namespace ToDoList_App.Model
         public static Button AutoSave           = new();
 
         public static Button DelEntry           = new();
+
+        public static Button saveOnPrgExit      = new();
         #pragma warning restore CA2211
 
         public static void SetDelEntryProps()
@@ -56,6 +58,16 @@ namespace ToDoList_App.Model
                 : (timespan.Minutes == 9) ? "Autosave every 9 Minutes" : "Autosave Off";
 
             AutoSave.Foreground = (timespan.Minutes == 0) ? Brushes.Red : Brushes.LawnGreen;
+        }
+
+        public static void SetSaveOnPrgExitProps()
+        {
+            saveOnPrgExit.Height = 60;
+            saveOnPrgExit.Content = "Save Before Exiting Program";
+            saveOnPrgExit.FontFamily = new FontFamily("Bahnschrift");
+            saveOnPrgExit.FontSize = 30;
+            saveOnPrgExit.Background = Brushes.Black;
+            saveOnPrgExit.Foreground = Brushes.Red;
         }
     }
 }
