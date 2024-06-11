@@ -16,7 +16,7 @@ using ToDoList_App.Model;
 using Windows.UI.Composition;
 using WinRT;
 
-namespace ToDoList_App          // The name says everything :)
+namespace ToDoList_App          // AI Helper for programmers => https://www.phind.com/ :)
 {
     public partial class MainWindow : Window
     {

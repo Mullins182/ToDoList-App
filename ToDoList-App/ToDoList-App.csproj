@@ -12,6 +12,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\Bradley Hand ITC.ttf" />
+    <None Remove="Fonts\Curlz MT.ttf" />
     <None Remove="Sounds\readingFloppyDisc.mp3" />
     <None Remove="Sounds\scribble1.wav" />
     <None Remove="Sounds\scribble2.wav" />
@@ -39,6 +41,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Fonts\Bradley Hand ITC.ttf" />
+    <Resource Include="Fonts\Curlz MT.ttf" />
     <Resource Include="Textures\background.jpg">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

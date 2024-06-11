@@ -12,8 +12,6 @@
         <ImageBrush ImageSource="/Textures/gold2.jpg"/>
     </Window.Background>
 
-    <!-- Control Template Override für Buttons um Highlighting bei Mouseover zu verhindern !-->
-
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
