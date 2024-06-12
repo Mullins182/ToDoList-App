@@ -244,13 +244,14 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             {
                 if (toDoEntrys[i].Text.Contains($"{(char)1421}"))
                 {
-                    toDoEntrys[i].Foreground    = Brushes.DarkRed;
-                    toDoEntrys[i+1].Name        = "EntryWork";
+                    toDoEntrys[i].Foreground        = Brushes.DarkRed;
+                    toDoEntrys[i+1].Name            = "EntryWork";
                 }
                 else if (toDoEntrys[i].Text.Contains($"{(char)0x2713}"))
                 {
-                    toDoEntrys[i].Foreground    = Brushes.Green;
-                    toDoEntrys[i+1].Name        = "EntryDone";
+                    toDoEntrys[i].Foreground        = Brushes.DarkSlateGray;
+                    toDoEntrys[i + 1].Foreground    = Brushes.DarkSlateGray;
+                    toDoEntrys[i + 1].Name          = "EntryDone";
                 }
             }
 

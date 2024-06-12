@@ -92,7 +92,7 @@ namespace ToDoList_App.Model
                 box.FontFamily                          = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Bradley Hand ITC");
                 box.FontWeight                          = FontWeights.Bold;
                 box.Width                               = 800;
-                box.Foreground                          = Brushes.DarkSlateGray;
+                box.Foreground                          = Brushes.Black;
                 //box.Background                          = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0x15, 0, 0, 0));
                 box.Background                          = Brushes.Transparent;
                 box.BorderThickness                     = new Thickness(0, 0, 0, 0);
@@ -101,7 +101,7 @@ namespace ToDoList_App.Model
                 box.AcceptsReturn                       = false;
                 box.IsReadOnly                          = true;
                 box.Focusable                           = true;
-                box.FontSize                            = 40;
+                box.FontSize                            = 45;
 
                 if (i == 0)
                 {
