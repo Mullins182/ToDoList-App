@@ -9,7 +9,7 @@
         WindowStartupLocation="CenterScreen" FontFamily="Bahnschrift" WindowStyle="SingleBorderWindow" BorderThickness="0" BorderBrush="Transparent"
         Closing="Window_Closing">
     <Window.Background>
-        <ImageBrush ImageSource="/Textures/gold2.jpg"/>
+        <ImageBrush ImageSource="/Textures/Gold1.jpg"/>
     </Window.Background>
 
     <Window.Resources>
@@ -38,6 +38,12 @@
         <Label x:Name="AppLabel" Width="auto" Height="100" Foreground="DarkSlateGray" Content="My ToDo-List:" FontSize="70" FontWeight="Bold"
                FontFamily="{StaticResource CurlzMT}" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" BorderThickness="0,0,0,3"
                BorderBrush="Black" VerticalAlignment="Top" Margin="0,0,0,0"/>
+
+        <Label x:Name="Ornament" Width="130" Height="180" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left">
+            <Label.Background>
+                <ImageBrush ImageSource="/Textures/GoldenSkull.png"/>
+            </Label.Background>
+        </Label>
 
         <Label x:Name="InfoLabel" Grid.Column="1" Grid.Row="0" Width="900" Height="80" Background="Transparent" Foreground="OrangeRed"
                Margin="0,50,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BradleyHandITC}" FontSize="45" VerticalContentAlignment="Center"

@@ -2,6 +2,7 @@
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
@@ -144,12 +145,14 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
             Canvas.SetLeft(SavingAnim, (SavingCanvas.Width / 2) - SavingAnim.Width / 2);
             Canvas.SetTop(SavingAnim, (SavingCanvas.Height / 2) - SavingAnim.Height / 2);
-            savingAnimRectPos = Canvas.GetTop(SavingAnim);
 
-            ToDoList.ItemsSource = toDoEntrys;
+            savingAnimRectPos                   = Canvas.GetTop(SavingAnim);
+            ToDoList.ItemsSource                = toDoEntrys;
 
-            InfoLabel.Background = Brushes.Black;
-            InfoLabel.Content = "Left Click again to finish editing !";
+            //ToDoList.Background                 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0x10, 0, 0, 0));
+
+            InfoLabel.Background                = Brushes.Black;
+            InfoLabel.Content                   = "Left Click again to finish editing !";
 
             if (File.Exists("data.dat"))
             {
