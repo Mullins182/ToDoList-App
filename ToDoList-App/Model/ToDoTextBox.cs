@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,15 +23,15 @@ namespace ToDoList_App.Model
             TextBox statusBox = new();
 
             statusBox.HorizontalContentAlignment = System.Windows.HorizontalAlignment.Center;
-            statusBox.Width = 800;
-            statusBox.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Curlz MT");
-            statusBox.FontWeight = FontWeights.Bold;
-            statusBox.FontSize = 50;
-            statusBox.Background = Brushes.Transparent;
-            statusBox.IsReadOnly = true;
-            statusBox.Focusable = false;
-            statusBox.BorderThickness = new Thickness(0, 3, 0, 0);
-            statusBox.BorderBrush = Brushes.DarkSlateGray;
+            statusBox.Width             = 800;
+            statusBox.FontFamily        = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Curlz MT");
+            statusBox.FontWeight        = FontWeights.Bold;
+            statusBox.FontSize          = 50;
+            statusBox.Background        = Brushes.Transparent;
+            statusBox.IsReadOnly        = true;
+            statusBox.Focusable         = false;
+            statusBox.BorderThickness   = new Thickness(0, 3, 0, 0);
+            statusBox.BorderBrush       = Brushes.DarkSlateGray;
 
             statusBox.Text = $"{(char)1421} in the works {(char)1421}";    // 0x2610 = Ballot Box | 0x2713 = Check Mark
 
@@ -41,20 +42,20 @@ namespace ToDoList_App.Model
         {
             TextBox box = new();
 
-            box.TextWrapping = System.Windows.TextWrapping.Wrap;
-            box.TextAlignment = System.Windows.TextAlignment.Center;
-            box.FontFamily = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Bradley Hand ITC");
-            box.FontWeight = FontWeights.Bold;
-            box.Width = 800;
-            box.Foreground = Brushes.DarkSlateGray;
-            box.Background = Brushes.Transparent;
+            box.TextWrapping    = System.Windows.TextWrapping.Wrap;
+            box.TextAlignment   = System.Windows.TextAlignment.Center;
+            box.FontFamily      = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Bradley Hand ITC");
+            box.FontWeight      = FontWeights.Bold;
+            box.Width           = 800;
+            box.Foreground      = Brushes.DarkSlateGray;
+            box.Background      = Brushes.Transparent;
             box.BorderThickness = new Thickness(0, 0, 0, 0);
-            box.BorderBrush = Brushes.DarkSlateGray;
-            box.ClipToBounds = true;
-            box.AcceptsReturn = false;
-            box.IsReadOnly = true;
-            box.Focusable = true;
-            box.FontSize = 40;
+            box.BorderBrush     = Brushes.DarkSlateGray;
+            box.ClipToBounds    = true;
+            box.AcceptsReturn   = false;
+            box.IsReadOnly      = true;
+            box.Focusable       = true;
+            box.FontSize        = 40;
 
             box.Text            = $"enter smth here !";    // 0x2610 = Ballot Box | 0x2713 = Check Mark
 
@@ -79,6 +80,7 @@ namespace ToDoList_App.Model
                 statusBox.FontFamily                    = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Curlz MT");
                 statusBox.FontWeight                    = FontWeights.Bold;
                 statusBox.FontSize                      = 50;
+                //statusBox.Background                    = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0x15, 0, 0, 0));
                 statusBox.Background                    = Brushes.Transparent;
                 statusBox.IsReadOnly                    = true;
                 statusBox.Focusable                     = false;
@@ -90,7 +92,8 @@ namespace ToDoList_App.Model
                 box.FontFamily                          = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Bradley Hand ITC");
                 box.FontWeight                          = FontWeights.Bold;
                 box.Width                               = 800;
-                box.Foreground                          = Brushes.DarkSlateGray;
+                box.Foreground                          = Brushes.Black;
+                //box.Background                          = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0x15, 0, 0, 0));
                 box.Background                          = Brushes.Transparent;
                 box.BorderThickness                     = new Thickness(0, 0, 0, 0);
                 box.BorderBrush                         = Brushes.DarkSlateGray;
@@ -98,7 +101,7 @@ namespace ToDoList_App.Model
                 box.AcceptsReturn                       = false;
                 box.IsReadOnly                          = true;
                 box.Focusable                           = true;
-                box.FontSize                            = 40;
+                box.FontSize                            = 45;
 
                 if (i == 0)
                 {

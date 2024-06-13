@@ -21,7 +21,11 @@
     <None Remove="Textures\buttonBackground.jpg" />
     <None Remove="Textures\floppyDiscEdited.png" />
     <None Remove="Textures\gold1.jpg" />
+    <None Remove="Textures\gold1_darkEdit.jpg" />
     <None Remove="Textures\gold2.jpg" />
+    <None Remove="Textures\GoldenCircles.jpg" />
+    <None Remove="Textures\GoldenSkull.png" />
+    <None Remove="Textures\Vintage.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -55,9 +59,13 @@
     <Resource Include="Textures\gold1.jpg">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Textures\gold1_darkEdit.jpg" />
     <Resource Include="Textures\gold2.jpg">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Textures\GoldenCircles.jpg" />
+    <Resource Include="Textures\GoldenSkull.png" />
+    <Resource Include="Textures\Vintage.jpg" />
   </ItemGroup>
 
 </Project>
