@@ -31,7 +31,7 @@ namespace ToDoList_App.Model
             statusBox.IsReadOnly        = true;
             statusBox.Focusable         = false;
             statusBox.BorderThickness   = new Thickness(0, 3, 0, 0);
-            statusBox.BorderBrush       = Brushes.DarkSlateGray;
+            statusBox.BorderBrush       = Brushes.Black;
 
             statusBox.Text = $"{(char)1421} in the works {(char)1421}";    // 0x2610 = Ballot Box | 0x2713 = Check Mark
 
@@ -47,10 +47,10 @@ namespace ToDoList_App.Model
             box.FontFamily      = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Bradley Hand ITC");
             box.FontWeight      = FontWeights.Bold;
             box.Width           = 800;
-            box.Foreground      = Brushes.DarkSlateGray;
+            box.Foreground      = Brushes.Black;
             box.Background      = Brushes.Transparent;
             box.BorderThickness = new Thickness(0, 0, 0, 0);
-            box.BorderBrush     = Brushes.DarkSlateGray;
+            box.BorderBrush     = Brushes.Black;
             box.ClipToBounds    = true;
             box.AcceptsReturn   = false;
             box.IsReadOnly      = true;
@@ -85,7 +85,7 @@ namespace ToDoList_App.Model
                 statusBox.IsReadOnly                    = true;
                 statusBox.Focusable                     = false;
                 statusBox.BorderThickness               = new Thickness(0, 3, 0, 0);
-                statusBox.BorderBrush                   = Brushes.DarkSlateGray;
+                statusBox.BorderBrush                   = Brushes.Black;
 
                 box.TextWrapping                        = System.Windows.TextWrapping.Wrap;
                 box.TextAlignment                       = System.Windows.TextAlignment.Center;
@@ -96,7 +96,7 @@ namespace ToDoList_App.Model
                 //box.Background                          = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0x15, 0, 0, 0));
                 box.Background                          = Brushes.Transparent;
                 box.BorderThickness                     = new Thickness(0, 0, 0, 0);
-                box.BorderBrush                         = Brushes.DarkSlateGray;
+                box.BorderBrush                         = Brushes.Black;
                 box.ClipToBounds                        = true;
                 box.AcceptsReturn                       = false;
                 box.IsReadOnly                          = true;

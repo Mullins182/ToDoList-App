@@ -293,11 +293,6 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             saveFinished = true;
         }
 
-        private void ToDoBoxMouseLeave(object sender, MouseEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         // UI-Elements Click Events
 
         // Code-Behind Elements
@@ -305,21 +300,29 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
         {
             if (this.WindowState == WindowState.Maximized)
             {
-                this.WindowStyle = WindowStyle.SingleBorderWindow;
-                this.WindowState = WindowState.Normal;
+                this.WindowStyle    = WindowStyle.SingleBorderWindow;
+                this.WindowState    = WindowState.Normal;
                 Buttons.FullscreenMode.Foreground = Brushes.Red;
 
-                options[0] = "Fullscreen Mode = 0";
+                Ornament.Width      = 135.3;
+                Ornament.Height     = 192;
+
+                options[0]          = "Fullscreen Mode = 0";
 
                 await File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
             }
             else
             {
-                this.WindowStyle = WindowStyle.None;
-                this.WindowState = WindowState.Maximized;
+                this.WindowStyle    = WindowStyle.None;
+                this.WindowState    = WindowState.Maximized;
                 Buttons.FullscreenMode.Foreground = Brushes.LawnGreen;
 
-                options[0] = "Fullscreen Mode = 1";
+                //MainRow1.Height     = new GridLength(600);
+
+                Ornament.Width      = 270.6;
+                Ornament.Height     = 384;
+
+                options[0]          = "Fullscreen Mode = 1";
 
                 await File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
             }
@@ -395,7 +398,8 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
                 {
                     toDoEntrys[ToDoList.SelectedIndex].Text = 
                     toDoEntrys[ToDoList.SelectedIndex].Text.Replace(markInWorks, markDone);
-                    toDoEntrys[ToDoList.SelectedIndex].Foreground = Brushes.Green;
+                    toDoEntrys[ToDoList.SelectedIndex].Foreground = Brushes.DarkSlateGray;
+                    toDoEntrys[ToDoList.SelectedIndex + 1].Foreground = Brushes.DarkSlateGray;
                     toDoEntrys[ToDoList.SelectedIndex + 1].TextDecorations = TextDecorations.Strikethrough;
                     toDoEntrys[ToDoList.SelectedIndex + 1].Name = "EntryDone";
 
@@ -410,9 +414,9 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
                     toDoEntrys[ToDoList.SelectedIndex].Text = 
                     toDoEntrys[ToDoList.SelectedIndex].Text.Replace(markDone, markInWorks);
                     toDoEntrys[ToDoList.SelectedIndex].Foreground = Brushes.DarkRed;
+                    toDoEntrys[ToDoList.SelectedIndex + 1].Foreground = Brushes.Black;
                     toDoEntrys[ToDoList.SelectedIndex + 1].TextDecorations = null;
                     toDoEntrys[ToDoList.SelectedIndex + 1].Name = "EntryWork";
-                    ToDoList.Items.Refresh();
 
                     scribble1.Play();
 
