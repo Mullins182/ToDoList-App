@@ -40,6 +40,8 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
         private int delEntryIndex                           = -1;
 
         private double savingAnimRectPos                    = 0.00;
+
+        private bool optionsWriteProcess                    = false;
         private bool savingAnimRectUp                       = true;
         private bool entryFinished                          = true;
         private bool saveFinished                           = true;
@@ -118,7 +120,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
                     saveOnExit = true;
                 }
 
-                saveTimer.Interval = TimeSpan.FromMinutes(((double)options[1].Last()) -48);
+                saveTimer.Interval = TimeSpan.FromMinutes(options[1].Last() == 'T' ? 10 : (double)options[1].Last() -48);
 
                 Buttons.SetAutoSaveProps(saveTimer.Interval);
             }
@@ -224,7 +226,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
                 writeCache.Add(item.Text);
             }
 
-            File.WriteAllLines("data.dat", writeCache);
+            File.WriteAllLines("data.dat", writeCache, UTF8Encoding.BigEndianUnicode);
 
             writeCache.Clear();
         }
@@ -262,6 +264,19 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             ToDoList.Items.Refresh();
         }
 
+        private async Task WriteOptionsFile(int optionsIndex, string optionsIndexValue)
+        {
+            if (optionsWriteProcess) { return; }
+
+            optionsWriteProcess = true;
+
+            options[optionsIndex] = optionsIndexValue;
+
+            await File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.ASCII);
+
+            optionsWriteProcess = false;
+        }
+
         private async Task SaveListBoxData()
         {
             saveFinished = false;
@@ -274,6 +289,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
             floppyWrite.Position = TimeSpan.FromMilliseconds(50);
             floppyWrite.Play();
+
             SaveData();
 
             await Task.Delay(3000);
@@ -300,31 +316,29 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
         {
             if (this.WindowState == WindowState.Maximized)
             {
+                Buttons.FullscreenMode.Foreground = Brushes.Red;
+
                 this.WindowStyle    = WindowStyle.SingleBorderWindow;
                 this.WindowState    = WindowState.Normal;
-                Buttons.FullscreenMode.Foreground = Brushes.Red;
 
                 Ornament.Width      = 135.3;
                 Ornament.Height     = 192;
 
-                options[0]          = "Fullscreen Mode = 0";
-
-                await File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
+                await WriteOptionsFile(0, "Fullscreen Mode = 0");
             }
             else
             {
+                Buttons.FullscreenMode.Foreground = Brushes.LawnGreen;
+
                 this.WindowStyle    = WindowStyle.None;
                 this.WindowState    = WindowState.Maximized;
-                Buttons.FullscreenMode.Foreground = Brushes.LawnGreen;
 
                 //MainRow1.Height     = new GridLength(600);
 
                 Ornament.Width      = 270.6;
                 Ornament.Height     = 384;
 
-                options[0]          = "Fullscreen Mode = 1";
-
-                await File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
+                await WriteOptionsFile(0, "Fullscreen Mode = 1");
             }
         }
 
@@ -333,14 +347,12 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             saveTimer.Stop();
 
             saveTimer.Interval = (saveTimer.Interval == TimeSpan.FromMinutes(1)) ? TimeSpan.FromMinutes(3) : (saveTimer.Interval == TimeSpan.FromMinutes(3)) 
-                ? TimeSpan.FromMinutes(5) : (saveTimer.Interval == TimeSpan.FromMinutes(5)) ? TimeSpan.FromMinutes(9) 
-                : (saveTimer.Interval == TimeSpan.FromMinutes(9)) ? TimeSpan.FromMinutes(0) : TimeSpan.FromMinutes(1);
+                ? TimeSpan.FromMinutes(5) : (saveTimer.Interval == TimeSpan.FromMinutes(5)) ? TimeSpan.FromMinutes(10) 
+                : (saveTimer.Interval == TimeSpan.FromMinutes(10)) ? TimeSpan.FromMinutes(0) : TimeSpan.FromMinutes(1);
 
             Buttons.SetAutoSaveProps(saveTimer.Interval);
 
-            options[1] = options[1].Replace(options[1].Last() , (char)(saveTimer.Interval.Minutes + 48));
-
-            await File.WriteAllLinesAsync("options.ini", options);
+            await WriteOptionsFile(1, options[1].Replace(options[1].Last(), saveTimer.Interval.Minutes == 10 ? 'T' : (char)(saveTimer.Interval.Minutes + 48)));
 
             if (saveTimer.Interval != TimeSpan.FromMinutes(0))
             {
@@ -354,9 +366,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
             Buttons.saveOnPrgExit.Foreground = saveOnExit ? Brushes.LawnGreen : Brushes.Red;
 
-            options[2] = saveOnExit ? "Save On Exit = 1" : "Save On Exit = 0";
-
-            await File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
+            await WriteOptionsFile(2, saveOnExit ? "Save On Exit = 1" : "Save On Exit = 0");
         }
 
         // Code-Behind Elements END 

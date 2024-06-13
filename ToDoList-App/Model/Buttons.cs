@@ -55,7 +55,7 @@ namespace ToDoList_App.Model
         {
             AutoSave.Content = (timespan.Minutes == 0) ? "Autosave Off" : (timespan.Minutes == 1) ? "Autosave every Minute" 
                 : (timespan.Minutes == 3) ? "Autosave every 3 Minutes" : (timespan.Minutes == 5) ? "Autosave every 5 Minutes" 
-                : (timespan.Minutes == 9) ? "Autosave every 9 Minutes" : "Autosave Off";
+                : (timespan.Minutes == 10) ? "Autosave every 10 Minutes" : "Autosave Off";
 
             AutoSave.Foreground = (timespan.Minutes == 0) ? Brushes.Red : Brushes.LawnGreen;
         }
