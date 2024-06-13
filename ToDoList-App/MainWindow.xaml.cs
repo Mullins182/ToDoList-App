@@ -17,7 +17,7 @@ using ToDoList_App.Model;
 using Windows.UI.Composition;
 using WinRT;
 
-namespace ToDoList_App          // AI Helper for programmers => https://www.phind.com/ :)
+namespace ToDoList_App                                      // AI Helper for programmers => https://www.phind.com/ :)
 {
     public partial class MainWindow : Window
     {
@@ -40,6 +40,8 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
         private int delEntryIndex                           = -1;
 
         private double savingAnimRectPos                    = 0.00;
+
+        private bool optionsWriteProcess                    = false;
         private bool savingAnimRectUp                       = true;
         private bool entryFinished                          = true;
         private bool saveFinished                           = true;
@@ -61,14 +63,20 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             Buttons.SetAutoSaveProps();
             Buttons.SetDelEntryProps();
             Buttons.SetSaveOnPrgExitProps();
+
             Buttons.FullscreenMode.Template     = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
             Buttons.DelEntry.Template           = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
             Buttons.AutoSave.Template           = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
             Buttons.saveOnPrgExit.Template      = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
+
             Buttons.FullscreenMode.Click        += FullscreenMode_Click;
             Buttons.AutoSave.Click              += AutoSave_Click;
-            Buttons.DelEntry.Click              += DelEntry_Click;
             Buttons.saveOnPrgExit.Click         += SaveOnPrgExit_Click;
+            Buttons.DelEntry.Click              += DelEntry_Click;
+            Buttons.DelEntry.MouseEnter         += DelEntry_MouseEnter;
+            Buttons.DelEntry.MouseLeave         += DelEntry_MouseLeave;
+            Buttons.DelEntry.Style              = (Style)FindResource("MenuStyleButtons");
+
             Grid.SetRow(Buttons.DelEntry, 0);
             Grid.SetColumn(Buttons.DelEntry, 1);
 
@@ -92,33 +100,47 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
                 if (options[0].Last() - 48 == 0)
                 {
-                    this.WindowStyle = WindowStyle.SingleBorderWindow;
-                    this.WindowState = WindowState.Normal;
-                    Buttons.FullscreenMode.Foreground = Brushes.Red;
+                    this.WindowStyle                    = WindowStyle.SingleBorderWindow;
+                    this.WindowState                    = WindowState.Normal;
 
+                    Ornament_left.Width                 = 135.3;
+                    Ornament_left.Height                = 192;
+                    Ornament_left.Margin                = new Thickness(30, 20, 0, 0);
+                    Ornament_right.Width                = 135.3;
+                    Ornament_right.Height               = 192;
+                    Ornament_right.Margin               = new Thickness(0, 20, 30, 0);
 
+                    Buttons.FullscreenMode.Foreground   = Brushes.Red;
                 }
                 else if (options[0].Last() - 48 == 1)
                 {
-                    this.WindowStyle = WindowStyle.None;
-                    this.WindowState = WindowState.Maximized;
-                    Buttons.FullscreenMode.Foreground = Brushes.LawnGreen;
+                    this.WindowStyle                    = WindowStyle.None;
+                    this.WindowState                    = WindowState.Maximized;
+
+                    Ornament_left.Width                 = 236.775;
+                    Ornament_left.Height                = 336;
+                    Ornament_left.Margin                = new Thickness(120, 20, 0, 0);
+                    Ornament_right.Width                = 236.775;
+                    Ornament_right.Height               = 336;
+                    Ornament_right.Margin               = new Thickness(0, 20, 120, 0);
+
+                    Buttons.FullscreenMode.Foreground   = Brushes.LawnGreen;
                 }
 
                 if (options[2].Last() - 48 == 0)
                 {
-                    Buttons.saveOnPrgExit.Foreground = Brushes.Red;
+                    Buttons.saveOnPrgExit.Foreground    = Brushes.Red;
 
-                    saveOnExit = false;
+                    saveOnExit                          = false;
                 }
                 else if (options[2].Last() - 48 == 1)
                 {
-                    Buttons.saveOnPrgExit.Foreground = Brushes.LawnGreen;
+                    Buttons.saveOnPrgExit.Foreground    = Brushes.LawnGreen;
 
-                    saveOnExit = true;
+                    saveOnExit                          = true;
                 }
 
-                saveTimer.Interval = TimeSpan.FromMinutes(((double)options[1].Last()) -48);
+                saveTimer.Interval = TimeSpan.FromMinutes(options[1].Last() == 'T' ? 10 : (double)options[1].Last() -48);
 
                 Buttons.SetAutoSaveProps(saveTimer.Interval);
             }
@@ -143,10 +165,10 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             InfoLabelAnimReverse.From           = 0.85;
             InfoLabelAnimReverse.To             = 0.00;
 
-            Canvas.SetLeft(SavingAnim, (SavingCanvas.Width / 2) - SavingAnim.Width / 2);
-            Canvas.SetTop(SavingAnim, (SavingCanvas.Height / 2) - SavingAnim.Height / 2);
+            Canvas.SetLeft(SavingRectangle, (SavingCanvas.Width / 2) - SavingRectangle.Width / 2);
+            Canvas.SetTop(SavingRectangle, (SavingCanvas.Height / 2) - SavingRectangle.Height / 2);
 
-            savingAnimRectPos                   = Canvas.GetTop(SavingAnim);
+            savingAnimRectPos                   = Canvas.GetTop(SavingRectangle);
             ToDoList.ItemsSource                = toDoEntrys;
 
             //ToDoList.Background                 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0x10, 0, 0, 0));
@@ -186,11 +208,11 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
             if (savingAnimRectUp)
             {
-                Canvas.SetTop(SavingAnim, savingAnimRectPos -= 1.5);
+                Canvas.SetTop(SavingRectangle, savingAnimRectPos -= 1.5);
             }
             else
             {
-                Canvas.SetTop(SavingAnim, savingAnimRectPos += 1.5);
+                Canvas.SetTop(SavingRectangle, savingAnimRectPos += 1.5);
             }
         }
 
@@ -199,7 +221,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             saveFinished = false;
 
             savingAnimTimer.Start();
-            SavingAnim.Visibility = Visibility.Visible;
+            SavingRectangle.Visibility = Visibility.Visible;
 
             SaveData();
 
@@ -210,7 +232,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
             floppyWrite.Stop();
             savingAnimTimer.Stop();
-            SavingAnim.Visibility = Visibility.Hidden;
+            SavingRectangle.Visibility = Visibility.Hidden;
 
             saveFinished = true;
         }
@@ -224,7 +246,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
                 writeCache.Add(item.Text);
             }
 
-            File.WriteAllLines("data.dat", writeCache);
+            File.WriteAllLines("data.dat", writeCache, UTF8Encoding.BigEndianUnicode);
 
             writeCache.Clear();
         }
@@ -262,6 +284,19 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             ToDoList.Items.Refresh();
         }
 
+        private async Task WriteOptionsFile(int optionsIndex, string optionsIndexValue)
+        {
+            if (optionsWriteProcess) { return; }
+
+            optionsWriteProcess = true;
+
+            options[optionsIndex] = optionsIndexValue;
+
+            await File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.ASCII);
+
+            optionsWriteProcess = false;
+        }
+
         private async Task SaveListBoxData()
         {
             saveFinished = false;
@@ -270,10 +305,11 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
             saveTimer.Stop();
             savingAnimTimer.Start();
-            SavingAnim.Visibility = Visibility.Visible;
+            SavingRectangle.Visibility = Visibility.Visible;
 
             floppyWrite.Position = TimeSpan.FromMilliseconds(50);
             floppyWrite.Play();
+
             SaveData();
 
             await Task.Delay(3000);
@@ -282,7 +318,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
             savingAnimTimer.Stop();
 
-            SavingAnim.Visibility = Visibility.Hidden;
+            SavingRectangle.Visibility = Visibility.Hidden;
 
             if (saveTimer.Interval != TimeSpan.FromMinutes(0))
             {
@@ -293,11 +329,6 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             saveFinished = true;
         }
 
-        private void ToDoBoxMouseLeave(object sender, MouseEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         // UI-Elements Click Events
 
         // Code-Behind Elements
@@ -305,23 +336,35 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
         {
             if (this.WindowState == WindowState.Maximized)
             {
-                this.WindowStyle = WindowStyle.SingleBorderWindow;
-                this.WindowState = WindowState.Normal;
                 Buttons.FullscreenMode.Foreground = Brushes.Red;
 
-                options[0] = "Fullscreen Mode = 0";
+                this.WindowStyle        = WindowStyle.SingleBorderWindow;
+                this.WindowState        = WindowState.Normal;
 
-                await File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
+                Ornament_left.Width     = 135.3;
+                Ornament_left.Height    = 192;
+                Ornament_left.Margin    = new Thickness(30, 20, 0, 0);
+                Ornament_right.Width    = 135.3;
+                Ornament_right.Height   = 192;
+                Ornament_right.Margin   = new Thickness(0, 20, 30, 0);
+
+                await WriteOptionsFile(0, "Fullscreen Mode = 0");
             }
             else
             {
-                this.WindowStyle = WindowStyle.None;
-                this.WindowState = WindowState.Maximized;
                 Buttons.FullscreenMode.Foreground = Brushes.LawnGreen;
 
-                options[0] = "Fullscreen Mode = 1";
+                this.WindowStyle        = WindowStyle.None;
+                this.WindowState        = WindowState.Maximized;
 
-                await File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
+                Ornament_left.Width     = 236.775;
+                Ornament_left.Height    = 336;
+                Ornament_left.Margin    = new Thickness(120,20,0,0);
+                Ornament_right.Width    = 236.775;
+                Ornament_right.Height   = 336;
+                Ornament_right.Margin   = new Thickness(0, 20, 120, 0);
+
+                await WriteOptionsFile(0, "Fullscreen Mode = 1");
             }
         }
 
@@ -330,14 +373,12 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             saveTimer.Stop();
 
             saveTimer.Interval = (saveTimer.Interval == TimeSpan.FromMinutes(1)) ? TimeSpan.FromMinutes(3) : (saveTimer.Interval == TimeSpan.FromMinutes(3)) 
-                ? TimeSpan.FromMinutes(5) : (saveTimer.Interval == TimeSpan.FromMinutes(5)) ? TimeSpan.FromMinutes(9) 
-                : (saveTimer.Interval == TimeSpan.FromMinutes(9)) ? TimeSpan.FromMinutes(0) : TimeSpan.FromMinutes(1);
+                ? TimeSpan.FromMinutes(5) : (saveTimer.Interval == TimeSpan.FromMinutes(5)) ? TimeSpan.FromMinutes(10) 
+                : (saveTimer.Interval == TimeSpan.FromMinutes(10)) ? TimeSpan.FromMinutes(0) : TimeSpan.FromMinutes(1);
 
             Buttons.SetAutoSaveProps(saveTimer.Interval);
 
-            options[1] = options[1].Replace(options[1].Last() , (char)(saveTimer.Interval.Minutes + 48));
-
-            await File.WriteAllLinesAsync("options.ini", options);
+            await WriteOptionsFile(1, options[1].Replace(options[1].Last(), saveTimer.Interval.Minutes == 10 ? 'T' : (char)(saveTimer.Interval.Minutes + 48)));
 
             if (saveTimer.Interval != TimeSpan.FromMinutes(0))
             {
@@ -351,9 +392,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
             Buttons.saveOnPrgExit.Foreground = saveOnExit ? Brushes.LawnGreen : Brushes.Red;
 
-            options[2] = saveOnExit ? "Save On Exit = 1" : "Save On Exit = 0";
-
-            await File.WriteAllLinesAsync("options.ini", options, UTF8Encoding.Unicode);
+            await WriteOptionsFile(2, saveOnExit ? "Save On Exit = 1" : "Save On Exit = 0");
         }
 
         // Code-Behind Elements END 
@@ -395,7 +434,8 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
                 {
                     toDoEntrys[ToDoList.SelectedIndex].Text = 
                     toDoEntrys[ToDoList.SelectedIndex].Text.Replace(markInWorks, markDone);
-                    toDoEntrys[ToDoList.SelectedIndex].Foreground = Brushes.Green;
+                    toDoEntrys[ToDoList.SelectedIndex].Foreground = Brushes.DarkSlateGray;
+                    toDoEntrys[ToDoList.SelectedIndex + 1].Foreground = Brushes.DarkSlateGray;
                     toDoEntrys[ToDoList.SelectedIndex + 1].TextDecorations = TextDecorations.Strikethrough;
                     toDoEntrys[ToDoList.SelectedIndex + 1].Name = "EntryDone";
 
@@ -410,9 +450,9 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
                     toDoEntrys[ToDoList.SelectedIndex].Text = 
                     toDoEntrys[ToDoList.SelectedIndex].Text.Replace(markDone, markInWorks);
                     toDoEntrys[ToDoList.SelectedIndex].Foreground = Brushes.DarkRed;
+                    toDoEntrys[ToDoList.SelectedIndex + 1].Foreground = Brushes.Black;
                     toDoEntrys[ToDoList.SelectedIndex + 1].TextDecorations = null;
                     toDoEntrys[ToDoList.SelectedIndex + 1].Name = "EntryWork";
-                    ToDoList.Items.Refresh();
 
                     scribble1.Play();
 
@@ -567,6 +607,15 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
         private void Options_MouseLeave(object sender, MouseEventArgs e)
         {
             Options.Foreground = (OptionsStack.Visibility == Visibility.Visible) ? Brushes.Green : Brushes.Black;
+        }
+        private void DelEntry_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Buttons.DelEntry.Background = Brushes.DarkRed;
+        }
+
+        private void DelEntry_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Buttons.DelEntry.Background = Brushes.Black;
         }
 
         // MouseEnter / Leave Events END !
