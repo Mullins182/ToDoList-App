@@ -17,7 +17,7 @@ using ToDoList_App.Model;
 using Windows.UI.Composition;
 using WinRT;
 
-namespace ToDoList_App          // AI Helper for programmers => https://www.phind.com/ :)
+namespace ToDoList_App                                      // AI Helper for programmers => https://www.phind.com/ :)
 {
     public partial class MainWindow : Window
     {
@@ -63,14 +63,20 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             Buttons.SetAutoSaveProps();
             Buttons.SetDelEntryProps();
             Buttons.SetSaveOnPrgExitProps();
+
             Buttons.FullscreenMode.Template     = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
             Buttons.DelEntry.Template           = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
             Buttons.AutoSave.Template           = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
             Buttons.saveOnPrgExit.Template      = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
+
             Buttons.FullscreenMode.Click        += FullscreenMode_Click;
             Buttons.AutoSave.Click              += AutoSave_Click;
-            Buttons.DelEntry.Click              += DelEntry_Click;
             Buttons.saveOnPrgExit.Click         += SaveOnPrgExit_Click;
+            Buttons.DelEntry.Click              += DelEntry_Click;
+            Buttons.DelEntry.MouseEnter         += DelEntry_MouseEnter;
+            Buttons.DelEntry.MouseLeave         += DelEntry_MouseLeave;
+            Buttons.DelEntry.Style              = (Style)FindResource("MenuStyleButtons");
+
             Grid.SetRow(Buttons.DelEntry, 0);
             Grid.SetColumn(Buttons.DelEntry, 1);
 
@@ -97,8 +103,12 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
                     this.WindowStyle                    = WindowStyle.SingleBorderWindow;
                     this.WindowState                    = WindowState.Normal;
 
-                    Ornament.Width                      = 135.3;
-                    Ornament.Height                     = 192;
+                    Ornament_left.Width                 = 135.3;
+                    Ornament_left.Height                = 192;
+                    Ornament_left.Margin                = new Thickness(30, 20, 0, 0);
+                    Ornament_right.Width                = 135.3;
+                    Ornament_right.Height               = 192;
+                    Ornament_right.Margin               = new Thickness(0, 20, 30, 0);
 
                     Buttons.FullscreenMode.Foreground   = Brushes.Red;
                 }
@@ -107,8 +117,12 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
                     this.WindowStyle                    = WindowStyle.None;
                     this.WindowState                    = WindowState.Maximized;
 
-                    Ornament.Width                      = 270.6;
-                    Ornament.Height                     = 384;
+                    Ornament_left.Width                 = 236.775;
+                    Ornament_left.Height                = 336;
+                    Ornament_left.Margin                = new Thickness(120, 20, 0, 0);
+                    Ornament_right.Width                = 236.775;
+                    Ornament_right.Height               = 336;
+                    Ornament_right.Margin               = new Thickness(0, 20, 120, 0);
 
                     Buttons.FullscreenMode.Foreground   = Brushes.LawnGreen;
                 }
@@ -324,11 +338,15 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             {
                 Buttons.FullscreenMode.Foreground = Brushes.Red;
 
-                this.WindowStyle    = WindowStyle.SingleBorderWindow;
-                this.WindowState    = WindowState.Normal;
+                this.WindowStyle        = WindowStyle.SingleBorderWindow;
+                this.WindowState        = WindowState.Normal;
 
-                Ornament.Width      = 135.3;
-                Ornament.Height     = 192;
+                Ornament_left.Width     = 135.3;
+                Ornament_left.Height    = 192;
+                Ornament_left.Margin    = new Thickness(30, 20, 0, 0);
+                Ornament_right.Width    = 135.3;
+                Ornament_right.Height   = 192;
+                Ornament_right.Margin   = new Thickness(0, 20, 30, 0);
 
                 await WriteOptionsFile(0, "Fullscreen Mode = 0");
             }
@@ -336,11 +354,15 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             {
                 Buttons.FullscreenMode.Foreground = Brushes.LawnGreen;
 
-                this.WindowStyle    = WindowStyle.None;
-                this.WindowState    = WindowState.Maximized;
+                this.WindowStyle        = WindowStyle.None;
+                this.WindowState        = WindowState.Maximized;
 
-                Ornament.Width      = 270.6;
-                Ornament.Height     = 384;
+                Ornament_left.Width     = 236.775;
+                Ornament_left.Height    = 336;
+                Ornament_left.Margin    = new Thickness(120,20,0,0);
+                Ornament_right.Width    = 236.775;
+                Ornament_right.Height   = 336;
+                Ornament_right.Margin   = new Thickness(0, 20, 120, 0);
 
                 await WriteOptionsFile(0, "Fullscreen Mode = 1");
             }
@@ -585,6 +607,15 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
         private void Options_MouseLeave(object sender, MouseEventArgs e)
         {
             Options.Foreground = (OptionsStack.Visibility == Visibility.Visible) ? Brushes.Green : Brushes.Black;
+        }
+        private void DelEntry_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Buttons.DelEntry.Background = Brushes.DarkRed;
+        }
+
+        private void DelEntry_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Buttons.DelEntry.Background = Brushes.Black;
         }
 
         // MouseEnter / Leave Events END !
