@@ -29,7 +29,7 @@
         </Grid.ColumnDefinitions>
         
         <Grid.RowDefinitions>
-            <RowDefinition x:Name="MainRow1" Height="200*"/>
+            <RowDefinition x:Name="MainRow1" Height="175*"/>
             <RowDefinition x:Name="MainRow2" Height="500*"/>
             <RowDefinition x:Name="MainRow3" Height="90*"/>
         </Grid.RowDefinitions>
@@ -39,8 +39,7 @@
                FontFamily="{StaticResource CurlzMT}" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" 
                BorderThickness="0,0,0,0" BorderBrush="Black" VerticalAlignment="Top" Margin="0,0,0,0"/>
 
-        <Label x:Name="Ornament" Width="135.3" Height="192" Grid.Column="1" Grid.Row="0" HorizontalAlignment="Left" Grid.RowSpan="1"
-               VerticalAlignment="Top">
+        <Label x:Name="Ornament" Width="135.3" Height="192" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top">
             <Label.Background>
                 <ImageBrush ImageSource="/Textures/GoldenSkull.png"/>
             </Label.Background>
@@ -52,7 +51,7 @@
 
         <Canvas x:Name="SavingCanvas" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Top" Background="Transparent"
                 Width="200" Height="200">
-            <Rectangle x:Name="SavingAnim" Width="90" Height="90" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"
+            <Rectangle x:Name="SavingRectangle" Width="90" Height="90" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"
                        Visibility="Hidden">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="Textures/floppyDiscEdited.png"/>

@@ -94,30 +94,36 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
                 if (options[0].Last() - 48 == 0)
                 {
-                    this.WindowStyle = WindowStyle.SingleBorderWindow;
-                    this.WindowState = WindowState.Normal;
-                    Buttons.FullscreenMode.Foreground = Brushes.Red;
+                    this.WindowStyle                    = WindowStyle.SingleBorderWindow;
+                    this.WindowState                    = WindowState.Normal;
 
+                    Ornament.Width                      = 135.3;
+                    Ornament.Height                     = 192;
 
+                    Buttons.FullscreenMode.Foreground   = Brushes.Red;
                 }
                 else if (options[0].Last() - 48 == 1)
                 {
-                    this.WindowStyle = WindowStyle.None;
-                    this.WindowState = WindowState.Maximized;
-                    Buttons.FullscreenMode.Foreground = Brushes.LawnGreen;
+                    this.WindowStyle                    = WindowStyle.None;
+                    this.WindowState                    = WindowState.Maximized;
+
+                    Ornament.Width                      = 270.6;
+                    Ornament.Height                     = 384;
+
+                    Buttons.FullscreenMode.Foreground   = Brushes.LawnGreen;
                 }
 
                 if (options[2].Last() - 48 == 0)
                 {
-                    Buttons.saveOnPrgExit.Foreground = Brushes.Red;
+                    Buttons.saveOnPrgExit.Foreground    = Brushes.Red;
 
-                    saveOnExit = false;
+                    saveOnExit                          = false;
                 }
                 else if (options[2].Last() - 48 == 1)
                 {
-                    Buttons.saveOnPrgExit.Foreground = Brushes.LawnGreen;
+                    Buttons.saveOnPrgExit.Foreground    = Brushes.LawnGreen;
 
-                    saveOnExit = true;
+                    saveOnExit                          = true;
                 }
 
                 saveTimer.Interval = TimeSpan.FromMinutes(options[1].Last() == 'T' ? 10 : (double)options[1].Last() -48);
@@ -145,10 +151,10 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             InfoLabelAnimReverse.From           = 0.85;
             InfoLabelAnimReverse.To             = 0.00;
 
-            Canvas.SetLeft(SavingAnim, (SavingCanvas.Width / 2) - SavingAnim.Width / 2);
-            Canvas.SetTop(SavingAnim, (SavingCanvas.Height / 2) - SavingAnim.Height / 2);
+            Canvas.SetLeft(SavingRectangle, (SavingCanvas.Width / 2) - SavingRectangle.Width / 2);
+            Canvas.SetTop(SavingRectangle, (SavingCanvas.Height / 2) - SavingRectangle.Height / 2);
 
-            savingAnimRectPos                   = Canvas.GetTop(SavingAnim);
+            savingAnimRectPos                   = Canvas.GetTop(SavingRectangle);
             ToDoList.ItemsSource                = toDoEntrys;
 
             //ToDoList.Background                 = new SolidColorBrush(System.Windows.Media.Color.FromArgb(0x10, 0, 0, 0));
@@ -188,11 +194,11 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
             if (savingAnimRectUp)
             {
-                Canvas.SetTop(SavingAnim, savingAnimRectPos -= 1.5);
+                Canvas.SetTop(SavingRectangle, savingAnimRectPos -= 1.5);
             }
             else
             {
-                Canvas.SetTop(SavingAnim, savingAnimRectPos += 1.5);
+                Canvas.SetTop(SavingRectangle, savingAnimRectPos += 1.5);
             }
         }
 
@@ -201,7 +207,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
             saveFinished = false;
 
             savingAnimTimer.Start();
-            SavingAnim.Visibility = Visibility.Visible;
+            SavingRectangle.Visibility = Visibility.Visible;
 
             SaveData();
 
@@ -212,7 +218,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
             floppyWrite.Stop();
             savingAnimTimer.Stop();
-            SavingAnim.Visibility = Visibility.Hidden;
+            SavingRectangle.Visibility = Visibility.Hidden;
 
             saveFinished = true;
         }
@@ -285,7 +291,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
             saveTimer.Stop();
             savingAnimTimer.Start();
-            SavingAnim.Visibility = Visibility.Visible;
+            SavingRectangle.Visibility = Visibility.Visible;
 
             floppyWrite.Position = TimeSpan.FromMilliseconds(50);
             floppyWrite.Play();
@@ -298,7 +304,7 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
             savingAnimTimer.Stop();
 
-            SavingAnim.Visibility = Visibility.Hidden;
+            SavingRectangle.Visibility = Visibility.Hidden;
 
             if (saveTimer.Interval != TimeSpan.FromMinutes(0))
             {
@@ -332,8 +338,6 @@ namespace ToDoList_App          // AI Helper for programmers => https://www.phin
 
                 this.WindowStyle    = WindowStyle.None;
                 this.WindowState    = WindowState.Maximized;
-
-                //MainRow1.Height     = new GridLength(600);
 
                 Ornament.Width      = 270.6;
                 Ornament.Height     = 384;
