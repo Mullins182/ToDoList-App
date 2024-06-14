@@ -103,6 +103,8 @@ namespace ToDoList_App                                      // AI Helper for pro
                     this.WindowStyle                    = WindowStyle.SingleBorderWindow;
                     this.WindowState                    = WindowState.Normal;
 
+                    AppLabel.FontSize                   = 100;
+
                     Ornament_left.Width                 = 135.3;
                     Ornament_left.Height                = 192;
                     Ornament_left.Margin                = new Thickness(30, 20, 0, 0);
@@ -116,6 +118,8 @@ namespace ToDoList_App                                      // AI Helper for pro
                 {
                     this.WindowStyle                    = WindowStyle.None;
                     this.WindowState                    = WindowState.Maximized;
+
+                    AppLabel.FontSize                   = 150;
 
                     Ornament_left.Width                 = 236.775;
                     Ornament_left.Height                = 336;
@@ -341,6 +345,8 @@ namespace ToDoList_App                                      // AI Helper for pro
                 this.WindowStyle        = WindowStyle.SingleBorderWindow;
                 this.WindowState        = WindowState.Normal;
 
+                AppLabel.FontSize       = 100;
+
                 Ornament_left.Width     = 135.3;
                 Ornament_left.Height    = 192;
                 Ornament_left.Margin    = new Thickness(30, 20, 0, 0);
@@ -356,6 +362,8 @@ namespace ToDoList_App                                      // AI Helper for pro
 
                 this.WindowStyle        = WindowStyle.None;
                 this.WindowState        = WindowState.Maximized;
+
+                AppLabel.FontSize       = 150;
 
                 Ornament_left.Width     = 236.775;
                 Ornament_left.Height    = 336;
