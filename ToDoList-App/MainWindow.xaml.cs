@@ -473,27 +473,30 @@ namespace ToDoList_App                                      // AI Helper for pro
 
         private void ToDoList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (ToDoList.SelectedIndex < 0 || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone) 
-                || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks))
+            if (ToDoList.SelectedIndex < 0 || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone)
+                || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks) || InfoLabelAnim.IsFrozen || InfoLabelAnimReverse.IsFrozen)
             {
 
             }
             else
             {
-                toDoEntrys[ToDoList.SelectedIndex].IsReadOnly = toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true ? false : true;
+                toDoEntrys[ToDoList.SelectedIndex].IsReadOnly = toDoEntrys[ToDoList.SelectedIndex].Name == "EntryDone" ? true 
+                    : toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true ? false : true;
                                                 
                 if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true)
                 {
                     if (toDoEntrys[ToDoList.SelectedIndex].Text == "") { toDoEntrys[ToDoList.SelectedIndex].Text = "enter smth here !"; }
 
-                    InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse);
+                    if (InfoLabel.Opacity == 0.85) { InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse); }
                     Buttons.DelEntry.Visibility = Visibility.Hidden;
                     delEntryIndex = -1;
                 }
                 else if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == false)
                 {
                     delEntryIndex = ToDoList.SelectedIndex;
-                    InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnim);
+
+                    if (InfoLabel.Opacity == 0.00) { InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnim); }
+
                     Buttons.DelEntry.Visibility = Visibility.Visible;
 
                     if (toDoEntrys[ToDoList.SelectedIndex].Text == "enter smth here !") { toDoEntrys[ToDoList.SelectedIndex].Text = ""; }
