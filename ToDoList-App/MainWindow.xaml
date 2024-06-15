@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList_App"
         mc:Ignorable="d"
-        Title="ToDo-List App | Version 2.2 | @Mullins182" Height="1000" Width="1000" MinHeight="800" MinWidth="1000"
+        Title="ToDo-List App | Version 2.3 | @Mullins182" Height="1000" Width="1000" MinHeight="800" MinWidth="1000"
         WindowStartupLocation="CenterScreen" FontFamily="Bahnschrift" WindowStyle="SingleBorderWindow" BorderThickness="0" BorderBrush="Transparent"
         Closing="Window_Closing">
     <Window.Background>
@@ -40,7 +40,7 @@
                BorderThickness="0,0,0,0" BorderBrush="Black" VerticalAlignment="Top" Margin="0,30,0,0">
             <Label.Effect>
                 <DropShadowEffect
-                        ShadowDepth="13"
+                        ShadowDepth="11"
                         Direction="290"
                         Color="Black"
                         Opacity="1.0"
