@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList_App"
         mc:Ignorable="d"
-        Title="ToDo-List App | Version 2.0 | @Mullins182" Height="1000" Width="1000" MinHeight="800" MinWidth="1000"
+        Title="ToDo-List App | Version 2.3 | @Mullins182" Height="1000" Width="1000" MinHeight="800" MinWidth="1000"
         WindowStartupLocation="CenterScreen" FontFamily="Bahnschrift" WindowStyle="SingleBorderWindow" BorderThickness="0" BorderBrush="Transparent"
         Closing="Window_Closing">
     <Window.Background>
@@ -35,19 +35,28 @@
         </Grid.RowDefinitions>
         <!-- Grid Definition END -->
 
-        <Label x:Name="AppLabel" Width="auto" Height="150" Foreground="Black" Content="My ToDo-List" FontSize="100" FontWeight="Bold"
+        <Label x:Name="AppLabel" Width="auto" Height="200" Foreground="DarkGoldenrod" Content="My ToDo-List" FontSize="100" FontWeight="Bold"
                FontFamily="{StaticResource CurlzMT}" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" Grid.ColumnSpan="2" 
-               BorderThickness="0,0,0,0" BorderBrush="Black" VerticalAlignment="Top" Margin="0,30,0,0"/>
+               BorderThickness="0,0,0,0" BorderBrush="Black" VerticalAlignment="Top" Margin="0,30,0,0">
+            <Label.Effect>
+                <DropShadowEffect
+                        ShadowDepth="11"
+                        Direction="290"
+                        Color="Black"
+                        Opacity="1.0"
+                        BlurRadius="5"/>
+            </Label.Effect>
+        </Label>
 
         <Label x:Name="Ornament_left" Width="135.3" Height="192" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Left" VerticalAlignment="Top"
-               Margin="30,20,0,0">
+               Margin="30,20,0,0" RenderOptions.EdgeMode="Aliased" RenderOptions.BitmapScalingMode="HighQuality">
             <Label.Background>
                 <ImageBrush ImageSource="/Textures/GoldenSkull.png"/>
             </Label.Background>
         </Label>
 
         <Label x:Name="Ornament_right" Width="135.3" Height="192" Grid.Column="1" Grid.Row="0" Grid.RowSpan="2" HorizontalAlignment="Right" VerticalAlignment="Top"
-               Margin="0,20,30,0">
+               Margin="0,20,30,0" RenderOptions.EdgeMode="Aliased" RenderOptions.BitmapScalingMode="HighQuality">
             <Label.Background>
                 <ImageBrush ImageSource="/Textures/GoldenSkull.png"/>
             </Label.Background>

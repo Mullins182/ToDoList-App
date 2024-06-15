@@ -17,7 +17,7 @@ using ToDoList_App.Model;
 using Windows.UI.Composition;
 using WinRT;
 
-namespace ToDoList_App                                      // AI Helper for programmers => https://www.phind.com/ :)
+namespace ToDoList_App                                      //  ToDo-List App | @Mullins182
 {
     public partial class MainWindow : Window
     {
@@ -35,9 +35,13 @@ namespace ToDoList_App                                      // AI Helper for pro
 
         private List<TextBox> toDoEntrys                    = [];
 
-        private string[] options                            = ["Fullscreen Mode = 0", "Autosave Minutes = 0", "Save On Exit = 0"];
+        private string[] options                            = ["Fullscreen Mode = 0", "Autosave Minutes = 0", "Save On Exit = 0", "Sounds_Mode = 3"];
 
         private int delEntryIndex                           = -1;
+        private int floppySoundPos                          = 50;
+        private int scribble1SoundPos                       = 0;
+        private int scribble2SoundPos                       = 350;
+        private int sound_Mode                              = 3;
 
         private double savingAnimRectPos                    = 0.00;
 
@@ -60,6 +64,7 @@ namespace ToDoList_App                                      // AI Helper for pro
         public async void InitializePrg()
         {
             Buttons.SetFullscreenModeProps();
+            Buttons.SetSoundsProps(sound_Mode);
             Buttons.SetAutoSaveProps();
             Buttons.SetDelEntryProps();
             Buttons.SetSaveOnPrgExitProps();
@@ -68,6 +73,7 @@ namespace ToDoList_App                                      // AI Helper for pro
             Buttons.DelEntry.Template           = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
             Buttons.AutoSave.Template           = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
             Buttons.saveOnPrgExit.Template      = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
+            Buttons.Sounds.Template             = (ControlTemplate)FindResource("NoMouseOverButtonTemplate"); // Suggestion from Bing Co-Pilot
 
             Buttons.FullscreenMode.Click        += FullscreenMode_Click;
             Buttons.AutoSave.Click              += AutoSave_Click;
@@ -75,23 +81,17 @@ namespace ToDoList_App                                      // AI Helper for pro
             Buttons.DelEntry.Click              += DelEntry_Click;
             Buttons.DelEntry.MouseEnter         += DelEntry_MouseEnter;
             Buttons.DelEntry.MouseLeave         += DelEntry_MouseLeave;
+            Buttons.Sounds.Click                += Sounds_Click;
             Buttons.DelEntry.Style              = (Style)FindResource("MenuStyleButtons");
 
             Grid.SetRow(Buttons.DelEntry, 0);
             Grid.SetColumn(Buttons.DelEntry, 1);
 
-            floppyWrite.IsMuted = true;
-            scribble1.IsMuted   = true;
-            scribble2.IsMuted   = true;
-            scribble1.Play();
-            scribble2.Play();
-
-            await Task.Delay(1000);
-
             floppyWrite.Open(new Uri("Sounds/readingFloppyDisc.mp3", UriKind.Relative));
-            floppyWrite.Position = TimeSpan.FromMilliseconds(150);
             scribble1.Open(new Uri("Sounds/scribble1.wav", UriKind.Relative));
             scribble2.Open(new Uri("Sounds/scribble2.wav", UriKind.Relative));
+
+            await Task.Delay(450);
 
             if (File.Exists("options.ini"))
             {
@@ -102,6 +102,8 @@ namespace ToDoList_App                                      // AI Helper for pro
                 {
                     this.WindowStyle                    = WindowStyle.SingleBorderWindow;
                     this.WindowState                    = WindowState.Normal;
+
+                    AppLabel.FontSize                   = 100;
 
                     Ornament_left.Width                 = 135.3;
                     Ornament_left.Height                = 192;
@@ -116,6 +118,8 @@ namespace ToDoList_App                                      // AI Helper for pro
                 {
                     this.WindowStyle                    = WindowStyle.None;
                     this.WindowState                    = WindowState.Maximized;
+
+                    AppLabel.FontSize                   = 150;
 
                     Ornament_left.Width                 = 236.775;
                     Ornament_left.Height                = 336;
@@ -140,9 +144,12 @@ namespace ToDoList_App                                      // AI Helper for pro
                     saveOnExit                          = true;
                 }
 
+                sound_Mode = (options[3].Last() - 48 == 1) ? 1 : (options[3].Last() - 48 == 2) ? 2 : (options[3].Last() - 48 == 3) ? 3 : 0;
+
                 saveTimer.Interval = TimeSpan.FromMinutes(options[1].Last() == 'T' ? 10 : (double)options[1].Last() -48);
 
                 Buttons.SetAutoSaveProps(saveTimer.Interval);
+                Buttons.SetSoundsProps(sound_Mode);
             }
             else
             {
@@ -184,14 +191,11 @@ namespace ToDoList_App                                      // AI Helper for pro
             MainGrid.Children.Add(Buttons.DelEntry);
 
             OptionsStack.Children.Add(Buttons.FullscreenMode);
+            OptionsStack.Children.Add(Buttons.Sounds);
             OptionsStack.Children.Add(Buttons.AutoSave);
             OptionsStack.Children.Add(Buttons.saveOnPrgExit);
 
             if (saveTimer.Interval != TimeSpan.FromMinutes(0)) { saveTimer.Start(); }
-
-            floppyWrite.IsMuted = false;
-            scribble1.IsMuted = false;
-            scribble2.IsMuted = false;
         }
 
         private void SavingAnimationRoutine(object? sender, EventArgs e)
@@ -225,8 +229,11 @@ namespace ToDoList_App                                      // AI Helper for pro
 
             SaveData();
 
-            floppyWrite.Position = TimeSpan.FromMilliseconds(50);
-            floppyWrite.Play();
+            if (sound_Mode == 2 || sound_Mode == 3)
+            {
+                floppyWrite.Position = TimeSpan.FromMilliseconds(floppySoundPos);
+                floppyWrite.Play();
+            }
 
             await Task.Delay(3000);
 
@@ -307,8 +314,11 @@ namespace ToDoList_App                                      // AI Helper for pro
             savingAnimTimer.Start();
             SavingRectangle.Visibility = Visibility.Visible;
 
-            floppyWrite.Position = TimeSpan.FromMilliseconds(50);
-            floppyWrite.Play();
+            if (sound_Mode == 2 || sound_Mode == 3)
+            {
+                floppyWrite.Position = TimeSpan.FromMilliseconds(floppySoundPos);
+                floppyWrite.Play();
+            }
 
             SaveData();
 
@@ -341,6 +351,8 @@ namespace ToDoList_App                                      // AI Helper for pro
                 this.WindowStyle        = WindowStyle.SingleBorderWindow;
                 this.WindowState        = WindowState.Normal;
 
+                AppLabel.FontSize       = 100;
+
                 Ornament_left.Width     = 135.3;
                 Ornament_left.Height    = 192;
                 Ornament_left.Margin    = new Thickness(30, 20, 0, 0);
@@ -356,6 +368,8 @@ namespace ToDoList_App                                      // AI Helper for pro
 
                 this.WindowStyle        = WindowStyle.None;
                 this.WindowState        = WindowState.Maximized;
+
+                AppLabel.FontSize       = 150;
 
                 Ornament_left.Width     = 236.775;
                 Ornament_left.Height    = 336;
@@ -395,6 +409,15 @@ namespace ToDoList_App                                      // AI Helper for pro
             await WriteOptionsFile(2, saveOnExit ? "Save On Exit = 1" : "Save On Exit = 0");
         }
 
+        private async void Sounds_Click(object sender, RoutedEventArgs e)
+        {
+            sound_Mode = sound_Mode == 1 ? 2 : sound_Mode == 2 ? 3 : sound_Mode == 3 ? 0 : 1;
+
+            Buttons.SetSoundsProps(sound_Mode);
+
+            await WriteOptionsFile(3, options[3].Replace(options[3].Last(), (char)(sound_Mode + 48)));
+        }
+
         // Code-Behind Elements END 
 
         private void NewEntry_Click(object sender, RoutedEventArgs e)
@@ -425,11 +448,6 @@ namespace ToDoList_App                                      // AI Helper for pro
             {
                 entryFinished = false;
 
-                scribble1.Position = TimeSpan.Zero;
-                scribble2.Position = TimeSpan.Zero;
-                scribble1.Stop();
-                scribble2.Stop();
-
                 if (toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks))
                 {
                     toDoEntrys[ToDoList.SelectedIndex].Text = 
@@ -439,7 +457,11 @@ namespace ToDoList_App                                      // AI Helper for pro
                     toDoEntrys[ToDoList.SelectedIndex + 1].TextDecorations = TextDecorations.Strikethrough;
                     toDoEntrys[ToDoList.SelectedIndex + 1].Name = "EntryDone";
 
-                    scribble2.Play();
+                    if (sound_Mode == 1 || sound_Mode == 3)
+                    {
+                        scribble2.Position = TimeSpan.FromMilliseconds(scribble2SoundPos);
+                        scribble2.Play();
+                    }
 
                     entryFinished = true;
 
@@ -454,7 +476,11 @@ namespace ToDoList_App                                      // AI Helper for pro
                     toDoEntrys[ToDoList.SelectedIndex + 1].TextDecorations = null;
                     toDoEntrys[ToDoList.SelectedIndex + 1].Name = "EntryWork";
 
-                    scribble1.Play();
+                    if (sound_Mode == 1 || sound_Mode == 3)
+                    {
+                        scribble1.Position = TimeSpan.FromMilliseconds(scribble1SoundPos);
+                        scribble1.Play();
+                    }
 
                     entryFinished = true;
 
@@ -465,27 +491,30 @@ namespace ToDoList_App                                      // AI Helper for pro
 
         private void ToDoList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (ToDoList.SelectedIndex < 0 || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone) 
-                || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks))
+            if (ToDoList.SelectedIndex < 0 || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone)
+                || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks) || InfoLabelAnim.IsFrozen || InfoLabelAnimReverse.IsFrozen)
             {
 
             }
             else
             {
-                toDoEntrys[ToDoList.SelectedIndex].IsReadOnly = toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true ? false : true;
+                toDoEntrys[ToDoList.SelectedIndex].IsReadOnly = toDoEntrys[ToDoList.SelectedIndex].Name == "EntryDone" ? true 
+                    : toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true ? false : true;
                                                 
                 if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true)
                 {
                     if (toDoEntrys[ToDoList.SelectedIndex].Text == "") { toDoEntrys[ToDoList.SelectedIndex].Text = "enter smth here !"; }
 
-                    InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse);
+                    if (InfoLabel.Opacity == 0.85) { InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse); }
                     Buttons.DelEntry.Visibility = Visibility.Hidden;
                     delEntryIndex = -1;
                 }
                 else if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == false)
                 {
                     delEntryIndex = ToDoList.SelectedIndex;
-                    InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnim);
+
+                    if (InfoLabel.Opacity == 0.00) { InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnim); }
+
                     Buttons.DelEntry.Visibility = Visibility.Visible;
 
                     if (toDoEntrys[ToDoList.SelectedIndex].Text == "enter smth here !") { toDoEntrys[ToDoList.SelectedIndex].Text = ""; }
