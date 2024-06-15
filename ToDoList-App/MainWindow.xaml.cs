@@ -38,6 +38,9 @@ namespace ToDoList_App                                      //  ToDo-List App | 
         private string[] options                            = ["Fullscreen Mode = 0", "Autosave Minutes = 0", "Save On Exit = 0"];
 
         private int delEntryIndex                           = -1;
+        private int floppySoundPos                          = 50;
+        private int scribble1SoundPos                       = 0;
+        private int scribble2SoundPos                       = 350;
 
         private double savingAnimRectPos                    = 0.00;
 
@@ -80,18 +83,11 @@ namespace ToDoList_App                                      //  ToDo-List App | 
             Grid.SetRow(Buttons.DelEntry, 0);
             Grid.SetColumn(Buttons.DelEntry, 1);
 
-            floppyWrite.IsMuted = true;
-            scribble1.IsMuted   = true;
-            scribble2.IsMuted   = true;
-            scribble1.Play();
-            scribble2.Play();
-
-            await Task.Delay(1000);
-
             floppyWrite.Open(new Uri("Sounds/readingFloppyDisc.mp3", UriKind.Relative));
-            floppyWrite.Position = TimeSpan.FromMilliseconds(150);
             scribble1.Open(new Uri("Sounds/scribble1.wav", UriKind.Relative));
             scribble2.Open(new Uri("Sounds/scribble2.wav", UriKind.Relative));
+
+            await Task.Delay(450);
 
             if (File.Exists("options.ini"))
             {
@@ -192,10 +188,6 @@ namespace ToDoList_App                                      //  ToDo-List App | 
             OptionsStack.Children.Add(Buttons.saveOnPrgExit);
 
             if (saveTimer.Interval != TimeSpan.FromMinutes(0)) { saveTimer.Start(); }
-
-            floppyWrite.IsMuted = false;
-            scribble1.IsMuted = false;
-            scribble2.IsMuted = false;
         }
 
         private void SavingAnimationRoutine(object? sender, EventArgs e)
@@ -229,7 +221,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
 
             SaveData();
 
-            floppyWrite.Position = TimeSpan.FromMilliseconds(50);
+            floppyWrite.Position = TimeSpan.FromMilliseconds(floppySoundPos);
             floppyWrite.Play();
 
             await Task.Delay(3000);
@@ -311,7 +303,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
             savingAnimTimer.Start();
             SavingRectangle.Visibility = Visibility.Visible;
 
-            floppyWrite.Position = TimeSpan.FromMilliseconds(50);
+            floppyWrite.Position = TimeSpan.FromMilliseconds(floppySoundPos);
             floppyWrite.Play();
 
             SaveData();
@@ -433,11 +425,6 @@ namespace ToDoList_App                                      //  ToDo-List App | 
             {
                 entryFinished = false;
 
-                scribble1.Position = TimeSpan.Zero;
-                scribble2.Position = TimeSpan.Zero;
-                scribble1.Stop();
-                scribble2.Stop();
-
                 if (toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks))
                 {
                     toDoEntrys[ToDoList.SelectedIndex].Text = 
@@ -447,6 +434,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
                     toDoEntrys[ToDoList.SelectedIndex + 1].TextDecorations = TextDecorations.Strikethrough;
                     toDoEntrys[ToDoList.SelectedIndex + 1].Name = "EntryDone";
 
+                    scribble2.Position = TimeSpan.FromMilliseconds(scribble2SoundPos);
                     scribble2.Play();
 
                     entryFinished = true;
@@ -462,6 +450,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
                     toDoEntrys[ToDoList.SelectedIndex + 1].TextDecorations = null;
                     toDoEntrys[ToDoList.SelectedIndex + 1].Name = "EntryWork";
 
+                    scribble1.Position = TimeSpan.FromMilliseconds(scribble1SoundPos);
                     scribble1.Play();
 
                     entryFinished = true;
