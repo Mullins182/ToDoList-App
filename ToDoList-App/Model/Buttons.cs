@@ -15,6 +15,8 @@ namespace ToDoList_App.Model
         #pragma warning disable CA2211
         public static Button FullscreenMode = new();
 
+        public static Button Sounds         = new();
+
         public static Button AutoSave       = new();
 
         public static Button DelEntry       = new();
@@ -51,6 +53,19 @@ namespace ToDoList_App.Model
             AutoSave.FontFamily             = new FontFamily("Bahnschrift");
             AutoSave.FontSize               = 30;
             AutoSave.Background             = Brushes.Black;
+        }
+
+        public static void SetSoundsProps(int sound_option)
+        {
+            Sounds.Height = 60;
+            Sounds.FontFamily = new FontFamily("Bahnschrift");
+            Sounds.FontSize = 30;
+            Sounds.Background = Brushes.Black;
+
+            Sounds.Content = sound_option == 0 ? "Sound Off" : sound_option == 1 ? "Play Only Scribble Sounds" : sound_option == 2 ? "Play Only Saving Sound"
+                : sound_option == 3 ? "Play All Sounds" : "Sound Off";
+
+            Sounds.Foreground = sound_option == 0 ? Brushes.Red : Brushes.LawnGreen;
         }
 
         public static void SetAutoSaveProps(TimeSpan timespan)
