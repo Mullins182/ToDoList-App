@@ -339,6 +339,35 @@ namespace ToDoList_App                                      //  ToDo-List App | 
             saveFinished = true;
         }
 
+        private void SortToDoList()
+        {
+            string buffer;
+            string buffer2;
+
+            for (int c = 3; c > 0; c--)
+            {
+                for (int i = 0; i < toDoEntrys.Count; i++)
+                {
+
+                    if (toDoEntrys[i].Text.Contains(markDone) && i < toDoEntrys.Count - 2)
+                    {
+                        buffer  = toDoEntrys[i+2].Text;
+                        buffer2 = toDoEntrys[i+3].Text;
+
+                        //c = toDoEntrys[i].Name == "EntryDone" ? c++ : c;
+                        toDoEntrys[i+2].Text = toDoEntrys[i].Text;
+                        toDoEntrys[i+3].Text = toDoEntrys[i+1].Text;
+                        toDoEntrys[i].Text  = buffer;
+                        toDoEntrys[i+1].Text = buffer2;
+                        buffer  = "";
+                        buffer2 = "";
+                    }
+                }
+            }
+
+            ToDoList.Items.Refresh();
+        }
+
         // UI-Elements Click Events
 
         // Code-Behind Elements
@@ -466,6 +495,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
                         scribble2.Play();
                     }
 
+                    SortToDoList();
                     entryFinished = true;
                 }                
                 else if (toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone))
@@ -488,6 +518,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
                         scribble1.Play();
                     }
 
+                    SortToDoList();
                     entryFinished = true;
                 }
             }
