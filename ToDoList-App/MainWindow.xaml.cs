@@ -341,27 +341,21 @@ namespace ToDoList_App                                      //  ToDo-List App | 
 
         private void SortToDoList()
         {
-            string buffer;
-            string buffer2;
-
-            for (int c = 3; c > 0; c--)
+            for (int i = toDoEntrys.Count - 1; i >= 0; i--)
             {
-                for (int i = 0; i < toDoEntrys.Count; i++)
+                TextBox bufferStatusBox     = new();
+                TextBox bufferBox           = new();
+
+                if (toDoEntrys[i].Text.Contains(markDone))
                 {
+                    bufferStatusBox     = toDoEntrys[i];
+                    bufferBox           = toDoEntrys[i + 1];
 
-                    if (toDoEntrys[i].Text.Contains(markDone) && i < toDoEntrys.Count - 2)
-                    {
-                        buffer  = toDoEntrys[i+2].Text;
-                        buffer2 = toDoEntrys[i+3].Text;
+                    toDoEntrys.RemoveAt(i);
+                    toDoEntrys.RemoveAt(i);
 
-                        //c = toDoEntrys[i].Name == "EntryDone" ? c++ : c;
-                        toDoEntrys[i+2].Text = toDoEntrys[i].Text;
-                        toDoEntrys[i+3].Text = toDoEntrys[i+1].Text;
-                        toDoEntrys[i].Text  = buffer;
-                        toDoEntrys[i+1].Text = buffer2;
-                        buffer  = "";
-                        buffer2 = "";
-                    }
+                    toDoEntrys.Add(bufferStatusBox);
+                    toDoEntrys.Add(bufferBox);
                 }
             }
 
