@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList_App"
         mc:Ignorable="d"
-        Title="ToDo-List App | Version 2.3 | @Mullins182" Height="1000" Width="1000" MinHeight="800" MinWidth="1000"
+        Title="ToDo-List App | Version 2.8 | by Mullins182" Height="1000" Width="1000" MinHeight="800" MinWidth="1000"
         WindowStartupLocation="CenterScreen" FontFamily="Bahnschrift" WindowStyle="SingleBorderWindow" BorderThickness="0" BorderBrush="Transparent"
         Closing="Window_Closing">
     <Window.Background>
@@ -66,9 +66,9 @@
                Margin="0,50,0,0" HorizontalAlignment="Center" FontFamily="{StaticResource BradleyHandITC}" FontSize="45" VerticalContentAlignment="Center"
                HorizontalContentAlignment="Center" FontWeight="Normal" Opacity="0.0"/>
 
-        <Canvas x:Name="SavingCanvas" Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Top" Background="Transparent"
-                Width="150" Height="150" Margin="0,90,0,0">
-            <Rectangle x:Name="SavingRectangle" Width="90" Height="90" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"
+        <Canvas x:Name="SavingCanvas" Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Background="Transparent"
+                Width="150" Height="170" Margin="0,0,0,0" Panel.ZIndex="2">
+            <Rectangle x:Name="SavingRectangle" Width="110" Height="110" RenderOptions.BitmapScalingMode="HighQuality" RenderOptions.EdgeMode="Aliased"
                        Visibility="Hidden">
                 <Rectangle.Fill>
                     <ImageBrush ImageSource="Textures/floppyDiscEdited.png"/>

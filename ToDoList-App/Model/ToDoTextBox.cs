@@ -33,7 +33,7 @@ namespace ToDoList_App.Model
             statusBox.BorderThickness   = new Thickness(0, 3, 0, 0);
             statusBox.BorderBrush       = Brushes.Black;
 
-            statusBox.Text = $"{(char)1421} in the works {(char)1421}";    // 0x2610 = Ballot Box | 0x2713 = Check Mark
+            statusBox.Text = $"{(char)1421} In The Works {(char)1421}";    // 0x2610 = Ballot Box | 0x2713 = Check Mark
 
             return statusBox;
         }

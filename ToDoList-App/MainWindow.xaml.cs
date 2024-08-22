@@ -25,7 +25,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
         private readonly MediaPlayer scribble1              = new();
         private readonly MediaPlayer scribble2              = new();
 
-        private readonly Random genRdNr                     = new();
+        //private readonly Random genRdNr                     = new();
 
         private DispatcherTimer saveTimer                   = new();
         private readonly DispatcherTimer savingAnimTimer    = new();
@@ -51,7 +51,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
         private bool saveFinished                           = true;
         private bool saveOnExit                             = false;
 
-        private readonly string markInWorks                 = $"{(char)1421} in the works {(char)1421}";    
+        private readonly string markInWorks                 = $"{(char)1421} In The Works {(char)1421}";    
         private readonly string markDone                    = $"Done {(char)0x2713}";
 
         public MainWindow()
@@ -339,6 +339,29 @@ namespace ToDoList_App                                      //  ToDo-List App | 
             saveFinished = true;
         }
 
+        private void SortToDoList()
+        {
+            for (int i = toDoEntrys.Count - 1; i >= 0; i--)
+            {
+                TextBox bufferStatusBox     = new();
+                TextBox bufferBox           = new();
+
+                if (toDoEntrys[i].Text.Contains(markDone))
+                {
+                    bufferStatusBox     = toDoEntrys[i];
+                    bufferBox           = toDoEntrys[i + 1];
+
+                    toDoEntrys.RemoveAt(i);
+                    toDoEntrys.RemoveAt(i);
+
+                    toDoEntrys.Add(bufferStatusBox);
+                    toDoEntrys.Add(bufferBox);
+                }
+            }
+
+            ToDoList.Items.Refresh();
+        }
+
         // UI-Elements Click Events
 
         // Code-Behind Elements
@@ -446,10 +469,13 @@ namespace ToDoList_App                                      //  ToDo-List App | 
         {
             if (ToDoList.SelectedIndex >= 0 && entryFinished)
             {
-                entryFinished = false;
-
                 if (toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks))
                 {
+                    Buttons.DelEntry.Visibility = Visibility.Hidden;
+                    if (InfoLabel.Opacity > 0.0) { InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse); }
+
+                    entryFinished = false;
+
                     toDoEntrys[ToDoList.SelectedIndex].Text = 
                     toDoEntrys[ToDoList.SelectedIndex].Text.Replace(markInWorks, markDone);
                     toDoEntrys[ToDoList.SelectedIndex].Foreground = Brushes.DarkSlateGray;
@@ -463,12 +489,16 @@ namespace ToDoList_App                                      //  ToDo-List App | 
                         scribble2.Play();
                     }
 
+                    SortToDoList();
                     entryFinished = true;
-
-                    return;
                 }                
                 else if (toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone))
                 {
+                    Buttons.DelEntry.Visibility = Visibility.Hidden;
+                    if (InfoLabel.Opacity > 0.0) { InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse); }
+
+                    entryFinished = false;
+
                     toDoEntrys[ToDoList.SelectedIndex].Text = 
                     toDoEntrys[ToDoList.SelectedIndex].Text.Replace(markDone, markInWorks);
                     toDoEntrys[ToDoList.SelectedIndex].Foreground = Brushes.DarkRed;
@@ -482,19 +512,22 @@ namespace ToDoList_App                                      //  ToDo-List App | 
                         scribble1.Play();
                     }
 
+                    SortToDoList();
                     entryFinished = true;
-
-                    return;
                 }
             }
         }
 
         private void ToDoList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (ToDoList.SelectedIndex < 0 || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone)
-                || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks) || InfoLabelAnim.IsFrozen || InfoLabelAnimReverse.IsFrozen)
+            if (ToDoList.SelectedIndex < 0)
             {
-
+                return;
+            }
+            else if (toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markInWorks) || toDoEntrys[ToDoList.SelectedIndex].Text.Contains(markDone))
+            {
+                delEntryIndex = ToDoList.SelectedIndex;
+                Buttons.DelEntry.Visibility = Buttons.DelEntry.Visibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
             }
             else
             {
@@ -503,9 +536,10 @@ namespace ToDoList_App                                      //  ToDo-List App | 
                                                 
                 if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true)
                 {
-                    if (toDoEntrys[ToDoList.SelectedIndex].Text == "") { toDoEntrys[ToDoList.SelectedIndex].Text = "enter smth here !"; }
+                    toDoEntrys[ToDoList.SelectedIndex].Text = toDoEntrys[ToDoList.SelectedIndex].Text == "" ? "enter smth here !" : toDoEntrys[ToDoList.SelectedIndex].Text;
 
-                    if (InfoLabel.Opacity == 0.85) { InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse); }
+                    if (InfoLabel.Opacity > 0.0) { InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse); }
+
                     Buttons.DelEntry.Visibility = Visibility.Hidden;
                     delEntryIndex = -1;
                 }
@@ -513,7 +547,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
                 {
                     delEntryIndex = ToDoList.SelectedIndex;
 
-                    if (InfoLabel.Opacity == 0.00) { InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnim); }
+                    if (InfoLabel.Opacity == 0.0) { InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnim); }
 
                     Buttons.DelEntry.Visibility = Visibility.Visible;
 
@@ -526,13 +560,14 @@ namespace ToDoList_App                                      //  ToDo-List App | 
         {
             if (delEntryIndex >= 0)
             {
-                toDoEntrys.RemoveAt(delEntryIndex - 1);
-                toDoEntrys.RemoveAt(delEntryIndex - 1);
+                if (delEntryIndex == 0 || delEntryIndex % 2 == 0) { toDoEntrys.RemoveAt(delEntryIndex); toDoEntrys.RemoveAt(delEntryIndex); }
+                else { toDoEntrys.RemoveAt(delEntryIndex - 1); toDoEntrys.RemoveAt(delEntryIndex - 1); }
+
                 InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse);
                 Buttons.DelEntry.Visibility = Visibility.Hidden;
                 delEntryIndex = -1;
+                ToDoList.Items.Refresh();
             }
-            ToDoList.Items.Refresh();
         }
 
         private void ToDoBoxMouseDoubleClick(object sender, MouseButtonEventArgs e)
