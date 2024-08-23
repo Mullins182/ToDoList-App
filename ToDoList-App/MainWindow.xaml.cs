@@ -225,7 +225,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
             saveFinished = false;
 
             savingAnimTimer.Start();
-            SavingRectangle.Visibility = Visibility.Visible;
+            SavingCanvas.Visibility = Visibility.Visible;
 
             SaveData();
 
@@ -239,7 +239,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
 
             floppyWrite.Stop();
             savingAnimTimer.Stop();
-            SavingRectangle.Visibility = Visibility.Hidden;
+            SavingCanvas.Visibility = Visibility.Hidden;
 
             saveFinished = true;
         }
@@ -312,7 +312,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
 
             saveTimer.Stop();
             savingAnimTimer.Start();
-            SavingRectangle.Visibility = Visibility.Visible;
+            SavingCanvas.Visibility = Visibility.Visible;
 
             if (sound_Mode == 2 || sound_Mode == 3)
             {
@@ -328,7 +328,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
 
             savingAnimTimer.Stop();
 
-            SavingRectangle.Visibility = Visibility.Hidden;
+            SavingCanvas.Visibility = Visibility.Hidden;
 
             if (saveTimer.Interval != TimeSpan.FromMinutes(0))
             {
