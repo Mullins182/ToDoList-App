@@ -284,7 +284,6 @@ namespace ToDoList_App                                      //  ToDo-List App | 
                 }
             }
 
-            toDoEntrys.ForEach(item => { item.MouseDoubleClick += ToDoBoxMouseDoubleClick; });
             toDoEntrys.ForEach(item => { item.MouseEnter += ToDoBoxMouseEnter; });
             toDoEntrys.ForEach(item => { item.PreviewMouseLeftButtonDown += ToDoBoxPreviewMouseLeftButtonDown; });
             toDoEntrys.ForEach(item => { item.TextDecorations = item.Name == "EntryDone" ? TextDecorations.Strikethrough : null; });
@@ -453,12 +452,14 @@ namespace ToDoList_App                                      //  ToDo-List App | 
                 ToDoTextBox ToDo    = new();
                 toDoEntrys.Add(ToDo.StatusBox());
 
+                toDoEntrys[toDoEntrys.Count - 1].PreviewMouseLeftButtonDown += ToDoBoxPreviewMouseLeftButtonDown;
                 toDoEntrys[toDoEntrys.Count - 1].MouseEnter += ToDoBoxMouseEnter;
                 toDoEntrys[toDoEntrys.Count - 1].Foreground = Brushes.DarkRed;
 
                 toDoEntrys.Add(ToDo.NewToDo());
 
                 toDoEntrys[toDoEntrys.Count - 1].MouseEnter += ToDoBoxMouseEnter;
+                toDoEntrys[toDoEntrys.Count - 1].PreviewMouseLeftButtonDown += ToDoBoxPreviewMouseLeftButtonDown;
 
                 ToDoList.Items.Refresh();
 
@@ -521,6 +522,8 @@ namespace ToDoList_App                                      //  ToDo-List App | 
 
         private void ToDoBoxPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            toDoEntrys.ForEach(entry => { entry.Foreground = entry.Text.Contains(markDone) ? entry.Foreground : entry.Text.Contains(markInWorks) 
+                ? entry.Foreground : entry.Name == "EntryDone" ? entry.Foreground : Brushes.Black; });
 
             if (ToDoList.SelectedIndex < 0)
             {
@@ -539,6 +542,8 @@ namespace ToDoList_App                                      //  ToDo-List App | 
 
                 if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true)
                 {
+                    toDoEntrys[ToDoList.SelectedIndex].Foreground = toDoEntrys[ToDoList.SelectedIndex].Name != "EntryDone" ? Brushes.Black : Brushes.DarkSlateGray;
+
                     if (InfoLabel.Opacity > 0.0) { InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse); }
 
                     Buttons.DelEntry.Visibility = Visibility.Hidden;
@@ -546,13 +551,12 @@ namespace ToDoList_App                                      //  ToDo-List App | 
                     toDoEntrys[ToDoList.SelectedIndex].Text = toDoEntrys[ToDoList.SelectedIndex].Text == "" ? "enter smth here !" : toDoEntrys[ToDoList.SelectedIndex].Text;
 
                     delEntryIndex = -1;
-                    //ToDoList.SelectedIndex = -1;
                 }
                 else if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == false)
                 {
                     toDoEntrys.ForEach(item => { item.CaretBrush = Brushes.Red; });
 
-                    toDoEntrys[ToDoList.SelectedIndex].Foreground = Brushes.OrangeRed;
+                    toDoEntrys[ToDoList.SelectedIndex].Foreground = Brushes.Red;
 
                     delEntryIndex = ToDoList.SelectedIndex;
 
@@ -562,13 +566,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
 
                     if (toDoEntrys[ToDoList.SelectedIndex].Text == "enter smth here !") { toDoEntrys[ToDoList.SelectedIndex].Text = ""; }
                 }
-
             }
-
-        }
-
-        private void ToDoList_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
         }
 
         private void ToDoList_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -592,30 +590,6 @@ namespace ToDoList_App                                      //  ToDo-List App | 
                 delEntryIndex = -1;
                 ToDoList.Items.Refresh();
             }
-        }
-
-        private void ToDoBoxMouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            //if (toDoEntrys[ToDoList.SelectedIndex].Name == "statusBox")
-            //{
-            
-            //}
-            //else
-            //{
-            //    ToDoList.SelectedItem = e.Source;
-            //}
-        }
-
-        private void ToDoList_KeyDown(object sender, KeyEventArgs e)
-        {
-            //toDoEntrys[ToDoList.SelectedIndex].IsReadOnly = false;
-            //toDoEntrys[ToDoList.SelectedIndex].Focus();
-            //toDoEntrys[ToDoList.SelectedIndex].CaretIndex = toDoEntrys[ToDoList.SelectedIndex].Text.Length;
-        }
-
-        private void ToDoList_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            //toDoEntrys.ForEach(item => { item.IsReadOnly = true; });
         }
 
         private async void Save_Click(object sender, RoutedEventArgs e)

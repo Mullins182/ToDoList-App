@@ -78,8 +78,7 @@
 
         <ListBox x:Name="ToDoList" Grid.Column="1" Grid.Row="1" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Hidden" MouseDoubleClick="ToDoList_MouseDoubleClick" HorizontalContentAlignment="Center"
-                 SelectionMode="Single" SelectionChanged="ToDoList_SelectionChanged" BorderThickness="0,0,0,0" KeyDown="ToDoList_KeyDown"
-                 PreviewMouseLeftButtonDown="ToDoList_PreviewMouseLeftButtonDown" MouseLeftButtonDown="ToDoList_MouseLeftButtonDown" SelectedIndex="0" Width="800"/>
+                 SelectionMode="Single" BorderThickness="0,0,0,0" MouseLeftButtonDown="ToDoList_MouseLeftButtonDown" SelectedIndex="0" Width="800"/>
 
         <StackPanel x:Name="OptionsStack" Width="400" Height="auto" Background="Black" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" Visibility="Collapsed"/>
