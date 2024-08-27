@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ToDoList_App"
         mc:Ignorable="d"
-        Title="ToDo-List App | Version 2.9 | by Mullins182" Height="1000" Width="1000" MinHeight="800" MinWidth="1000"
+        Title="ToDo-List App | Version 3.0 | by Mullins182" Height="1000" Width="1000" MinHeight="800" MinWidth="1000"
         WindowStartupLocation="CenterScreen" FontFamily="Bahnschrift" WindowStyle="SingleBorderWindow" BorderThickness="0" BorderBrush="Transparent"
         Closing="Window_Closing">
     <Window.Background>
@@ -78,8 +78,7 @@
 
         <ListBox x:Name="ToDoList" Grid.Column="1" Grid.Row="1" Background="Transparent" ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                  ScrollViewer.VerticalScrollBarVisibility="Hidden" MouseDoubleClick="ToDoList_MouseDoubleClick" HorizontalContentAlignment="Center"
-                 SelectionMode="Single" SelectionChanged="ToDoList_SelectionChanged" BorderThickness="0,0,0,0" KeyDown="ToDoList_KeyDown"
-                 SelectedIndex="0" Width="800"/>
+                 SelectionMode="Single" BorderThickness="0,0,0,0" MouseLeftButtonDown="ToDoList_MouseLeftButtonDown" SelectedIndex="0" Width="800"/>
 
         <StackPanel x:Name="OptionsStack" Width="400" Height="auto" Background="Black" Grid.Column="1" Grid.Row="1" HorizontalAlignment="Center" 
                 VerticalAlignment="Bottom" Visibility="Collapsed"/>
