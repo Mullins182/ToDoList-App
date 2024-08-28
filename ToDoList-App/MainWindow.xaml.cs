@@ -571,8 +571,11 @@ namespace ToDoList_App                                      //  ToDo-List App | 
 
         private void ToDoList_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            toDoEntrys.ForEach(entry => { entry.Foreground = entry.Name == "EntryWork" ? Brushes.Black : entry.Foreground; });
-            toDoEntrys.ForEach(entry => { entry.IsReadOnly = true; }); // doesn't work yet !
+            toDoEntrys.ForEach(entry => {
+                entry.Foreground = entry.Text.Contains(markDone) ? entry.Foreground : entry.Text.Contains(markInWorks)
+                ? entry.Foreground : entry.Name == "EntryDone" ? entry.Foreground : Brushes.Black; });
+
+            toDoEntrys.ForEach(entry => { entry.IsReadOnly = true; });
             Buttons.DelEntry.Visibility = Visibility.Hidden;
             if (InfoLabel.Opacity > 0.0) { InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse); }
             toDoEntrys.ForEach(item => { item.CaretBrush = Brushes.Transparent; });
