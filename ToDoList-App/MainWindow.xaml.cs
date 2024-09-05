@@ -443,7 +443,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
 
         // Code-Behind Elements END 
 
-        private void NewEntry_Click(object sender, RoutedEventArgs e)
+        private async void NewEntry_Click(object sender, RoutedEventArgs e)
         {
             if (entryFinished)
             {
@@ -461,7 +461,27 @@ namespace ToDoList_App                                      //  ToDo-List App | 
                 toDoEntrys[toDoEntrys.Count - 1].MouseEnter += ToDoBoxMouseEnter;
                 toDoEntrys[toDoEntrys.Count - 1].PreviewMouseLeftButtonDown += ToDoBoxPreviewMouseLeftButtonDown;
 
+                SortToDoList();
+
                 ToDoList.Items.Refresh();
+
+                foreach (var item in toDoEntrys)
+                {
+                    if (item.Name == "new")
+                    {
+                        ToDoList.ScrollIntoView(item);
+                        ToDoList.SelectedItem = item;
+                        item.Foreground = Brushes.Blue;
+
+                        for (int i = 16; i > 0; i--)
+                        {
+                            item.Foreground = item.Foreground == Brushes.Blue ? Brushes.GreenYellow : Brushes.Blue;
+                            await Task.Delay(115);
+                        }
+
+                        item.Foreground = Brushes.Blue;
+                    }
+                }
 
                 entryFinished       = true;
             }
@@ -523,7 +543,7 @@ namespace ToDoList_App                                      //  ToDo-List App | 
         private void ToDoBoxPreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             toDoEntrys.ForEach(entry => { entry.Foreground = entry.Text.Contains(markDone) ? entry.Foreground : entry.Text.Contains(markInWorks) 
-                ? entry.Foreground : entry.Name == "EntryDone" ? entry.Foreground : Brushes.Black; });
+                ? entry.Foreground : entry.Name == "EntryDone" ? entry.Foreground : entry.Name == "new" ? Brushes.Blue : Brushes.Black; });
 
             if (ToDoList.SelectedIndex < 0)
             {
@@ -542,13 +562,15 @@ namespace ToDoList_App                                      //  ToDo-List App | 
 
                 if (toDoEntrys[ToDoList.SelectedIndex].IsReadOnly == true)
                 {
-                    toDoEntrys[ToDoList.SelectedIndex].Foreground = toDoEntrys[ToDoList.SelectedIndex].Name != "EntryDone" ? Brushes.Black : Brushes.DarkSlateGray;
+                    toDoEntrys[ToDoList.SelectedIndex].Text = toDoEntrys[ToDoList.SelectedIndex].Text == "" ? "enter smth here !" : toDoEntrys[ToDoList.SelectedIndex].Text;
+                    toDoEntrys[ToDoList.SelectedIndex].Name = toDoEntrys[ToDoList.SelectedIndex].Text == "enter smth here !" ? "new" 
+                        : toDoEntrys[ToDoList.SelectedIndex].TextDecorations == TextDecorations.Strikethrough ? "EntryDone" : "EntryWork";
+                    toDoEntrys[ToDoList.SelectedIndex].Foreground = toDoEntrys[ToDoList.SelectedIndex].Name == "EntryWork" ? Brushes.Black 
+                        : toDoEntrys[ToDoList.SelectedIndex].Name == "new" ? Brushes.Blue : Brushes.DarkSlateGray;
 
                     if (InfoLabel.Opacity > 0.0) { InfoLabel.BeginAnimation(OpacityProperty, InfoLabelAnimReverse); }
 
                     Buttons.DelEntry.Visibility = Visibility.Hidden;
-
-                    toDoEntrys[ToDoList.SelectedIndex].Text = toDoEntrys[ToDoList.SelectedIndex].Text == "" ? "enter smth here !" : toDoEntrys[ToDoList.SelectedIndex].Text;
 
                     delEntryIndex = -1;
                 }

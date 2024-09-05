@@ -44,6 +44,7 @@ namespace ToDoList_App.Model
 
             box.TextWrapping    = System.Windows.TextWrapping.Wrap;
             box.TextAlignment   = System.Windows.TextAlignment.Center;
+            box.Name            = "new";
             box.FontFamily      = new FontFamily(new Uri("pack://application:,,,/"), "./Fonts/#Bradley Hand ITC");
             box.FontWeight      = FontWeights.Bold;
             box.Width           = 800;
